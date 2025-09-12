@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { MessageCircle, Shield, Users, Play } from "lucide-react"
+import { MessageCircle, Shield, Users, Play, Mic, Volume2, MicOff } from "lucide-react"
 import nikhilAvatar from "@/assets/nikhil-avatar.jpg"
 
 const ChatExperienceSection = () => {
@@ -37,11 +37,11 @@ const ChatExperienceSection = () => {
           {/* Section Header */}
           <div className="text-center mb-16 animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Talk to the Characters. <span className="text-gradient">Live Their Story.</span>
+              Talk to the Characters. <span className="text-gradient">Hear Their Voice.</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-              Students can ask characters questions, express feelings, and learn from their perspectives. 
-              Each conversation is guided by expert-designed lesson plans and monitored for safety.
+              Students can speak with characters in real voice conversations, expressing feelings and learning from their perspectives. 
+              Each conversation is protected by children-specific guardrails designed for ages 11-16 and guided by expert lesson plans.
             </p>
           </div>
 
@@ -92,15 +92,19 @@ const ChatExperienceSection = () => {
                       <h4 className="font-semibold">Nikhil Kumar</h4>
                       <p className="text-sm text-accent">The Class Clown</p>
                     </div>
-                    <div className="ml-auto flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                      <span className="text-xs text-muted-foreground">Online</span>
-                    </div>
+                     <div className="ml-auto flex items-center gap-3">
+                       <div className="flex items-center gap-1">
+                         <Volume2 className="w-4 h-4 text-accent" />
+                         <span className="text-xs text-muted-foreground">Voice Chat</span>
+                       </div>
+                       <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                       <span className="text-xs text-muted-foreground">Online</span>
+                     </div>
                   </div>
                 </div>
 
                 {/* Chat Messages */}
-                <div className="p-4 space-y-4 max-h-96 overflow-y-auto">
+                <div className="p-4 space-y-4">
                   {sampleConversation.map((msg, index) => (
                     <div 
                       key={index}
@@ -112,16 +116,21 @@ const ChatExperienceSection = () => {
                           ? 'bg-gradient-hero text-white' 
                           : 'bg-secondary text-secondary-foreground'
                       } rounded-lg p-3 shadow-sm`}>
-                        {msg.type === 'character' && (
-                          <div className="flex items-center gap-2 mb-2">
-                            <img 
-                              src={msg.avatar} 
-                              alt={msg.name}
-                              className="w-6 h-6 rounded-full"
-                            />
-                            <span className="text-xs font-medium text-accent">{msg.name}</span>
-                          </div>
-                        )}
+                         {msg.type === 'character' && (
+                           <div className="flex items-center gap-2 mb-2">
+                             <img 
+                               src={msg.avatar} 
+                               alt={msg.name}
+                               className="w-6 h-6 rounded-full"
+                             />
+                             <span className="text-xs font-medium text-accent">{msg.name}</span>
+                             <div className="flex items-center gap-1 ml-1">
+                               <div className="w-1 h-3 bg-accent rounded-full animate-pulse" />
+                               <div className="w-1 h-2 bg-accent/70 rounded-full animate-pulse" style={{ animationDelay: '0.1s' }} />
+                               <div className="w-1 h-4 bg-accent/50 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
+                             </div>
+                           </div>
+                         )}
                         <p className="text-sm">{msg.message}</p>
                         <p className={`text-xs mt-1 ${
                           msg.type === 'student' ? 'text-white/70' : 'text-muted-foreground'
@@ -132,14 +141,11 @@ const ChatExperienceSection = () => {
                     </div>
                   ))}
 
-                  {/* Typing indicator */}
+                  {/* Voice indicator */}
                   <div className="flex justify-start">
-                    <div className="bg-secondary rounded-lg p-3 max-w-xs">
-                      <div className="typing-dots">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </div>
+                    <div className="bg-secondary rounded-lg p-3 max-w-xs flex items-center gap-2">
+                      <Mic className="w-4 h-4 text-accent animate-pulse" />
+                      <span className="text-sm text-muted-foreground">Listening...</span>
                     </div>
                   </div>
                 </div>
@@ -147,30 +153,41 @@ const ChatExperienceSection = () => {
                 {/* Chat Input */}
                 <div className="border-t border-border p-4">
                   <div className="flex gap-2">
-                    <input 
-                      type="text" 
-                      placeholder="Ask Nikhil how he feels..."
-                      className="flex-1 bg-background border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
-                      disabled
-                    />
+                    <div className="flex-1 relative">
+                      <input 
+                        type="text" 
+                        placeholder="Hold to speak to Nikhil..."
+                        className="w-full bg-background border border-border rounded-lg px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+                        disabled
+                      />
+                      <MicOff className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    </div>
                     <Button variant="netflix" size="sm">
-                      <MessageCircle className="w-4 h-4" />
+                      <Mic className="w-4 h-4" />
+                    </Button>
+                    <Button variant="outline" size="sm">
+                      <Volume2 className="w-4 h-4" />
                     </Button>
                   </div>
                 </div>
               </div>
 
               {/* Features */}
-              <div className="grid grid-cols-2 gap-4 mt-6">
-                <div className="bg-card/50 backdrop-blur-sm rounded-lg p-4 border border-border">
-                  <Shield className="w-6 h-6 text-accent mb-2" />
-                  <h5 className="font-medium mb-1">Safe Conversations</h5>
-                  <p className="text-xs text-muted-foreground">AI monitored & expert guided</p>
+              <div className="grid grid-cols-3 gap-3 mt-6">
+                <div className="bg-card/50 backdrop-blur-sm rounded-lg p-3 border border-border">
+                  <Shield className="w-5 h-5 text-accent mb-2" />
+                  <h5 className="font-medium mb-1 text-sm">Child-Safe AI</h5>
+                  <p className="text-xs text-muted-foreground">Protected for ages 11-16</p>
                 </div>
-                <div className="bg-card/50 backdrop-blur-sm rounded-lg p-4 border border-border">
-                  <Users className="w-6 h-6 text-accent mb-2" />
-                  <h5 className="font-medium mb-1">Real Emotions</h5>
-                  <p className="text-xs text-muted-foreground">Authentic character responses</p>
+                <div className="bg-card/50 backdrop-blur-sm rounded-lg p-3 border border-border">
+                  <Volume2 className="w-5 h-5 text-accent mb-2" />
+                  <h5 className="font-medium mb-1 text-sm">Voice Chat</h5>
+                  <p className="text-xs text-muted-foreground">Authentic character voices</p>
+                </div>
+                <div className="bg-card/50 backdrop-blur-sm rounded-lg p-3 border border-border">
+                  <Users className="w-5 h-5 text-accent mb-2" />
+                  <h5 className="font-medium mb-1 text-sm">Real Emotions</h5>
+                  <p className="text-xs text-muted-foreground">Genuine responses</p>
                 </div>
               </div>
             </div>
