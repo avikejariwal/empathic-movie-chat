@@ -10,7 +10,7 @@ import ScrollProgressBar from "@/components/ScrollProgressBar"
 
 const Index = () => {
   return (
-    <div className="snap-y snap-mandatory overflow-y-scroll h-screen scroll-smooth">
+    <div className="snap-container overflow-y-scroll h-screen">
       <ScrollProgressBar />
       <HeroSection />
       <StatsResearchSection />

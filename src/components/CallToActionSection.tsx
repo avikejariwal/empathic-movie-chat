@@ -3,7 +3,7 @@ import { Calendar, Download } from "lucide-react"
 
 const CallToActionSection = () => {
   return (
-    <section className="h-screen bg-gradient-dark flex items-center justify-center snap-start">
+    <section className="h-screen bg-gradient-dark flex items-center justify-center snap-section">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
           <div className="bg-gradient-card rounded-xl p-12 border border-border shadow-card">

@@ -33,7 +33,7 @@ const ChatExperienceSection = () => {
   ]
 
   return (
-    <section className="h-screen bg-gradient-dark flex items-center justify-center snap-start">
+    <section className="h-screen bg-gradient-dark flex items-center justify-center snap-section">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
