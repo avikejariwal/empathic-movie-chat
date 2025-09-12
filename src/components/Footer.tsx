@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { Calendar, Download, Mail, Phone, MapPin } from "lucide-react"
+import { Calendar, Download, Mail, Phone } from "lucide-react"
 
 const Footer = () => {
   const partnerLogos = [
@@ -32,7 +32,7 @@ const Footer = () => {
           </div>
 
           {/* Contact Options */}
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
+          <div className="grid md:grid-cols-2 gap-6 mb-12 max-w-2xl mx-auto">
             <div className="bg-card/30 backdrop-blur-sm rounded-lg p-6 border border-border">
               <Mail className="w-8 h-8 text-accent mx-auto mb-3" />
               <h4 className="font-semibold mb-2">Email Us</h4>
@@ -42,11 +42,6 @@ const Footer = () => {
               <Phone className="w-8 h-8 text-accent mx-auto mb-3" />
               <h4 className="font-semibold mb-2">Call Us</h4>
               <p className="text-sm text-muted-foreground">+1 (555) 123-4567</p>
-            </div>
-            <div className="bg-card/30 backdrop-blur-sm rounded-lg p-6 border border-border">
-              <MapPin className="w-8 h-8 text-accent mx-auto mb-3" />
-              <h4 className="font-semibold mb-2">Visit Us</h4>
-              <p className="text-sm text-muted-foreground">San Francisco, CA</p>
             </div>
           </div>
 
