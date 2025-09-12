@@ -76,6 +76,22 @@ export default {
           "0%": { opacity: "0", transform: "translateY(20px)" },
           "100%": { opacity: "1", transform: "translateY(0)" }
         },
+        "fade-in-up": {
+          "0%": { opacity: "0", transform: "translateY(40px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" }
+        },
+        "fade-in-down": {
+          "0%": { opacity: "0", transform: "translateY(-40px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" }
+        },
+        "fade-in-left": {
+          "0%": { opacity: "0", transform: "translateX(-40px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" }
+        },
+        "fade-in-right": {
+          "0%": { opacity: "0", transform: "translateX(40px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" }
+        },
         "slide-in": {
           "0%": { opacity: "0", transform: "translateX(-20px)" },
           "100%": { opacity: "1", transform: "translateX(0)" }
@@ -88,6 +104,11 @@ export default {
           "0%": { transform: "translateY(20px)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" }
         },
+        "count-up": {
+          "0%": { opacity: "0", transform: "scale(0.5)" },
+          "50%": { opacity: "1", transform: "scale(1.1)" },
+          "100%": { opacity: "1", transform: "scale(1)" }
+        },
         "float": {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-10px)" }
@@ -95,17 +116,69 @@ export default {
         "pulse-glow": {
           "0%, 100%": { boxShadow: "0 0 20px hsl(358 75% 59% / 0.4)" },
           "50%": { boxShadow: "0 0 40px hsl(358 75% 59% / 0.8)" }
+        },
+        "typewriter": {
+          "0%": { width: "0%" },
+          "100%": { width: "100%" }
+        },
+        "blink": {
+          "0%, 50%": { borderColor: "transparent" },
+          "51%, 100%": { borderColor: "hsl(var(--primary))" }
+        },
+        "reveal": {
+          "0%": { clipPath: "inset(0 100% 0 0)" },
+          "100%": { clipPath: "inset(0 0 0 0)" }
+        },
+        "progress-fill": {
+          "0%": { width: "0%" },
+          "100%": { width: "100%" }
+        },
+        "rotate-in": {
+          "0%": { opacity: "0", transform: "rotate(-180deg) scale(0)" },
+          "100%": { opacity: "1", transform: "rotate(0deg) scale(1)" }
+        },
+        "bounce-in": {
+          "0%": { opacity: "0", transform: "scale(0.3)" },
+          "50%": { opacity: "1", transform: "scale(1.05)" },
+          "70%": { transform: "scale(0.9)" },
+          "100%": { opacity: "1", transform: "scale(1)" }
+        },
+        "slide-up": {
+          "0%": { transform: "translateY(100%)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" }
+        },
+        "stagger": {
+          "0%": { opacity: "0", transform: "translateY(20px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" }
+        },
+        "draw-line": {
+          "0%": { strokeDashoffset: "1000" },
+          "100%": { strokeDashoffset: "0" }
         }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.6s ease-out",
+        "fade-in-up": "fade-in-up 0.8s ease-out",
+        "fade-in-down": "fade-in-down 0.8s ease-out",
+        "fade-in-left": "fade-in-left 0.8s ease-out",
+        "fade-in-right": "fade-in-right 0.8s ease-out",
         "slide-in": "slide-in 0.6s ease-out",
         "scale-in": "scale-in 0.6s ease-out",
         "counter": "counter 0.8s ease-out",
+        "count-up": "count-up 1s ease-out",
         "float": "float 3s ease-in-out infinite",
-        "pulse-glow": "pulse-glow 2s ease-in-out infinite"
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
+        "typewriter": "typewriter 3s steps(50) 1s both",
+        "blink": "blink 1s infinite",
+        "reveal": "reveal 1s ease-out",
+        "progress-fill": "progress-fill 2s ease-out",
+        "rotate-in": "rotate-in 0.8s ease-out",
+        "bounce-in": "bounce-in 0.8s ease-out",
+        "slide-up": "slide-up 0.8s ease-out",
+        "stagger": "stagger 0.6s ease-out",
+        "draw-line": "draw-line 2s ease-out"
       },
     },
   },

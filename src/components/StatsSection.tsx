@@ -2,8 +2,12 @@ import { Brain, Users, Eye, Headphones, Hand } from "lucide-react"
 import nikhilAvatar from "@/assets/nikhil-avatar.jpg"
 import rajatAvatar from "@/assets/rajat-avatar.jpg"
 import tamannaAvatar from "@/assets/tamanna-avatar.jpg"
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 
 const StatsSection = () => {
+  const { ref: statsRef, isIntersecting: statsVisible } = useIntersectionObserver();
+  const { ref: charactersRef, isIntersecting: charactersVisible } = useIntersectionObserver();
+  const { ref: learnersRef, isIntersecting: learnersVisible } = useIntersectionObserver();
   const stats = [
     { value: "50%", label: "retention vs lectures", icon: Brain },
     { value: "24.7%", label: "engagement increase", icon: Users },
@@ -52,15 +56,30 @@ const StatsSection = () => {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div 
+            ref={statsRef}
+            className={`grid md:grid-cols-3 gap-8 mb-16 transition-all duration-1000 ${
+              statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            }`}
+          >
             {stats.map((stat, index) => (
               <div 
                 key={index}
-                className="text-center p-6 bg-gradient-card rounded-xl border border-border shadow-card hover:shadow-glow transition-smooth animate-scale-in"
-                style={{ animationDelay: `${index * 0.2}s` }}
+                className={`text-center p-6 bg-gradient-card rounded-xl border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 hover:rotate-1 ${
+                  statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                }`}
+                style={{ transitionDelay: `${index * 200}ms` }}
               >
-                <stat.icon className="w-12 h-12 text-accent mx-auto mb-4" />
-                <div className="text-4xl font-bold text-gradient mb-2 animate-counter">
+                <stat.icon className={`w-12 h-12 text-accent mx-auto mb-4 transition-all duration-500 ${
+                  statsVisible ? 'scale-100 rotate-0' : 'scale-0 rotate-180'
+                }`}
+                style={{ transitionDelay: `${index * 200 + 300}ms` }}
+                />
+                <div className={`text-4xl font-bold text-gradient mb-2 transition-all duration-700 ${
+                  statsVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
+                }`}
+                style={{ transitionDelay: `${index * 200 + 500}ms` }}
+                >
                   {stat.value} ↑
                 </div>
                 <p className="text-muted-foreground capitalize">{stat.label}</p>
@@ -69,14 +88,21 @@ const StatsSection = () => {
           </div>
 
           {/* Learner Types */}
-          <div className="text-center mb-16">
+          <div 
+            ref={learnersRef}
+            className={`text-center mb-16 transition-all duration-1000 ${
+              learnersVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            }`}
+          >
             <h3 className="text-2xl font-semibold mb-8">Works across learner types:</h3>
             <div className="flex justify-center gap-8 flex-wrap">
               {learnerTypes.map((learner, index) => (
                 <div 
                   key={index}
-                  className="flex items-center gap-3 bg-card/50 backdrop-blur-sm rounded-full px-6 py-3 border border-border animate-slide-in"
-                  style={{ animationDelay: `${index * 0.3}s` }}
+                  className={`flex items-center gap-3 bg-card/50 backdrop-blur-sm rounded-full px-6 py-3 border border-border transition-all duration-700 hover:scale-105 ${
+                    learnersVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                  }`}
+                  style={{ transitionDelay: `${index * 200}ms` }}
                 >
                   <learner.icon className={`w-5 h-5 ${learner.color}`} />
                   <span className="font-medium">{learner.type}</span>
@@ -95,19 +121,29 @@ const StatsSection = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div 
+            ref={charactersRef}
+            className={`grid md:grid-cols-3 gap-8 transition-all duration-1000 ${
+              charactersVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            }`}
+          >
             {characters.map((character, index) => (
               <div 
                 key={index}
-                className="group relative bg-gradient-card rounded-xl p-6 border border-border shadow-card hover:shadow-glow transition-smooth hover:scale-105 cursor-pointer animate-fade-in"
-                style={{ animationDelay: `${index * 0.2}s` }}
+                className={`group relative bg-gradient-card rounded-xl p-6 border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 hover:rotate-1 cursor-pointer ${
+                  charactersVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
+                }`}
+                style={{ transitionDelay: `${index * 200}ms` }}
               >
                 <div className="text-center">
                   <div className="relative w-24 h-24 mx-auto mb-4">
                     <img 
                       src={character.avatar} 
                       alt={`${character.name} avatar`}
-                      className="w-full h-full rounded-full object-cover border-2 border-accent shadow-glow"
+                      className={`w-full h-full rounded-full object-cover border-2 border-accent shadow-glow transition-all duration-500 ${
+                        charactersVisible ? 'scale-100' : 'scale-0'
+                      }`}
+                      style={{ transitionDelay: `${index * 200 + 300}ms` }}
                     />
                     <div className="absolute inset-0 rounded-full bg-gradient-hero opacity-0 group-hover:opacity-20 transition-smooth" />
                   </div>

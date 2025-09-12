@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button"
 import { MessageCircle, Shield, Users, Play, Mic, Volume2, MicOff } from "lucide-react"
 import nikhilAvatar from "@/assets/nikhil-avatar.jpg"
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 
 const ChatExperienceSection = () => {
+  const { ref: chatRef, isIntersecting: chatVisible } = useIntersectionObserver();
   const sampleConversation = [
     {
       type: "student",
@@ -35,7 +37,12 @@ const ChatExperienceSection = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-16 animate-fade-in">
+          <div 
+            ref={chatRef}
+            className={`text-center mb-16 transition-all duration-1000 ${
+              chatVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
+          >
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Talk to the Characters. <span className="text-gradient">Hear Their Voice.</span>
             </h2>
@@ -48,7 +55,9 @@ const ChatExperienceSection = () => {
           {/* Split Screen Layout */}
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Movie Scene Preview */}
-            <div className="relative animate-slide-in">
+            <div className={`relative transition-all duration-700 delay-300 ${
+              chatVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+            }`}>
               <div className="aspect-video bg-gradient-card rounded-xl border border-border overflow-hidden shadow-movie">
                 <div className="h-full bg-gradient-to-br from-blue-900/20 to-purple-900/20 flex items-center justify-center relative">
                   <div className="text-center">
@@ -78,7 +87,9 @@ const ChatExperienceSection = () => {
             </div>
 
             {/* Chat Interface */}
-            <div className="animate-scale-in">
+            <div className={`transition-all duration-700 delay-500 ${
+              chatVisible ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 translate-x-8 scale-95'
+            }`}>
               <div className="bg-card rounded-xl border border-border shadow-card overflow-hidden">
                 {/* Chat Header */}
                 <div className="bg-gradient-card border-b border-border p-4">

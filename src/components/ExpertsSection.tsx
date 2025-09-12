@@ -1,6 +1,8 @@
 import { GraduationCap, Brain, Lightbulb } from "lucide-react"
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 
 const ExpertsSection = () => {
+  const { ref: expertsRef, isIntersecting: expertsVisible } = useIntersectionObserver();
   const experts = [
     {
       icon: GraduationCap,
@@ -37,12 +39,19 @@ const ExpertsSection = () => {
           </div>
 
           {/* Expert Cards */}
-          <div className="grid md:grid-cols-3 gap-8">
+          <div 
+            ref={expertsRef}
+            className={`grid md:grid-cols-3 gap-8 transition-all duration-1000 ${
+              expertsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            }`}
+          >
             {experts.map((expert, index) => (
               <div 
                 key={index}
-                className="group relative bg-gradient-card rounded-xl p-8 border border-border shadow-card hover:shadow-glow transition-smooth hover:scale-105 animate-scale-in"
-                style={{ animationDelay: `${index * 0.2}s` }}
+                className={`group relative bg-gradient-card rounded-xl p-8 border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 hover:rotate-1 ${
+                  expertsVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
+                }`}
+                style={{ transitionDelay: `${index * 200}ms` }}
               >
                 <div className="text-center">
                   <div className="relative mb-6">

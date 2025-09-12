@@ -1,6 +1,8 @@
 import { Play, MessageCircle, PenTool, TrendingUp, ChevronRight } from "lucide-react"
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 
 const LearningJourneySection = () => {
+  const { ref: journeyRef, isIntersecting: journeyVisible } = useIntersectionObserver();
   const journeySteps = [
     {
       icon: Play,
@@ -51,14 +53,28 @@ const LearningJourneySection = () => {
           </div>
 
           {/* Journey Timeline */}
-          <div className="relative">
+          <div 
+            ref={journeyRef}
+            className={`relative transition-all duration-1000 ${
+              journeyVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            }`}
+          >
             {/* Desktop Timeline */}
             <div className="hidden lg:block">
               <div className="flex items-center justify-between mb-8">
                 {journeySteps.map((step, index) => (
                   <div key={index} className="flex items-center">
-                    <div className="text-center animate-scale-in" style={{ animationDelay: `${index * 0.2}s` }}>
-                      <div className={`w-16 h-16 mx-auto bg-gradient-to-br ${step.bgColor} rounded-full flex items-center justify-center border border-border shadow-glow mb-4 hover:scale-110 transition-spring`}>
+                    <div 
+                      className={`text-center transition-all duration-700 ${
+                        journeyVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-75'
+                      }`}
+                      style={{ transitionDelay: `${index * 200}ms` }}
+                    >
+                      <div className={`w-16 h-16 mx-auto bg-gradient-to-br ${step.bgColor} rounded-full flex items-center justify-center border border-border shadow-glow mb-4 hover:scale-110 transition-all duration-300 ${
+                        journeyVisible ? 'rotate-0' : 'rotate-180'
+                      }`}
+                      style={{ transitionDelay: `${index * 200 + 300}ms` }}
+                      >
                         <step.icon className={`w-8 h-8 ${step.color}`} />
                       </div>
                       <div className="text-sm font-medium text-muted-foreground">
@@ -67,7 +83,11 @@ const LearningJourneySection = () => {
                     </div>
                     {index < journeySteps.length - 1 && (
                       <div className="flex-1 mx-8">
-                        <div className="h-0.5 bg-gradient-to-r from-accent to-primary relative">
+                        <div className={`h-0.5 bg-gradient-to-r from-accent to-primary relative transition-all duration-1000 ${
+                          journeyVisible ? 'w-full' : 'w-0'
+                        }`}
+                        style={{ transitionDelay: `${index * 400 + 800}ms` }}
+                        >
                           <ChevronRight className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-1/2 w-4 h-4 text-primary bg-background rounded-full p-0.5" />
                         </div>
                       </div>
@@ -82,8 +102,10 @@ const LearningJourneySection = () => {
               {journeySteps.map((step, index) => (
                 <div 
                   key={index}
-                  className="group relative bg-gradient-card rounded-xl p-6 border border-border shadow-card hover:shadow-glow transition-smooth hover:scale-105 animate-fade-in"
-                  style={{ animationDelay: `${index * 0.15}s` }}
+                  className={`group relative bg-gradient-card rounded-xl p-6 border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 hover:rotate-1 ${
+                    journeyVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
+                  }`}
+                  style={{ transitionDelay: `${index * 150}ms` }}
                 >
                   {/* Mobile step icon */}
                   <div className="lg:hidden mb-4">
