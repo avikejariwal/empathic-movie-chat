@@ -1,11 +1,8 @@
 import { Button } from "@/components/ui/button"
 import { Play, Shield, Bot, Film } from "lucide-react"
 import nikhilPoster from "@/assets/nikhil-poster.jpg"
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 
 const HeroSection = () => {
-  const { ref: heroRef, isIntersecting: heroVisible } = useIntersectionObserver();
-  const { ref: moviesRef, isIntersecting: moviesVisible } = useIntersectionObserver();
   return (
     <section className="min-h-screen bg-gradient-dark relative overflow-hidden">
       {/* Background gradient overlay */}
@@ -14,48 +11,23 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 py-20 relative z-20">
         <div className="max-w-6xl mx-auto">
           {/* Hero Content */}
-          <div 
-            ref={heroRef}
-            className={`text-center mb-16 transition-all duration-1000 ${
-              heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
-          >
+          <div className="text-center mb-16 animate-fade-in">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-              <span className={`inline-block transition-all duration-700 delay-200 ${
-                heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}>
-                Learn Through{" "}
-              </span>
-              <span className={`text-gradient inline-block transition-all duration-700 delay-400 ${
-                heroVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'
-              }`}>
-                Stories
-              </span>
-              <span className={`inline-block transition-all duration-700 delay-600 ${
-                heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}>
-                {" "}&{" "}
-              </span>
-              <span className={`text-gradient inline-block transition-all duration-700 delay-800 ${
-                heroVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'
-              }`}>
-                Conversations
-              </span>
+              Learn Through{" "}&nbsp;
+              <span className="text-gradient">Stories</span>
+              {" "}&{" "}
+              <span className="text-gradient">Conversations</span>
             </h1>
-            <p className={`text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto transition-all duration-700 delay-1000 ${
-              heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
               Start with <strong className="text-foreground">Nikhil, the Class Clown</strong> — the first in our series of interactive learning movies.
             </p>
             
-            <div className={`flex flex-col sm:flex-row gap-4 justify-center mb-12 transition-all duration-700 delay-1200 ${
-              heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}>
-              <Button variant="hero" size="xl" className="group hover:scale-105 transition-all duration-300">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <Button variant="hero" size="xl" className="group">
                 <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
                 Experience EmpathAI
               </Button>
-              <Button variant="glass" size="xl" className="hover:scale-105 transition-all duration-300">
+              <Button variant="glass" size="xl">
                 <Film className="w-5 h-5 mr-2" />
                 Watch Demo
               </Button>
@@ -79,21 +51,14 @@ const HeroSection = () => {
           </div>
 
           {/* Movie Showcase */}
-          <div 
-            ref={moviesRef}
-            className={`grid md:grid-cols-3 gap-8 items-center transition-all duration-1000 ${
-              moviesVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-            }`}
-          >
+          <div className="grid md:grid-cols-3 gap-8 items-center">
             {/* Coming Soon Movie 1 */}
-            <div className={`movie-card relative group opacity-60 transition-all duration-700 delay-300 hover:scale-105 ${
-              moviesVisible ? 'opacity-60 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
-            }`}>
+            <div className="movie-card relative group opacity-60">
               <div className="aspect-video bg-gradient-card rounded-lg border border-border relative overflow-hidden">
                 <div className="absolute inset-0 bg-muted/20 flex items-center justify-center">
                   <div className="text-center">
                     <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4 mx-auto">
-                      <Film className="w-8 h-8 text-muted-foreground animate-float" />
+                      <Film className="w-8 h-8 text-muted-foreground" />
                     </div>
                     <p className="text-muted-foreground font-medium">Coming Soon</p>
                   </div>
@@ -103,9 +68,7 @@ const HeroSection = () => {
             </div>
 
             {/* Featured Movie - Nikhil */}
-            <div className={`movie-card relative group transition-all duration-700 delay-500 hover:scale-105 hover:rotate-1 ${
-              moviesVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
-            }`}>
+            <div className="movie-card relative group">
               <div className="aspect-video rounded-lg overflow-hidden shadow-movie">
                 <img 
                   src={nikhilPoster} 
@@ -132,14 +95,12 @@ const HeroSection = () => {
             </div>
 
             {/* Coming Soon Movie 2 */}
-            <div className={`movie-card relative group opacity-60 transition-all duration-700 delay-700 hover:scale-105 ${
-              moviesVisible ? 'opacity-60 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
-            }`}>
+            <div className="movie-card relative group opacity-60">
               <div className="aspect-video bg-gradient-card rounded-lg border border-border relative overflow-hidden">
                 <div className="absolute inset-0 bg-muted/20 flex items-center justify-center">
                   <div className="text-center">
                     <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mb-4 mx-auto">
-                      <Film className="w-8 h-8 text-muted-foreground animate-float" style={{ animationDelay: '1s' }} />
+                      <Film className="w-8 h-8 text-muted-foreground" />
                     </div>
                     <p className="text-muted-foreground font-medium">Coming Soon</p>
                   </div>
