@@ -13,7 +13,7 @@ const HeroSection = () => {
           {/* Hero Content */}
           <div className="text-center mb-16 animate-fade-in">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-              Learn Through{" "}&nbsp;
+              Learn Through&nbsp;
               <span className="text-gradient">Stories</span>
               {" "}&{" "}
               <span className="text-gradient">Conversations</span>
