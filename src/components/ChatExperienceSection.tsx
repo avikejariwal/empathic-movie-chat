@@ -60,27 +60,27 @@ const ChatExperienceSection = () => {
             }`}>
               <div className="aspect-video bg-gradient-card rounded-xl border border-border overflow-hidden shadow-movie">
                 <div className="h-full bg-gradient-to-br from-blue-900/20 to-purple-900/20 flex items-center justify-center relative">
-                  <div className="text-center">
-                    <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mb-4 mx-auto backdrop-blur-sm">
-                      <Play className="w-10 h-10 text-accent" />
+                  <div className="text-center px-4 sm:px-6 py-4 sm:py-6">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/10 rounded-full flex items-center justify-center mb-3 sm:mb-4 mx-auto backdrop-blur-sm">
+                      <Play className="w-8 h-8 sm:w-10 sm:h-10 text-accent" />
                     </div>
-                    <p className="text-lg font-medium">Scene: Classroom Confrontation</p>
-                    <p className="text-sm text-muted-foreground">Watch before chatting</p>
+                    <p className="text-base sm:text-lg font-medium mb-1 sm:mb-2">Scene: Classroom Confrontation</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Watch before chatting</p>
                   </div>
                   
                   {/* Floating avatar */}
-                  <div className="absolute bottom-4 right-4">
+                  <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4">
                     <img 
                       src={nikhilAvatar} 
                       alt="Nikhil"
-                      className="w-12 h-12 rounded-full border-2 border-accent shadow-glow animate-float"
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-accent shadow-glow animate-float"
                     />
                   </div>
                 </div>
               </div>
-              <div className="text-center mt-4">
-                <Button variant="glass" size="lg">
-                  <Play className="w-5 h-5 mr-2" />
+              <div className="text-center mt-3 sm:mt-4 px-4 sm:px-0">
+                <Button variant="glass" size="lg" className="w-full sm:w-auto">
+                  <Play className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   Watch Scene First
                 </Button>
               </div>
