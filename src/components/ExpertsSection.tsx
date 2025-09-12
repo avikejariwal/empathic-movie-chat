@@ -1,0 +1,93 @@
+import { GraduationCap, Brain, Lightbulb } from "lucide-react"
+
+const ExpertsSection = () => {
+  const experts = [
+    {
+      icon: GraduationCap,
+      title: "Learning Designers",
+      description: "Map competencies to CASEL-5 framework and draft measurable learning outcomes",
+      color: "text-accent"
+    },
+    {
+      icon: Brain,
+      title: "Clinical Psychologists", 
+      description: "Align storylines to psychological frameworks ensuring authentic emotional development",
+      color: "text-primary"
+    },
+    {
+      icon: Lightbulb,
+      title: "Expert Screenwriters",
+      description: "Create engaging and emotionally resonant content that captures student attention",
+      color: "text-accent"
+    }
+  ]
+
+  return (
+    <section className="py-20 bg-background">
+      <div className="container mx-auto px-4">
+        <div className="max-w-6xl mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Developed by <span className="text-gradient">Experts</span> for Safe, Structured Learning
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Our multidisciplinary team ensures every story delivers meaningful learning while maintaining safety and engagement.
+            </p>
+          </div>
+
+          {/* Expert Cards */}
+          <div className="grid md:grid-cols-3 gap-8">
+            {experts.map((expert, index) => (
+              <div 
+                key={index}
+                className="group relative bg-gradient-card rounded-xl p-8 border border-border shadow-card hover:shadow-glow transition-smooth hover:scale-105 animate-scale-in"
+                style={{ animationDelay: `${index * 0.2}s` }}
+              >
+                <div className="text-center">
+                  <div className="relative mb-6">
+                    <div className="w-16 h-16 mx-auto bg-card/50 rounded-full flex items-center justify-center border border-border group-hover:shadow-glow transition-smooth">
+                      <expert.icon className={`w-8 h-8 ${expert.color}`} />
+                    </div>
+                    <div className="absolute inset-0 w-16 h-16 mx-auto rounded-full bg-gradient-hero opacity-0 group-hover:opacity-20 transition-smooth" />
+                  </div>
+                  
+                  <h3 className="text-xl font-bold mb-4 group-hover:text-gradient transition-smooth">
+                    {expert.title}
+                  </h3>
+                  
+                  <p className="text-muted-foreground leading-relaxed">
+                    {expert.description}
+                  </p>
+                </div>
+
+                {/* Background glow effect */}
+                <div className="absolute inset-0 bg-gradient-hero opacity-0 group-hover:opacity-5 rounded-xl transition-smooth" />
+                
+                {/* Border glow effect */}
+                <div className="absolute inset-0 rounded-xl border border-transparent bg-gradient-hero opacity-0 group-hover:opacity-30 transition-smooth -z-10 blur-sm" />
+              </div>
+            ))}
+          </div>
+
+          {/* CASEL Framework Badge */}
+          <div className="text-center mt-16">
+            <div className="inline-flex items-center gap-4 bg-gradient-card rounded-full px-8 py-4 border border-border shadow-card">
+              <div className="w-12 h-12 bg-gradient-hero rounded-full flex items-center justify-center shadow-glow">
+                <GraduationCap className="w-6 h-6 text-white" />
+              </div>
+              <div className="text-left">
+                <h4 className="font-semibold">CASEL-5 Framework Aligned</h4>
+                <p className="text-sm text-muted-foreground">
+                  Research-based Social Emotional Learning standards
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default ExpertsSection
