@@ -53,7 +53,7 @@ const HeroSection = () => {
           {/* Movie Showcase */}
           <div className="grid md:grid-cols-3 gap-8 items-center">
             {/* Coming Soon Movie 1 */}
-            <div className="movie-card relative group opacity-60">
+            <div className="movie-card relative group opacity-60 order-2 md:order-1">
               <div className="aspect-video bg-gradient-card rounded-lg border border-border relative overflow-hidden">
                 <div className="absolute inset-0 bg-muted/20 flex items-center justify-center">
                   <div className="text-center">
@@ -68,7 +68,7 @@ const HeroSection = () => {
             </div>
 
             {/* Featured Movie - Nikhil */}
-            <div className="movie-card relative group">
+            <div className="movie-card relative group order-1 md:order-2">
               <div className="aspect-video rounded-lg overflow-hidden shadow-movie">
                 <img 
                   src={nikhilPoster} 
@@ -95,7 +95,7 @@ const HeroSection = () => {
             </div>
 
             {/* Coming Soon Movie 2 */}
-            <div className="movie-card relative group opacity-60">
+            <div className="movie-card relative group opacity-60 order-3">
               <div className="aspect-video bg-gradient-card rounded-lg border border-border relative overflow-hidden">
                 <div className="absolute inset-0 bg-muted/20 flex items-center justify-center">
                   <div className="text-center">
