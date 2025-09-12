@@ -4,7 +4,7 @@ import nikhilPoster from "@/assets/nikhil-poster.jpg"
 
 const HeroSection = () => {
   return (
-    <section className="h-screen bg-gradient-dark relative overflow-hidden flex items-center justify-center snap-section">
+    <section className="min-h-screen lg:h-screen bg-gradient-dark relative overflow-hidden flex items-center justify-center snap-section py-8 lg:py-0">
       {/* Background gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 z-10" />
       
@@ -12,13 +12,13 @@ const HeroSection = () => {
         <div className="max-w-6xl mx-auto">
           {/* Hero Content */}
           <div className="text-center mb-16 animate-fade-in">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 leading-tight">
               Learn Through&nbsp;
               <span className="text-gradient">Stories</span>
               {" "}&{" "}
               <span className="text-gradient">Conversations</span>
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
               Start with <strong className="text-foreground">Nikhil, the Class Clown</strong> — the first in our series of interactive learning movies.
             </p>
             
@@ -51,7 +51,7 @@ const HeroSection = () => {
           </div>
 
           {/* Movie Showcase */}
-          <div className="grid md:grid-cols-3 gap-8 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-center">
             {/* Coming Soon Movie 1 */}
             <div className="movie-card relative group opacity-60 order-2 md:order-1">
               <div className="aspect-video bg-gradient-card rounded-lg border border-border relative overflow-hidden">

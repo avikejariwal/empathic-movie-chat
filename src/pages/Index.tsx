@@ -8,7 +8,7 @@ import ScrollProgressBar from "@/components/ScrollProgressBar"
 
 const Index = () => {
   return (
-    <div className="snap-container overflow-y-scroll h-screen">
+    <div className="snap-container overflow-y-auto min-h-screen lg:h-screen">
       <ScrollProgressBar />
       <HeroSection />
       <StatsAndCharactersSection />

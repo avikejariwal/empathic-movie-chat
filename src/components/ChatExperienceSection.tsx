@@ -33,8 +33,8 @@ const ChatExperienceSection = () => {
   ]
 
   return (
-    <section className="h-screen bg-gradient-dark flex items-center justify-center snap-section">
-      <div className="container mx-auto px-4">
+    <section className="min-h-screen lg:h-screen bg-gradient-dark flex items-center justify-center snap-section py-8 lg:py-0">
+      <div className="container mx-auto px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
           <div 
@@ -43,17 +43,17 @@ const ChatExperienceSection = () => {
               chatVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
               Talk to the Characters. <span className="text-gradient">Hear Their Voice.</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
               Students can speak with characters in real voice conversations, expressing feelings and learning from their perspectives. 
               Each conversation is protected by children-specific guardrails designed for ages 11-16 and guided by expert lesson plans.
             </p>
           </div>
 
           {/* Split Screen Layout */}
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Movie Scene Preview */}
             <div className={`relative transition-all duration-700 delay-300 ${
               chatVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
@@ -106,19 +106,19 @@ const ChatExperienceSection = () => {
                   </div>
                 </div>
 
-                {/* Chat Messages */}
-                <div className="p-4 space-y-4">
+                 {/* Chat Messages */}
+                <div className="p-3 sm:p-4 space-y-3 sm:space-y-4">
                   {sampleConversation.map((msg, index) => (
                     <div 
                       key={index}
                       className={`flex ${msg.type === 'student' ? 'justify-end' : 'justify-start'} animate-fade-in`}
                       style={{ animationDelay: `${index * 0.5}s` }}
                     >
-                      <div className={`max-w-xs lg:max-w-md ${
+                      <div className={`max-w-xs sm:max-w-sm lg:max-w-md ${
                         msg.type === 'student' 
                           ? 'bg-gradient-hero text-white' 
                           : 'bg-secondary text-secondary-foreground'
-                      } rounded-lg p-3 shadow-sm`}>
+                      } rounded-lg p-2 sm:p-3 shadow-sm`}>
                          {msg.type === 'character' && (
                            <div className="flex items-center gap-2 mb-2">
                              <img 
@@ -129,7 +129,7 @@ const ChatExperienceSection = () => {
                              <span className="text-xs font-medium text-accent">{msg.name}</span>
                            </div>
                          )}
-                        <p className="text-base">{msg.message}</p>
+                        <p className="text-sm sm:text-base">{msg.message}</p>
                         <p className={`text-xs mt-1 ${
                           msg.type === 'student' ? 'text-white/70' : 'text-muted-foreground'
                         }`}>
@@ -142,7 +142,7 @@ const ChatExperienceSection = () => {
                 </div>
 
                 {/* Chat Input */}
-                <div className="border-t border-border p-6 text-center">
+                <div className="border-t border-border p-4 sm:p-6 text-center">
                   <div className="mb-4">
                     <input 
                       type="text" 
@@ -159,7 +159,7 @@ const ChatExperienceSection = () => {
               </div>
 
               {/* Features */}
-              <div className="grid grid-cols-3 gap-3 mt-6">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
                 <div className="bg-card/50 backdrop-blur-sm rounded-lg p-3 border border-border">
                   <Shield className="w-5 h-5 text-accent mb-2" />
                   <h5 className="font-medium mb-1 text-sm">Child-Safe AI</h5>
