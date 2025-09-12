@@ -33,7 +33,7 @@ const ChatExperienceSection = () => {
   ]
 
   return (
-    <section className="min-h-screen lg:h-screen bg-gradient-dark flex items-center justify-center snap-section py-8 lg:py-0">
+    <section className="bg-gradient-dark flex items-center justify-center py-16 lg:py-24">
       <div className="container mx-auto px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}

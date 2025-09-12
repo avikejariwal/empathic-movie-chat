@@ -10,7 +10,7 @@ const Footer = () => {
   ]
 
   return (
-    <footer className="h-screen bg-gradient-dark border-t border-border flex items-center justify-center snap-section">
+    <footer className="bg-gradient-dark border-t border-border flex items-center justify-center py-16 lg:py-24">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">

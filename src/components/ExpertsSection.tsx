@@ -25,7 +25,7 @@ const ExpertsSection = () => {
   ]
 
   return (
-    <section className="h-screen bg-background flex items-center justify-center snap-section">
+    <section className="bg-background flex items-center justify-center py-16 lg:py-24">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}

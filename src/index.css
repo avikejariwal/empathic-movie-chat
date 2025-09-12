@@ -83,39 +83,12 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    overflow: hidden; /* Prevent body scroll, let main container handle it */
   }
 
   html {
     scroll-behavior: smooth;
   }
 
-  /* Custom smooth scrolling */
-  .snap-container {
-    scroll-behavior: smooth;
-    scroll-snap-type: y mandatory;
-    scroll-padding-top: 0;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-  }
-
-  .snap-container::-webkit-scrollbar {
-    display: none; /* Chrome, Safari and Opera */
-  }
-
-  /* Slower, more controlled snap points */
-  .snap-section {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
-
-  /* Custom scroll timing for smoother experience */
-  @media (prefers-reduced-motion: no-preference) {
-    .snap-container {
-      scroll-behavior: smooth;
-      transition: scroll 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-  }
 
   /* Custom utility classes */
   .text-gradient {

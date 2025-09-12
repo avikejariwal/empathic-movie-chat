@@ -4,7 +4,7 @@ import nikhilPoster from "@/assets/nikhil-poster.jpg"
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen lg:h-screen bg-gradient-dark relative overflow-hidden flex items-center justify-center snap-section py-8 lg:py-0">
+    <section className="bg-gradient-dark relative overflow-hidden flex items-center justify-center py-16 lg:py-24">
       {/* Background gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 z-10" />
       
