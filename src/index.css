@@ -83,6 +83,11 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    overflow: hidden; /* Prevent body scroll, let main container handle it */
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   /* Custom utility classes */

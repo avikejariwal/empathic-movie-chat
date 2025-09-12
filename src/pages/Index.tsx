@@ -1,20 +1,24 @@
 import HeroSection from "@/components/HeroSection"
-import StatsSection from "@/components/StatsSection"
+import StatsResearchSection from "@/components/StatsResearchSection"
+import CharacterSelectionSection from "@/components/CharacterSelectionSection"
 import ChatExperienceSection from "@/components/ChatExperienceSection"
 import ExpertsSection from "@/components/ExpertsSection"
-import LearningJourneySection from "@/components/LearningJourneySection"
+import LearningProcessSection from "@/components/LearningProcessSection"
+import CallToActionSection from "@/components/CallToActionSection"
 import Footer from "@/components/Footer"
 import ScrollProgressBar from "@/components/ScrollProgressBar"
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="snap-y snap-mandatory overflow-y-scroll h-screen scroll-smooth">
       <ScrollProgressBar />
       <HeroSection />
-      <StatsSection />
+      <StatsResearchSection />
+      <CharacterSelectionSection />
       <ChatExperienceSection />
       <ExpertsSection />
-      <LearningJourneySection />
+      <LearningProcessSection />
+      <CallToActionSection />
       <Footer />
     </div>
   );

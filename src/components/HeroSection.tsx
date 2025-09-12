@@ -4,11 +4,11 @@ import nikhilPoster from "@/assets/nikhil-poster.jpg"
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen bg-gradient-dark relative overflow-hidden">
+    <section className="h-screen bg-gradient-dark relative overflow-hidden flex items-center justify-center snap-start">
       {/* Background gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 z-10" />
       
-      <div className="container mx-auto px-4 py-20 relative z-20">
+      <div className="container mx-auto px-4 relative z-20">
         <div className="max-w-6xl mx-auto">
           {/* Hero Content */}
           <div className="text-center mb-16 animate-fade-in">
