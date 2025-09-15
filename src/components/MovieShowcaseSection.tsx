@@ -107,7 +107,7 @@ const MovieShowcaseSection = () => {
           <div className="mt-16">
             <div className="text-center mb-8">
               <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3">
-                Choose a Character. <span className="text-gradient">Step Into Their World.</span>
+                Learn by stepping into their world
               </h3>
               <p className="text-muted-foreground">
                 Each perspective offers unique lessons in empathy and understanding
