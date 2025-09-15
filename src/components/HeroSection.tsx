@@ -1,8 +1,22 @@
 import { Button } from "@/components/ui/button"
-import { Play, Shield, Bot, Film } from "lucide-react"
+import { Play, Shield, Bot, Film, MessageCircle } from "lucide-react"
 import nikhilPoster from "@/assets/nikhil-poster.jpg"
+import nikhilAvatar from "@/assets/nikhil-avatar.jpg"
+import { useState, useEffect } from "react"
 
 const HeroSection = () => {
+  const [phase, setPhase] = useState<"watch" | "transitioning" | "talk">("watch")
+  
+  useEffect(() => {
+    const timer1 = setTimeout(() => setPhase("transitioning"), 3000)
+    const timer2 = setTimeout(() => setPhase("talk"), 3500)
+    
+    return () => {
+      clearTimeout(timer1)
+      clearTimeout(timer2)
+    }
+  }, [])
+
   return (
     <section className="bg-gradient-dark relative overflow-hidden flex items-center justify-center py-16 lg:py-24">
       {/* Background gradient overlay */}
@@ -10,45 +24,106 @@ const HeroSection = () => {
       
       <div className="container mx-auto px-4 relative z-20">
         <div className="max-w-6xl mx-auto">
-          {/* Hero Content */}
-          <div className="text-center mb-16 animate-fade-in">
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-6 leading-tight">
-              Learn Through&nbsp;
-              <span className="text-gradient">Stories</span>
-              {" "}&{" "}
-              <span className="text-gradient">Conversations</span>
-            </h1>
-            <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-              Start with <strong className="text-foreground">Nikhil, the Class Clown</strong> — the first in our series of interactive learning movies.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button variant="hero" size="xl" className="group">
-                <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                Experience EmpathAI
-              </Button>
-              <Button variant="glass" size="xl">
-                <Film className="w-5 h-5 mr-2" />
-                Watch Demo
-              </Button>
+          {/* Dynamic Hero Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+            {/* Left: Dynamic Title */}
+            <div className="text-center lg:text-left">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                <span className="relative inline-block">
+                  {phase === "watch" && (
+                    <span className="animate-fade-in">Watch</span>
+                  )}
+                  {phase === "transitioning" && (
+                    <span className="animate-fade-out">Watch</span>
+                  )}
+                  {phase === "talk" && (
+                    <span className="animate-fade-in text-gradient">Talk</span>
+                  )}
+                </span>
+                {" "}and{" "}
+                <span className="text-gradient">Learn</span>
+              </h1>
+              <p className="text-lg sm:text-xl text-muted-foreground mb-8">
+                {phase === "watch" || phase === "transitioning" 
+                  ? "Experience empathy through Nikhil's story in our interactive learning movie."
+                  : "Then dive deeper with AI-powered conversations that build real understanding."
+                }
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <Button variant="hero" size="xl" className="group">
+                  {phase === "talk" ? (
+                    <>
+                      <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                      Start Conversation
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                      Watch Movie
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
 
-            {/* Value Props */}
-            <div className="flex flex-wrap justify-center gap-6 text-sm">
-              <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-full px-4 py-2 border border-border">
-                <Film className="w-4 h-4 text-accent" />
-                <span>Movie-based learning</span>
-              </div>
-              <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-full px-4 py-2 border border-border">
-                <Bot className="w-4 h-4 text-accent" />
-                <span>AI character conversations</span>
-              </div>
-              <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm rounded-full px-4 py-2 border border-border">
-                <Shield className="w-4 h-4 text-accent" />
-                <span>Safe & expert-guided</span>
-              </div>
+            {/* Right: Dynamic Visual Content */}
+            <div className="relative">
+              {/* Movie Phase */}
+              {(phase === "watch" || phase === "transitioning") && (
+                <div className={`aspect-video rounded-lg overflow-hidden shadow-movie ${
+                  phase === "transitioning" ? "animate-fade-out" : "animate-fade-in"
+                }`}>
+                  <img 
+                    src={nikhilPoster} 
+                    alt="Nikhil movie scene"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-center justify-center">
+                    <div className="w-16 h-16 bg-primary/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                      <Play className="w-8 h-8 text-primary ml-1" />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Conversation Phase */}
+              {phase === "talk" && (
+                <div className="animate-fade-in">
+                  <div className="bg-card/80 backdrop-blur-sm rounded-lg border border-border p-6 shadow-lg">
+                    <div className="flex items-start gap-4 mb-4">
+                      <img 
+                        src={nikhilAvatar} 
+                        alt="Nikhil avatar"
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                      <div className="flex-1">
+                        <div className="bg-accent/10 rounded-lg p-3 mb-2">
+                          <p className="text-sm">
+                            "Hey, I've been thinking about what happened in class today... Want to talk about it?"
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <span>Nikhil</span>
+                          <span>•</span>
+                          <span>Just now</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/20 rounded-lg p-3">
+                      <MessageCircle className="w-4 h-4" />
+                      <span>Type your response or use voice chat...</span>
+                      <div className="ml-auto flex gap-1">
+                        <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
+                        <div className="w-2 h-2 bg-accent rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
+                        <div className="w-2 h-2 bg-accent rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
+
 
           {/* Movie Showcase */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-center">
