@@ -20,14 +20,10 @@ const Footer = () => {
             Transform how your students learn empathy and social-emotional skills through interactive storytelling and AI-powered conversations.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <div className="flex justify-center mb-12">
             <Button variant="hero" size="xl" className="group">
               <Calendar className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
               Book a Demo
-            </Button>
-            <Button variant="glass" size="xl">
-              <Download className="w-5 h-5 mr-2" />
-              Download Brochure
             </Button>
           </div>
 
