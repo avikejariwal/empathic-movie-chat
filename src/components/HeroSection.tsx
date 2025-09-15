@@ -5,7 +5,7 @@ import nikhilAvatar from "@/assets/nikhil-avatar.jpg"
 import { useState, useEffect } from "react"
 
 const HeroSection = () => {
-  const [phase, setPhase] = useState<"watch" | "transitioning" | "talk">("watch")
+  const [phase, setPhase] = useState<"watch" | "transitioning" | "talk" | "resetting">("watch")
   const [typewriterText, setTypewriterText] = useState("Watch")
   const [showCursor, setShowCursor] = useState(false)
   const [initialBlink, setInitialBlink] = useState(true)
@@ -109,10 +109,58 @@ const HeroSection = () => {
         setShowCTA(true)
       }, 6800)
 
-      // Loop back to start after showing everything for 3 seconds
-      const loopTimer = setTimeout(() => {
-        runAnimation()
-      }, 10000)
+      // Start smooth reset after showing everything for 3 seconds
+      const resetTimer = setTimeout(() => {
+        setPhase("resetting")
+        setShowCTA(false)
+        
+        // Fade out chat elements in reverse order
+        setTimeout(() => setShowChatElements(prev => ({ ...prev, input: false })), 100)
+        setTimeout(() => setShowChatElements(prev => ({ ...prev, response: false })), 200)
+        setTimeout(() => setShowChatElements(prev => ({ ...prev, voice: false })), 300)
+        setTimeout(() => setShowChatElements(prev => ({ ...prev, message: false })), 400)
+        
+        // Start transitioning visuals back
+        setTimeout(() => {
+          setChatOpacity(0)
+          setMovieOpacity(1)
+          
+          // Start typing transition back to "Watch"
+          setShowCursor(true)
+          const deleteBackText = () => {
+            const deleteTimer = setInterval(() => {
+              setTypewriterText(prev => {
+                if (prev.length > 0) {
+                  return prev.slice(0, -1)
+                } else {
+                  clearInterval(deleteTimer)
+                  // Start typing "Watch"
+                  setTimeout(() => {
+                    const typeText = () => {
+                      const targetText = "Watch"
+                      let currentIndex = 0
+                      const typeTimer = setInterval(() => {
+                        if (currentIndex < targetText.length) {
+                          setTypewriterText(targetText.slice(0, currentIndex + 1))
+                          currentIndex++
+                        } else {
+                          clearInterval(typeTimer)
+                          setShowCursor(false)
+                          // Wait a moment then restart the cycle
+                          setTimeout(() => runAnimation(), 1000)
+                        }
+                      }, 150)
+                    }
+                    typeText()
+                  }, 200)
+                  return prev
+                }
+              })
+            }, 100)
+          }
+          deleteBackText()
+        }, 800)
+      }, 9800)
       
       return () => {
         clearTimeout(blinkTimer)
@@ -122,7 +170,7 @@ const HeroSection = () => {
         clearTimeout(chatTimer3)
         clearTimeout(chatTimer4)
         clearTimeout(ctaTimer)
-        clearTimeout(loopTimer)
+        clearTimeout(resetTimer)
       }
     }
 
