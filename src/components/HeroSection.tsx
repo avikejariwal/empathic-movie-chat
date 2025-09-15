@@ -184,7 +184,7 @@ const HeroSection = () => {
                           <div className={`flex items-center justify-between gap-px h-4 transition-all duration-300 ${
                             showChatElements.voice ? "opacity-100" : "opacity-0"
                           }`}>
-                            {Array.from({ length: 35 }).map((_, i) => (
+                            {Array.from({ length: 60 }).map((_, i) => (
                               <div
                                 key={i}
                                 className="w-0.5 bg-primary-foreground/40 rounded-full shadow-sm transition-opacity duration-1500"
