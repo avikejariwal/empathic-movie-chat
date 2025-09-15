@@ -131,10 +131,11 @@ const HeroSection = () => {
       }, 6400)
       cleanupTimers.push(chatTimer4)
       
+      // Show CTA early, right after initial blinking stops
       const ctaTimer = setTimeout(() => {
         setShowCTA(true)
         setCTAHasBeenShown(true)
-      }, 6800)
+      }, 3600) // Show CTA right after initial blinking (3500 + 100ms)
       cleanupTimers.push(ctaTimer)
 
       // Start simple fade-out reset after showing everything for 3 seconds
