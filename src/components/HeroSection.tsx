@@ -90,6 +90,7 @@ const HeroSection = () => {
               {phase === "talk" && (
                 <div className="animate-fade-in h-full">
                   <div className="bg-card/80 backdrop-blur-sm rounded-lg border border-border p-6 shadow-lg h-full flex flex-col justify-center">
+                    {/* Nikhil's message */}
                     <div className="flex items-start gap-4 mb-4">
                       <img 
                         src={nikhilAvatar} 
@@ -102,6 +103,20 @@ const HeroSection = () => {
                             "Hey, I've been thinking about what happened in class today... Want to talk about it?"
                           </p>
                         </div>
+                        {/* Voice amplitude graph */}
+                        <div className="flex items-center gap-1 mb-2">
+                          {Array.from({ length: 12 }).map((_, i) => (
+                            <div
+                              key={i}
+                              className="w-1 bg-accent/60 rounded-full animate-pulse"
+                              style={{
+                                height: `${Math.random() * 16 + 4}px`,
+                                animationDelay: `${i * 0.1}s`,
+                                animationDuration: '1.5s'
+                              }}
+                            />
+                          ))}
+                        </div>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <span>Nikhil</span>
                           <span>•</span>
@@ -109,6 +124,27 @@ const HeroSection = () => {
                         </div>
                       </div>
                     </div>
+
+                    {/* User's response */}
+                    <div className="flex items-start gap-4 mb-4 justify-end">
+                      <div className="flex-1 max-w-xs">
+                        <div className="bg-primary/90 text-primary-foreground rounded-lg p-3 mb-2">
+                          <p className="text-sm">
+                            "I want to understand better. Can you tell me how it felt when that happened?"
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground justify-end">
+                          <span>2 min ago</span>
+                          <span>•</span>
+                          <span>You</span>
+                        </div>
+                      </div>
+                      <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
+                        <span className="text-sm font-medium">You</span>
+                      </div>
+                    </div>
+
+                    {/* Input area */}
                     <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/20 rounded-lg p-3">
                       <MessageCircle className="w-4 h-4" />
                       <span>Type your response or use voice chat...</span>
