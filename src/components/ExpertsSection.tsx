@@ -48,7 +48,7 @@ const ExpertsSection = () => {
             {experts.map((expert, index) => (
               <div 
                 key={index}
-                className={`group relative bg-gradient-card rounded-xl p-8 border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 hover:rotate-1 ${
+                className={`group relative bg-gradient-card rounded-xl p-8 border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 ${
                   expertsVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
                 }`}
                 style={{ transitionDelay: `${index * 200}ms` }}
