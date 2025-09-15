@@ -20,6 +20,7 @@ const HeroSection = () => {
     input: false
   })
   const [showCTA, setShowCTA] = useState(false)
+  const [ctaHasBeenShown, setCTAHasBeenShown] = useState(false)
   
   useEffect(() => {
     let animationId: NodeJS.Timeout | null = null
@@ -44,8 +45,8 @@ const HeroSection = () => {
         response: false,
         input: false
       })
-      // Only reset CTA on the very first run
-      if (!showCTA) {
+      // Only reset CTA if it has never been shown
+      if (!ctaHasBeenShown) {
         setShowCTA(false)
       }
       setContentOpacity(1)
@@ -129,6 +130,7 @@ const HeroSection = () => {
       
       const ctaTimer = setTimeout(() => {
         setShowCTA(true)
+        setCTAHasBeenShown(true)
       }, 6800)
       cleanupTimers.push(ctaTimer)
 
