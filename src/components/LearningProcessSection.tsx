@@ -11,7 +11,7 @@ const LearningProcessSection = () => {
       description: "AI-generated, localized short film that sets the emotional context",
       details: "Immersive storytelling with relatable characters in familiar settings",
       color: "text-primary",
-      bgColor: "from-primary/20 to-secondary/20"
+      bgColor: "from-primary/20 to-primary/30"
     },
     {
       icon: MessageCircle,
@@ -19,7 +19,7 @@ const LearningProcessSection = () => {
       description: "EmpathAI guided, monitored interactions with story characters",
       details: "Safe, structured dialogue that explores emotions and perspectives",
       color: "text-secondary",
-      bgColor: "from-red-500/20 to-pink-500/20"
+      bgColor: "from-secondary/20 to-secondary/30"
     },
     {
       icon: PenTool,
@@ -27,15 +27,15 @@ const LearningProcessSection = () => {
       description: "Personalized exercises that deepen understanding and learning",
       details: "Thoughtful activities aligned with social-emotional learning goals",
       color: "text-primary",
-      bgColor: "from-purple-500/20 to-blue-500/20"
+      bgColor: "from-primary/20 to-primary/30"
     },
     {
       icon: TrendingUp,
       title: "Grow Skills",
       description: "Measured SEL outcomes that track empathy and emotional intelligence",
       details: "Data-driven insights into student emotional development progress",
-      color: "text-primary",
-      bgColor: "from-blue-500/20 to-green-500/20"
+      color: "text-secondary",
+      bgColor: "from-secondary/20 to-secondary/30"
     }
   ]
 
