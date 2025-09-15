@@ -92,6 +92,15 @@ const StatsAndCharactersSection = () => {
                     <span className="text-sm font-medium">{learner.type}</span>
                   </div>)}
               </div>
+              
+              {/* Source Footnote */}
+              <div className={`mt-6 transition-all duration-700 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{
+                transitionDelay: '1200ms'
+              }}>
+                <p className="text-xs text-muted-foreground/70 max-w-2xl mx-auto">
+                  Source: Graesser, A. C., Singer, M., Trabasso, T. (1994) | 3M and University of Minnesota | Humanities and Social Sciences Communications
+                </p>
+              </div>
             </div>
           </div>
 
