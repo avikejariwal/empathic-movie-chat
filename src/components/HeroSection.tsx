@@ -8,6 +8,10 @@ const HeroSection = () => {
   const [phase, setPhase] = useState<"watch" | "transitioning" | "talk">("watch")
   const [typewriterText, setTypewriterText] = useState("Watch")
   const [showCursor, setShowCursor] = useState(false)
+  const [initialBlink, setInitialBlink] = useState(true)
+  const [typedLetters, setTypedLetters] = useState(0) // Track which letters of "Talk" have been typed
+  const [movieOpacity, setMovieOpacity] = useState(1)
+  const [chatOpacity, setChatOpacity] = useState(0)
   const [showChatElements, setShowChatElements] = useState({
     message: false,
     voice: false,
@@ -16,6 +20,11 @@ const HeroSection = () => {
   })
   
   useEffect(() => {
+    // Stop initial blinking before typewriter starts
+    const blinkTimer = setTimeout(() => {
+      setInitialBlink(false)
+    }, 3500)
+    
     const timer1 = setTimeout(() => {
       setPhase("transitioning")
       setShowCursor(true)
@@ -36,6 +45,17 @@ const HeroSection = () => {
                   const typeTimer = setInterval(() => {
                     if (currentIndex < targetText.length) {
                       setTypewriterText(targetText.slice(0, currentIndex + 1))
+                      setTypedLetters(currentIndex + 1)
+                      
+                      // Start movie fade out when typing first letter of "Talk"
+                      if (currentIndex === 0) {
+                        setMovieOpacity(0)
+                      }
+                      // Start chat fade in when typing second letter of "Talk"
+                      if (currentIndex === 1) {
+                        setChatOpacity(1)
+                      }
+                      
                       currentIndex++
                     } else {
                       clearInterval(typeTimer)
@@ -69,6 +89,7 @@ const HeroSection = () => {
     }, 6400)
     
     return () => {
+      clearTimeout(blinkTimer)
       clearTimeout(timer1)
       clearTimeout(chatTimer1)
       clearTimeout(chatTimer2)
@@ -88,8 +109,17 @@ const HeroSection = () => {
           <div className="text-center mb-12">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
               <span className="relative inline-block">
-                <span className={phase === "talk" ? "text-gradient" : ""}>
-                  {typewriterText}
+                <span className={`${initialBlink && phase === "watch" ? "animate-pulse" : ""}`}>
+                  {phase === "talk" ? (
+                    // Render each letter of "Talk" with primary color
+                    typewriterText.split('').map((letter, index) => (
+                      <span key={index} className="text-gradient">
+                        {letter}
+                      </span>
+                    ))
+                  ) : (
+                    typewriterText
+                  )}
                 </span>
                 {showCursor && (
                   <span className="text-primary animate-pulse ml-1">|</span>
@@ -126,9 +156,10 @@ const HeroSection = () => {
             <div className="relative h-80 w-full max-w-2xl">
               {/* Movie Phase */}
               {(phase === "watch" || (phase === "transitioning" && typewriterText.length > 0)) && (
-                <div className={`h-full rounded-lg overflow-hidden shadow-movie ${
-                  phase === "transitioning" && typewriterText.length <= 2 ? "animate-fade-out" : "animate-fade-in"
-                }`}>
+                <div 
+                  className="h-full rounded-lg overflow-hidden shadow-movie transition-opacity duration-1000 ease-out"
+                  style={{ opacity: movieOpacity }}
+                >
                   <img 
                     src={nikhilPoster} 
                     alt="Nikhil movie scene"
@@ -143,8 +174,11 @@ const HeroSection = () => {
               )}
 
               {/* Conversation Phase */}
-              {phase === "talk" && (
-                <div className="animate-fade-in h-full">
+              {(phase === "transitioning" || phase === "talk") && (
+                <div 
+                  className="absolute inset-0 h-full transition-opacity duration-800 ease-out"
+                  style={{ opacity: chatOpacity }}
+                >
                   <div className="bg-card/80 backdrop-blur-sm rounded-lg border border-border p-6 shadow-lg h-full flex flex-col justify-center">
                     {/* Nikhil's message */}
                     <div className={`flex items-start gap-4 mb-4 transition-all duration-500 ${
