@@ -21,7 +21,14 @@ const HeroSection = () => {
   const [showCTA, setShowCTA] = useState(false)
   
   useEffect(() => {
+    let animationId: NodeJS.Timeout | null = null
+    let cleanupTimers: NodeJS.Timeout[] = []
+
     const runAnimation = () => {
+      // Clear any existing timers
+      cleanupTimers.forEach(timer => clearTimeout(timer))
+      cleanupTimers = []
+
       // Reset all states to initial values
       setPhase("watch")
       setTypewriterText("Watch")
@@ -42,6 +49,7 @@ const HeroSection = () => {
       const blinkTimer = setTimeout(() => {
         setInitialBlink(false)
       }, 3500)
+      cleanupTimers.push(blinkTimer)
       
       const timer1 = setTimeout(() => {
         setPhase("transitioning")
@@ -91,91 +99,116 @@ const HeroSection = () => {
         }
         deleteText()
       }, 4000)
+      cleanupTimers.push(timer1)
       
       // Staggered chat element animation
       const chatTimer1 = setTimeout(() => {
         setShowChatElements(prev => ({ ...prev, message: true }))
       }, 5200)
+      cleanupTimers.push(chatTimer1)
+      
       const chatTimer2 = setTimeout(() => {
         setShowChatElements(prev => ({ ...prev, voice: true }))
       }, 5500)
+      cleanupTimers.push(chatTimer2)
+      
       const chatTimer3 = setTimeout(() => {
         setShowChatElements(prev => ({ ...prev, response: true }))
       }, 6000)
+      cleanupTimers.push(chatTimer3)
+      
       const chatTimer4 = setTimeout(() => {
         setShowChatElements(prev => ({ ...prev, input: true }))
       }, 6400)
+      cleanupTimers.push(chatTimer4)
+      
       const ctaTimer = setTimeout(() => {
         setShowCTA(true)
       }, 6800)
+      cleanupTimers.push(ctaTimer)
 
       // Start smooth reset after showing everything for 3 seconds
       const resetTimer = setTimeout(() => {
         setPhase("resetting")
         setShowCTA(false)
         
-        // Fade out chat elements in reverse order
-        setTimeout(() => setShowChatElements(prev => ({ ...prev, input: false })), 100)
-        setTimeout(() => setShowChatElements(prev => ({ ...prev, response: false })), 200)
-        setTimeout(() => setShowChatElements(prev => ({ ...prev, voice: false })), 300)
-        setTimeout(() => setShowChatElements(prev => ({ ...prev, message: false })), 400)
+        // Fade out chat elements in reverse order with better timing
+        const hideInput = setTimeout(() => setShowChatElements(prev => ({ ...prev, input: false })), 0)
+        const hideResponse = setTimeout(() => setShowChatElements(prev => ({ ...prev, response: false })), 150)
+        const hideVoice = setTimeout(() => setShowChatElements(prev => ({ ...prev, voice: false })), 300)
+        const hideMessage = setTimeout(() => setShowChatElements(prev => ({ ...prev, message: false })), 450)
         
-        // Start transitioning visuals back
-        setTimeout(() => {
+        cleanupTimers.push(hideInput, hideResponse, hideVoice, hideMessage)
+        
+        // Start transitioning visuals back with proper coordination
+        const visualTransition = setTimeout(() => {
           setChatOpacity(0)
-          setMovieOpacity(1)
           
-          // Start typing transition back to "Watch"
-          setShowCursor(true)
-          const deleteBackText = () => {
-            const deleteTimer = setInterval(() => {
-              setTypewriterText(prev => {
-                if (prev.length > 0) {
-                  return prev.slice(0, -1)
-                } else {
-                  clearInterval(deleteTimer)
-                  // Start typing "Watch"
-                  setTimeout(() => {
-                    const typeText = () => {
-                      const targetText = "Watch"
-                      let currentIndex = 0
-                      const typeTimer = setInterval(() => {
-                        if (currentIndex < targetText.length) {
-                          setTypewriterText(targetText.slice(0, currentIndex + 1))
-                          currentIndex++
-                        } else {
-                          clearInterval(typeTimer)
-                          setShowCursor(false)
-                          // Wait a moment then restart the cycle
-                          setTimeout(() => runAnimation(), 1000)
-                        }
-                      }, 150)
-                    }
-                    typeText()
-                  }, 200)
-                  return prev
-                }
-              })
-            }, 100)
-          }
-          deleteBackText()
-        }, 800)
+          // Wait for chat to fade out before showing movie
+          const movieFadeIn = setTimeout(() => {
+            setMovieOpacity(1)
+          }, 300)
+          cleanupTimers.push(movieFadeIn)
+          
+          // Start text transition with proper delay
+          const textTransition = setTimeout(() => {
+            setShowCursor(true)
+            
+            const deleteBackText = () => {
+              const deleteTimer = setInterval(() => {
+                setTypewriterText(prev => {
+                  if (prev.length > 0) {
+                    const newText = prev.slice(0, -1)
+                    // Reset typed letters count when deleting "Talk"
+                    setTypedLetters(Math.max(0, newText.length))
+                    return newText
+                  } else {
+                    clearInterval(deleteTimer)
+                    // Start typing "Watch" with delay
+                    const typeStartDelay = setTimeout(() => {
+                      const typeText = () => {
+                        const targetText = "Watch"
+                        let currentIndex = 0
+                        const typeTimer = setInterval(() => {
+                          if (currentIndex < targetText.length) {
+                            setTypewriterText(targetText.slice(0, currentIndex + 1))
+                            currentIndex++
+                          } else {
+                            clearInterval(typeTimer)
+                            setShowCursor(false)
+                            setPhase("watch")
+                            setTypedLetters(0)
+                            
+                            // Schedule next animation cycle
+                            animationId = setTimeout(() => {
+                              runAnimation()
+                            }, 2000)
+                          }
+                        }, 150)
+                      }
+                      typeText()
+                    }, 300)
+                    cleanupTimers.push(typeStartDelay)
+                    return prev
+                  }
+                })
+              }, 120)
+            }
+            deleteBackText()
+          }, 600)
+          cleanupTimers.push(textTransition)
+        }, 700)
+        cleanupTimers.push(visualTransition)
       }, 9800)
-      
-      return () => {
-        clearTimeout(blinkTimer)
-        clearTimeout(timer1)
-        clearTimeout(chatTimer1)
-        clearTimeout(chatTimer2)
-        clearTimeout(chatTimer3)
-        clearTimeout(chatTimer4)
-        clearTimeout(ctaTimer)
-        clearTimeout(resetTimer)
-      }
+      cleanupTimers.push(resetTimer)
     }
 
-    const cleanup = runAnimation()
-    return cleanup
+    runAnimation()
+
+    return () => {
+      cleanupTimers.forEach(timer => clearTimeout(timer))
+      if (animationId) clearTimeout(animationId)
+    }
   }, [])
 
   return (
@@ -235,9 +268,9 @@ const HeroSection = () => {
               )}
 
               {/* Conversation Phase */}
-              {(phase === "transitioning" || phase === "talk") && (
+              {(phase === "transitioning" || phase === "talk" || phase === "resetting") && (
                 <div 
-                  className="absolute inset-0 h-full transition-opacity duration-800 ease-out"
+                  className="absolute inset-0 h-full transition-opacity duration-500 ease-out"
                   style={{ opacity: chatOpacity }}
                 >
                   <div className="sm:bg-card/80 sm:backdrop-blur-sm sm:rounded-lg sm:border sm:border-primary/20 p-1 sm:p-6 sm:shadow-xl sm:shadow-primary/10 h-full flex flex-col justify-center sm:bg-gradient-to-br sm:from-card/90 sm:to-card/70">
