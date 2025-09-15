@@ -98,7 +98,7 @@ const HeroSection = () => {
                         className="w-12 h-12 rounded-full object-cover"
                       />
                       <div className="flex-1">
-                        <div className="bg-accent/10 rounded-lg p-3 mb-2">
+                        <div className="bg-primary/90 text-primary-foreground rounded-lg p-3 mb-2">
                           <p className="text-sm">
                             "Hey, I've been thinking about what happened in class today... Want to talk about it?"
                           </p>
@@ -128,7 +128,7 @@ const HeroSection = () => {
                     {/* User's response */}
                     <div className="flex items-start gap-4 mb-4 justify-end">
                       <div className="flex-1 max-w-xs">
-                        <div className="bg-primary/90 text-primary-foreground rounded-lg p-3 mb-2">
+                        <div className="bg-accent/10 rounded-lg p-3 mb-2">
                           <p className="text-sm">
                             "I want to understand better. Can you tell me how it felt when that happened?"
                           </p>
