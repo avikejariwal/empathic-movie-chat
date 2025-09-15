@@ -6,6 +6,8 @@ import { useState, useEffect } from "react"
 
 const HeroSection = () => {
   const [phase, setPhase] = useState<"watch" | "transitioning" | "talk">("watch")
+  const [typewriterText, setTypewriterText] = useState("Watch")
+  const [showCursor, setShowCursor] = useState(false)
   const [showChatElements, setShowChatElements] = useState({
     message: false,
     voice: false,
@@ -14,26 +16,60 @@ const HeroSection = () => {
   })
   
   useEffect(() => {
-    const timer1 = setTimeout(() => setPhase("transitioning"), 4000)
-    const timer2 = setTimeout(() => setPhase("talk"), 4800)
+    const timer1 = setTimeout(() => {
+      setPhase("transitioning")
+      setShowCursor(true)
+      
+      // Start deleting "Watch"
+      const deleteText = () => {
+        const deleteTimer = setInterval(() => {
+          setTypewriterText(prev => {
+            if (prev.length > 0) {
+              return prev.slice(0, -1)
+            } else {
+              clearInterval(deleteTimer)
+              // Start typing "Talk"
+              setTimeout(() => {
+                const typeText = () => {
+                  const targetText = "Talk"
+                  let currentIndex = 0
+                  const typeTimer = setInterval(() => {
+                    if (currentIndex < targetText.length) {
+                      setTypewriterText(targetText.slice(0, currentIndex + 1))
+                      currentIndex++
+                    } else {
+                      clearInterval(typeTimer)
+                      setShowCursor(false)
+                      setPhase("talk")
+                    }
+                  }, 150)
+                }
+                typeText()
+              }, 200)
+              return prev
+            }
+          })
+        }, 100)
+      }
+      deleteText()
+    }, 4000)
     
     // Staggered chat element animation
     const chatTimer1 = setTimeout(() => {
       setShowChatElements(prev => ({ ...prev, message: true }))
-    }, 4800)
+    }, 5200)
     const chatTimer2 = setTimeout(() => {
       setShowChatElements(prev => ({ ...prev, voice: true }))
-    }, 5100)
+    }, 5500)
     const chatTimer3 = setTimeout(() => {
       setShowChatElements(prev => ({ ...prev, response: true }))
-    }, 5600)
+    }, 6000)
     const chatTimer4 = setTimeout(() => {
       setShowChatElements(prev => ({ ...prev, input: true }))
-    }, 6000)
+    }, 6400)
     
     return () => {
       clearTimeout(timer1)
-      clearTimeout(timer2)
       clearTimeout(chatTimer1)
       clearTimeout(chatTimer2)
       clearTimeout(chatTimer3)
@@ -52,14 +88,11 @@ const HeroSection = () => {
           <div className="text-center mb-12">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               <span className="relative inline-block">
-                {phase === "watch" && (
-                  <span className="animate-fade-in">Watch</span>
-                )}
-                {phase === "transitioning" && (
-                  <span className="animate-fade-out">Watch</span>
-                )}
-                {phase === "talk" && (
-                  <span className="animate-fade-in text-gradient">Talk</span>
+                <span className="text-gradient">
+                  {typewriterText}
+                </span>
+                {showCursor && (
+                  <span className="text-gradient animate-pulse ml-1">|</span>
                 )}
               </span>
               {" "}and{" "}
@@ -93,9 +126,9 @@ const HeroSection = () => {
           <div className="flex justify-center">
             <div className="relative h-80 w-full max-w-2xl">
               {/* Movie Phase */}
-              {(phase === "watch" || phase === "transitioning") && (
+              {(phase === "watch" || (phase === "transitioning" && typewriterText.length > 0)) && (
                 <div className={`h-full rounded-lg overflow-hidden shadow-movie ${
-                  phase === "transitioning" ? "animate-fade-out" : "animate-fade-in"
+                  phase === "transitioning" && typewriterText.length <= 2 ? "animate-fade-out" : "animate-fade-in"
                 }`}>
                   <img 
                     src={nikhilPoster} 
