@@ -86,17 +86,16 @@ const HeroSection = () => {
         <div className="max-w-6xl mx-auto">
           {/* Title and Description - Full Width Row */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
               <span className="relative inline-block">
-                <span className="text-gradient">
+                <span className={phase === "talk" ? "text-gradient" : ""}>
                   {typewriterText}
                 </span>
                 {showCursor && (
-                  <span className="text-gradient animate-pulse ml-1">|</span>
+                  <span className="text-primary animate-pulse ml-1">|</span>
                 )}
               </span>
-              {" "}and{" "}
-              <span className="text-gradient">Learn</span>
+              {" "}and Learn
             </h1>
             <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
               Interactive lessons delivered through characters. Personalized to each student.
