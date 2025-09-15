@@ -176,7 +176,7 @@ const HeroSection = () => {
                         className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover flex-shrink-0"
                       />
                       <div className="flex-1 min-w-0">
-                        <div className="bg-secondary text-secondary-foreground rounded-lg p-2 sm:p-3 mb-2">
+                        <div className="bg-primary brightness-75 text-primary-foreground rounded-lg p-2 sm:p-3 mb-2">
                           {/* Voice amplitude graph inside bubble */}
                           <div className={`flex items-center justify-between gap-px h-3 sm:h-4 mb-2 sm:mb-3 transition-all duration-300 ${
                             showChatElements.voice ? "opacity-100" : "opacity-0"
