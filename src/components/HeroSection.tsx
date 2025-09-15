@@ -138,7 +138,7 @@ const HeroSection = () => {
           </div>
 
           {/* Visual Content - Full Width Row */}
-          <div className="flex justify-center">
+          <div className="flex justify-center px-4 sm:px-0">
             <div className="relative h-80 w-full max-w-2xl">
               {/* Movie Phase */}
               {(phase === "watch" || (phase === "transitioning" && typewriterText.length > 0)) && (
@@ -165,20 +165,20 @@ const HeroSection = () => {
                   className="absolute inset-0 h-full transition-opacity duration-800 ease-out"
                   style={{ opacity: chatOpacity }}
                 >
-                  <div className="bg-card/80 backdrop-blur-sm rounded-lg border border-primary/20 p-6 shadow-xl shadow-primary/10 h-full flex flex-col justify-center bg-gradient-to-br from-card/90 to-card/70">
+                  <div className="bg-card/80 backdrop-blur-sm rounded-lg border border-primary/20 p-3 sm:p-6 shadow-xl shadow-primary/10 h-full flex flex-col justify-center bg-gradient-to-br from-card/90 to-card/70">
                     {/* Nikhil's message */}
-                    <div className={`flex items-start gap-4 mb-4 transition-all duration-500 ${
+                    <div className={`flex items-start gap-2 sm:gap-4 mb-3 sm:mb-4 transition-all duration-500 ${
                       showChatElements.message ? "animate-fade-in" : "opacity-0 translate-y-4"
                     }`}>
                       <img 
                         src={nikhilAvatar} 
                         alt="Nikhil avatar"
-                        className="w-12 h-12 rounded-full object-cover"
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover flex-shrink-0"
                       />
-                      <div className="flex-1">
-                        <div className="bg-primary/90 text-primary-foreground rounded-lg p-3 mb-2">
+                      <div className="flex-1 min-w-0">
+                        <div className="bg-primary/90 text-primary-foreground rounded-lg p-2 sm:p-3 mb-2">
                           {/* Voice amplitude graph inside bubble */}
-                          <div className={`flex items-center justify-between gap-px h-4 mb-3 transition-all duration-300 ${
+                          <div className={`flex items-center justify-between gap-px h-3 sm:h-4 mb-2 sm:mb-3 transition-all duration-300 ${
                             showChatElements.voice ? "opacity-100" : "opacity-0"
                           }`}>
                             {Array.from({ length: 60 }).map((_, i) => (
@@ -193,7 +193,7 @@ const HeroSection = () => {
                               />
                             ))}
                           </div>
-                          <p className="text-sm">
+                          <p className="text-xs sm:text-sm">
                             "Hey, I've been thinking about what happened in class today... Want to talk about it?"
                           </p>
                         </div>
@@ -206,12 +206,12 @@ const HeroSection = () => {
                     </div>
 
                     {/* User's response */}
-                    <div className={`flex items-start gap-4 mb-4 justify-end transition-all duration-500 ${
+                    <div className={`flex items-start gap-2 sm:gap-4 mb-3 sm:mb-4 justify-end transition-all duration-500 ${
                       showChatElements.response ? "animate-fade-in-right" : "opacity-0 translate-x-4"
                     }`}>
-                      <div className="flex-1 max-w-xs">
-                        <div className="bg-secondary/15 border border-secondary/20 rounded-lg p-3 mb-2">
-                          <p className="text-sm text-foreground">
+                      <div className="flex-1 max-w-xs sm:max-w-sm min-w-0">
+                        <div className="bg-secondary/15 border border-secondary/20 rounded-lg p-2 sm:p-3 mb-2">
+                          <p className="text-xs sm:text-sm text-foreground">
                             "I want to understand better. Can you tell me how it felt when that happened?"
                           </p>
                         </div>
@@ -221,17 +221,17 @@ const HeroSection = () => {
                           <span>You</span>
                         </div>
                       </div>
-                      <div className="w-12 h-12 bg-secondary/60 border border-secondary/50 rounded-full flex items-center justify-center">
-                        <span className="text-sm font-medium text-white">You</span>
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-secondary/60 border border-secondary/50 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs sm:text-sm font-medium text-white">You</span>
                       </div>
                     </div>
 
                     {/* Input area */}
-                    <div className={`flex items-center gap-2 text-sm text-muted-foreground bg-muted/20 border border-primary/30 rounded-lg p-3 transition-all duration-500 ${
+                    <div className={`flex items-center gap-2 text-xs sm:text-sm text-muted-foreground bg-muted/20 border border-primary/30 rounded-lg p-2 sm:p-3 transition-all duration-500 ${
                       showChatElements.input ? "animate-fade-in-up" : "opacity-0 translate-y-4"
                     }`}>
-                      <MessageCircle className="w-4 h-4 text-primary/70" />
-                      <span>Type your response or use voice chat...</span>
+                      <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4 text-primary/70 flex-shrink-0" />
+                      <span className="truncate">Type your response or use voice chat...</span>
                       <div className="ml-auto flex gap-1">
                         <div className="w-2 h-2 bg-primary rounded-full animate-pulse shadow-sm shadow-primary/30"></div>
                         <div className="w-2 h-2 bg-primary rounded-full animate-pulse shadow-sm shadow-primary/30" style={{animationDelay: '0.2s'}}></div>
