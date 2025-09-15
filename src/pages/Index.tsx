@@ -1,4 +1,5 @@
 import HeroSection from "@/components/HeroSection"
+import MovieShowcaseSection from "@/components/MovieShowcaseSection"
 import StatsAndCharactersSection from "@/components/StatsAndCharactersSection"
 import ChatExperienceSection from "@/components/ChatExperienceSection"
 import ExpertsSection from "@/components/ExpertsSection"
@@ -11,6 +12,7 @@ const Index = () => {
     <div className="overflow-y-auto">
       <ScrollProgressBar />
       <HeroSection />
+      <MovieShowcaseSection />
       <StatsAndCharactersSection />
       <ChatExperienceSection />
       <ExpertsSection />
