@@ -115,7 +115,7 @@ const MovieShowcaseSection = () => {
             </div>
 
             <div ref={charactersRef} className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 transition-all duration-1000 ${charactersVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-              {characters.map((character, index) => <div key={index} className={`group relative bg-gradient-card rounded-xl p-5 border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 hover:rotate-1 cursor-pointer ${charactersVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'}`} style={{
+              {characters.map((character, index) => <div key={index} className={`group relative bg-gradient-card rounded-xl p-5 border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 cursor-pointer ${charactersVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'}`} style={{
               transitionDelay: `${index * 200}ms`
             }}>
                   <div className="text-center">

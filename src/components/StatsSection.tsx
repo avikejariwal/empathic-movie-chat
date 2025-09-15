@@ -65,7 +65,7 @@ const StatsSection = () => {
             {stats.map((stat, index) => (
               <div 
                 key={index}
-                className={`text-center p-6 bg-gradient-card rounded-xl border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 hover:rotate-1 ${
+                className={`text-center p-6 bg-gradient-card rounded-xl border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 ${
                   statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                 }`}
                 style={{ transitionDelay: `${index * 200}ms` }}
@@ -130,7 +130,7 @@ const StatsSection = () => {
             {characters.map((character, index) => (
               <div 
                 key={index}
-                className={`group relative bg-gradient-card rounded-xl p-6 border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 hover:rotate-1 cursor-pointer ${
+                className={`group relative bg-gradient-card rounded-xl p-6 border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 cursor-pointer ${
                   charactersVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
                 }`}
                 style={{ transitionDelay: `${index * 200}ms` }}

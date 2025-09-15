@@ -44,7 +44,7 @@ const StatsAndCharactersSection = () => {
             </div>
 
             <div ref={statsRef} className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 transition-all duration-1000 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-              {stats.map((stat, index) => <div key={index} className={`text-center p-4 bg-gradient-card rounded-xl border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 hover:rotate-1 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{
+              {stats.map((stat, index) => <div key={index} className={`text-center p-4 bg-gradient-card rounded-xl border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{
               transitionDelay: `${index * 200}ms`
             }}>
                   <stat.icon className={`w-8 h-8 text-accent mx-auto mb-3 transition-all duration-500 ${statsVisible ? 'scale-100 rotate-0' : 'scale-0 rotate-180'}`} style={{

@@ -102,7 +102,7 @@ const LearningJourneySection = () => {
               {journeySteps.map((step, index) => (
                 <div 
                   key={index}
-                  className={`group relative bg-gradient-card rounded-xl p-6 border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 hover:rotate-1 ${
+                  className={`group relative bg-gradient-card rounded-xl p-6 border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 ${
                     journeyVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
                   }`}
                   style={{ transitionDelay: `${index * 150}ms` }}
