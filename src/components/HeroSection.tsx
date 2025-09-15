@@ -165,7 +165,7 @@ const HeroSection = () => {
                   className="absolute inset-0 h-full transition-opacity duration-800 ease-out"
                   style={{ opacity: chatOpacity }}
                 >
-                  <div className="bg-card/80 backdrop-blur-sm rounded-lg border border-border p-6 shadow-lg h-full flex flex-col justify-center">
+                  <div className="bg-card/80 backdrop-blur-sm rounded-lg border border-primary/20 p-6 shadow-xl shadow-primary/10 h-full flex flex-col justify-center bg-gradient-to-br from-card/90 to-card/70">
                     {/* Nikhil's message */}
                     <div className={`flex items-start gap-4 mb-4 transition-all duration-500 ${
                       showChatElements.message ? "animate-fade-in" : "opacity-0 translate-y-4"
@@ -188,7 +188,7 @@ const HeroSection = () => {
                           {Array.from({ length: 12 }).map((_, i) => (
                             <div
                               key={i}
-                              className="w-1 bg-accent/60 rounded-full animate-pulse"
+                              className="w-1 bg-primary/70 rounded-full animate-pulse shadow-sm shadow-primary/20"
                               style={{
                                 height: `${Math.random() * 16 + 4}px`,
                                 animationDelay: `${i * 0.1}s`,
@@ -210,8 +210,8 @@ const HeroSection = () => {
                       showChatElements.response ? "animate-fade-in-right" : "opacity-0 translate-x-4"
                     }`}>
                       <div className="flex-1 max-w-xs">
-                        <div className="bg-accent/10 rounded-lg p-3 mb-2">
-                          <p className="text-sm">
+                        <div className="bg-secondary/15 border border-secondary/20 rounded-lg p-3 mb-2">
+                          <p className="text-sm text-foreground">
                             "I want to understand better. Can you tell me how it felt when that happened?"
                           </p>
                         </div>
@@ -221,21 +221,21 @@ const HeroSection = () => {
                           <span>You</span>
                         </div>
                       </div>
-                      <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                        <span className="text-sm font-medium">You</span>
+                      <div className="w-12 h-12 bg-secondary/25 border border-secondary/30 rounded-full flex items-center justify-center">
+                        <span className="text-sm font-medium text-secondary">You</span>
                       </div>
                     </div>
 
                     {/* Input area */}
-                    <div className={`flex items-center gap-2 text-sm text-muted-foreground bg-muted/20 rounded-lg p-3 transition-all duration-500 ${
+                    <div className={`flex items-center gap-2 text-sm text-muted-foreground bg-muted/20 border border-primary/30 rounded-lg p-3 transition-all duration-500 ${
                       showChatElements.input ? "animate-fade-in-up" : "opacity-0 translate-y-4"
                     }`}>
-                      <MessageCircle className="w-4 h-4" />
+                      <MessageCircle className="w-4 h-4 text-primary/70" />
                       <span>Type your response or use voice chat...</span>
                       <div className="ml-auto flex gap-1">
-                        <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
-                        <div className="w-2 h-2 bg-accent rounded-full animate-pulse" style={{animationDelay: '0.2s'}}></div>
-                        <div className="w-2 h-2 bg-accent rounded-full animate-pulse" style={{animationDelay: '0.4s'}}></div>
+                        <div className="w-2 h-2 bg-primary rounded-full animate-pulse shadow-sm shadow-primary/30"></div>
+                        <div className="w-2 h-2 bg-primary rounded-full animate-pulse shadow-sm shadow-primary/30" style={{animationDelay: '0.2s'}}></div>
+                        <div className="w-2 h-2 bg-primary rounded-full animate-pulse shadow-sm shadow-primary/30" style={{animationDelay: '0.4s'}}></div>
                       </div>
                     </div>
                   </div>
