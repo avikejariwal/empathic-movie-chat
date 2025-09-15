@@ -48,6 +48,9 @@ const HeroSection = () => {
       // Only reset CTA if it has never been shown
       if (!ctaHasBeenShown) {
         setShowCTA(false)
+      } else {
+        // Keep CTA visible if it has already been shown
+        setShowCTA(true)
       }
       setContentOpacity(1)
 
