@@ -8,19 +8,19 @@ const ExpertsSection = () => {
       icon: GraduationCap,
       title: "Learning Designers",
       description: "Map competencies to CASEL-5 framework and draft measurable learning outcomes",
-      color: "text-accent"
+      color: "text-primary"
     },
     {
       icon: Brain,
       title: "Clinical Psychologists", 
       description: "Align storylines to psychological frameworks ensuring authentic emotional development",
-      color: "text-primary"
+      color: "text-secondary"
     },
     {
       icon: Lightbulb,
       title: "Expert Screenwriters",
       description: "Create engaging and emotionally resonant content that captures student attention",
-      color: "text-accent"
+      color: "text-primary"
     }
   ]
 

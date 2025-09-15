@@ -9,7 +9,7 @@ const LearningJourneySection = () => {
       title: "Watch the Movie",
       description: "AI-generated, localized short film that sets the emotional context",
       details: "Immersive storytelling with relatable characters in familiar settings",
-      color: "text-accent",
+      color: "text-primary",
       bgColor: "from-primary/20 to-secondary/20"
     },
     {
@@ -17,7 +17,7 @@ const LearningJourneySection = () => {
       title: "Engage in Conversations", 
       description: "EmpathAI guided, monitored interactions with story characters",
       details: "Safe, structured dialogue that explores emotions and perspectives",
-      color: "text-primary",
+      color: "text-secondary",
       bgColor: "from-red-500/20 to-pink-500/20"
     },
     {
@@ -25,7 +25,7 @@ const LearningJourneySection = () => {
       title: "Reflect & Assess",
       description: "Personalized exercises that deepen understanding and learning",
       details: "Thoughtful activities aligned with social-emotional learning goals",
-      color: "text-accent",
+      color: "text-primary",
       bgColor: "from-purple-500/20 to-blue-500/20"
     },
     {

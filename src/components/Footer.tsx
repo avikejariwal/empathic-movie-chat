@@ -34,12 +34,12 @@ const Footer = () => {
           {/* Contact Options */}
           <div className="grid md:grid-cols-2 gap-6 mb-12 max-w-2xl mx-auto">
             <div className="bg-card/30 backdrop-blur-sm rounded-lg p-6 border border-border">
-              <Mail className="w-8 h-8 text-accent mx-auto mb-3" />
-              <h4 className="font-semibold mb-2">Email Us</h4>
-              <p className="text-sm text-muted-foreground">hello@getsetlearn.ai</p>
-            </div>
-            <div className="bg-card/30 backdrop-blur-sm rounded-lg p-6 border border-border">
-              <Phone className="w-8 h-8 text-accent mx-auto mb-3" />
+               <Mail className="w-8 h-8 text-primary mx-auto mb-3" />
+               <h4 className="font-semibold mb-2">Email Us</h4>
+               <p className="text-sm text-muted-foreground">hello@getsetlearn.ai</p>
+             </div>
+             <div className="bg-card/30 backdrop-blur-sm rounded-lg p-6 border border-border">
+               <Phone className="w-8 h-8 text-primary mx-auto mb-3" />
               <h4 className="font-semibold mb-2">Call Us</h4>
               <p className="text-sm text-muted-foreground">+1 (555) 123-4567</p>
             </div>

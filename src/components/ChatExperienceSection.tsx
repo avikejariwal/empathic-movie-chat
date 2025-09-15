@@ -64,7 +64,7 @@ const ChatExperienceSection = () => {
                     <img src={nikhilAvatar} alt="Nikhil" className="w-10 h-10 rounded-full border border-accent" />
                     <div>
                       <h4 className="font-semibold">Nikhil Kumar</h4>
-                      <p className="text-sm text-accent">The Class Clown</p>
+                      <p className="text-sm text-primary">The Class Clown</p>
                     </div>
                   </div>
                 </div>
@@ -77,7 +77,7 @@ const ChatExperienceSection = () => {
                       <div className={`max-w-xs sm:max-w-sm lg:max-w-md ${msg.type === 'student' ? 'bg-gradient-hero text-white' : 'bg-secondary text-secondary-foreground'} rounded-lg p-2 sm:p-3 shadow-sm`}>
                          {msg.type === 'character' && <div className="flex items-center gap-2 mb-2">
                              <img src={msg.avatar} alt={msg.name} className="w-6 h-6 rounded-full" />
-                             <span className="text-xs font-medium text-accent">{msg.name}</span>
+                             <span className="text-xs font-medium text-primary">{msg.name}</span>
                            </div>}
                         <p className="text-sm sm:text-base">{msg.message}</p>
                         <p className={`text-xs mt-1 ${msg.type === 'student' ? 'text-white/70' : 'text-muted-foreground'}`}>
@@ -103,17 +103,17 @@ const ChatExperienceSection = () => {
               {/* Features */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
                 <div className="bg-card/50 backdrop-blur-sm rounded-lg p-3 border border-border">
-                  <Shield className="w-5 h-5 text-accent mb-2" />
-                  <h5 className="font-medium mb-1 text-sm">Child-Safe AI</h5>
-                  <p className="text-xs text-muted-foreground">Protected for ages 11-16</p>
-                </div>
-                <div className="bg-card/50 backdrop-blur-sm rounded-lg p-3 border border-border">
-                  <Mic className="w-5 h-5 text-accent mb-2" />
-                  <h5 className="font-medium mb-1 text-sm">Voice Chat</h5>
-                  <p className="text-xs text-muted-foreground">Authentic character voices</p>
-                </div>
-                <div className="bg-card/50 backdrop-blur-sm rounded-lg p-3 border border-border">
-                  <Users className="w-5 h-5 text-accent mb-2" />
+                   <Shield className="w-5 h-5 text-primary mb-2" />
+                   <h5 className="font-medium mb-1 text-sm">Child-Safe AI</h5>
+                   <p className="text-xs text-muted-foreground">Protected for ages 11-16</p>
+                 </div>
+                 <div className="bg-card/50 backdrop-blur-sm rounded-lg p-3 border border-border">
+                   <Mic className="w-5 h-5 text-secondary mb-2" />
+                   <h5 className="font-medium mb-1 text-sm">Voice Chat</h5>
+                   <p className="text-xs text-muted-foreground">Authentic character voices</p>
+                 </div>
+                 <div className="bg-card/50 backdrop-blur-sm rounded-lg p-3 border border-border">
+                   <Users className="w-5 h-5 text-accent mb-2" />
                   <h5 className="font-medium mb-1 text-sm">Real Emotions</h5>
                   <p className="text-xs text-muted-foreground">Genuine responses</p>
                 </div>

@@ -21,15 +21,15 @@ const StatsAndCharactersSection = () => {
   const learnerTypes = [{
     type: "Visual",
     icon: Eye,
-    color: "text-accent"
+    color: "text-primary"
   }, {
     type: "Auditory",
     icon: Headphones,
-    color: "text-primary"
+    color: "text-secondary"
   }, {
     type: "Kinesthetic",
     icon: Hand,
-    color: "text-accent"
+    color: "text-primary"
   }];
   return <section className="bg-background flex items-center justify-center py-16 lg:py-24">
       <div className="container mx-auto px-4 sm:px-6">
@@ -47,7 +47,7 @@ const StatsAndCharactersSection = () => {
               {stats.map((stat, index) => <div key={index} className={`text-center p-4 bg-gradient-card rounded-xl border border-border shadow-card hover:shadow-glow transition-all duration-700 hover:scale-105 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{
               transitionDelay: `${index * 200}ms`
             }}>
-                  <stat.icon className={`w-8 h-8 text-accent mx-auto mb-3 transition-all duration-500 ${statsVisible ? 'scale-100 rotate-0' : 'scale-0 rotate-180'}`} style={{
+                  <stat.icon className={`w-8 h-8 text-primary mx-auto mb-3 transition-all duration-500 ${statsVisible ? 'scale-100 rotate-0' : 'scale-0 rotate-180'}`} style={{
                 transitionDelay: `${index * 200 + 300}ms`
               }} />
                   <div className={`text-3xl font-bold text-gradient mb-2 transition-all duration-700 ${statsVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`} style={{

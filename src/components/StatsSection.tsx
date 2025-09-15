@@ -36,9 +36,9 @@ const StatsSection = () => {
   ]
 
   const learnerTypes = [
-    { type: "Visual", icon: Eye, color: "text-accent" },
-    { type: "Auditory", icon: Headphones, color: "text-primary" },
-    { type: "Kinesthetic", icon: Hand, color: "text-accent" },
+    { type: "Visual", icon: Eye, color: "text-primary" },
+    { type: "Auditory", icon: Headphones, color: "text-secondary" },
+    { type: "Kinesthetic", icon: Hand, color: "text-primary" },
   ]
 
   return (
@@ -70,7 +70,7 @@ const StatsSection = () => {
                 }`}
                 style={{ transitionDelay: `${index * 200}ms` }}
               >
-                <stat.icon className={`w-12 h-12 text-accent mx-auto mb-4 transition-all duration-500 ${
+                 <stat.icon className={`w-12 h-12 text-primary mx-auto mb-4 transition-all duration-500 ${
                   statsVisible ? 'scale-100 rotate-0' : 'scale-0 rotate-180'
                 }`}
                 style={{ transitionDelay: `${index * 200 + 300}ms` }}
@@ -148,7 +148,7 @@ const StatsSection = () => {
                     <div className="absolute inset-0 rounded-full bg-gradient-hero opacity-0 group-hover:opacity-20 transition-smooth" />
                   </div>
                   <h4 className="text-xl font-bold mb-1">{character.name}</h4>
-                  <p className="text-accent font-medium mb-3">{character.role}</p>
+                  <p className="text-primary font-medium mb-3">{character.role}</p>
                   <p className="text-sm text-muted-foreground">
                     {character.description}
                   </p>

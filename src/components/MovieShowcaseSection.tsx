@@ -83,7 +83,7 @@ const MovieShowcaseSection = () => {
               </div>
               <div className="text-center mt-4">
                 <h3 className="text-lg font-semibold">Available Now</h3>
-                <p className="text-accent font-medium">Featured Learning Movie</p>
+                <p className="text-primary font-medium">Featured Learning Movie</p>
               </div>
             </div>
 
@@ -126,7 +126,7 @@ const MovieShowcaseSection = () => {
                       <div className="absolute inset-0 rounded-full bg-gradient-hero opacity-0 group-hover:opacity-20 transition-smooth" />
                     </div>
                     <h4 className="text-lg font-bold mb-1 font-montserrat">{character.name}</h4>
-                    <p className="text-accent font-medium mb-2 text-sm font-opensans">{character.role}</p>
+                    <p className="text-primary font-medium mb-2 text-sm font-opensans">{character.role}</p>
                     <p className="text-xs text-muted-foreground font-opensans">
                       {character.description}
                     </p>
