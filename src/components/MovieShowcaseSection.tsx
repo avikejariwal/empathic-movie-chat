@@ -7,6 +7,16 @@ const MovieShowcaseSection = () => {
     <section className="py-16 lg:py-24 bg-background">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-foreground">
+              Experience Now!
+            </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+              Start with Nikhil, the Class Clown. Lessons on Empathy delivered through a relatable story about bullying.
+            </p>
+          </div>
+
           {/* Movie Showcase */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-center">
             {/* Coming Soon Movie 1 */}

@@ -18,6 +18,7 @@ const HeroSection = () => {
     response: false,
     input: false
   })
+  const [showCTA, setShowCTA] = useState(false)
   
   useEffect(() => {
     // Stop initial blinking before typewriter starts
@@ -87,6 +88,9 @@ const HeroSection = () => {
     const chatTimer4 = setTimeout(() => {
       setShowChatElements(prev => ({ ...prev, input: true }))
     }, 6400)
+    const ctaTimer = setTimeout(() => {
+      setShowCTA(true)
+    }, 6800)
     
     return () => {
       clearTimeout(blinkTimer)
@@ -95,6 +99,7 @@ const HeroSection = () => {
       clearTimeout(chatTimer2)
       clearTimeout(chatTimer3)
       clearTimeout(chatTimer4)
+      clearTimeout(ctaTimer)
     }
   }, [])
 
@@ -130,25 +135,6 @@ const HeroSection = () => {
             <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
               Interactive lessons delivered through characters. Personalized to each student.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="hero" size="xl" className="group">
-                <div className={`flex items-center transition-all duration-300 ${
-                  phase === "transitioning" ? "scale-95 opacity-70" : "scale-100 opacity-100"
-                }`}>
-                  {phase === "talk" ? (
-                    <>
-                      <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                      Start Conversation
-                    </>
-                  ) : (
-                    <>
-                      <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                      Watch Movie
-                    </>
-                  )}
-                </div>
-              </Button>
-            </div>
           </div>
 
           {/* Visual Content - Full Width Row */}
@@ -256,6 +242,16 @@ const HeroSection = () => {
                 </div>
               )}
             </div>
+          </div>
+
+          {/* CTA Section - Below Visual Content */}
+          <div className={`text-center mt-12 transition-all duration-500 ${
+            showCTA ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}>
+            <Button variant="hero" size="xl" className="group">
+              <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+              Start Conversation
+            </Button>
           </div>
         </div>
       </div>
