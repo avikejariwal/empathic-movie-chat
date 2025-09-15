@@ -33,10 +33,10 @@ const ChatExperienceSection = () => {
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
           <div ref={chatRef} className={`text-center mb-16 transition-all duration-1000 ${chatVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 font-montserrat">
               Talk to the Characters. <span className="text-gradient">Hear Their Voice.</span>
             </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 font-proxima">
               Students can speak with characters in real voice conversations, expressing feelings and learning from their perspectives. 
               Each conversation is protected by children-specific guardrails designed for ages 11-16 and guided by expert lesson plans.
             </p>

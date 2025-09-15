@@ -112,7 +112,7 @@ const HeroSection = () => {
         <div className="max-w-6xl mx-auto">
           {/* Title and Description - Full Width Row */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white font-montserrat">
               <span className="relative inline-block">
                 <span className={`${initialBlink && phase === "watch" ? "animate-pulse" : ""}`}>
                   {(phase === "transitioning" && typewriterText.startsWith("T")) || phase === "talk" ? (
@@ -132,7 +132,7 @@ const HeroSection = () => {
               </span>
               {" "}and Learn
             </h1>
-            <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto font-proxima">
               Interactive lessons delivered through characters. Personalized to each student.
             </p>
           </div>

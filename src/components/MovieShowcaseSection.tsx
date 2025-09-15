@@ -35,10 +35,10 @@ const MovieShowcaseSection = () => {
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-foreground">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-foreground font-montserrat">
               Experience Now!
             </h2>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto font-proxima">
               Start with Nikhil, the Class Clown. Lessons on Empathy delivered through a relatable story about bullying.
             </p>
           </div>
@@ -106,10 +106,10 @@ const MovieShowcaseSection = () => {
           {/* Character Selection */}
           <div className="mt-16">
             <div className="text-center mb-8">
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3">
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 font-montserrat">
                 Learn by stepping into their world
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground font-proxima">
                 Each perspective offers unique lessons in empathy and understanding
               </p>
             </div>
@@ -125,9 +125,9 @@ const MovieShowcaseSection = () => {
                   }} />
                       <div className="absolute inset-0 rounded-full bg-gradient-hero opacity-0 group-hover:opacity-20 transition-smooth" />
                     </div>
-                    <h4 className="text-lg font-bold mb-1">{character.name}</h4>
-                    <p className="text-accent font-medium mb-2 text-sm">{character.role}</p>
-                    <p className="text-xs text-muted-foreground">
+                    <h4 className="text-lg font-bold mb-1 font-montserrat">{character.name}</h4>
+                    <p className="text-accent font-medium mb-2 text-sm font-proxima">{character.role}</p>
+                    <p className="text-xs text-muted-foreground font-proxima">
                       {character.description}
                     </p>
                   </div>

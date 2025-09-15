@@ -37,10 +37,10 @@ const StatsAndCharactersSection = () => {
           {/* Stats Section - Top Half */}
           <div className="mb-12">
             <div className="text-center mb-10 animate-fade-in">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 font-montserrat">
                 Why <span className="text-gradient">Stories</span> Work
               </h2>
-              <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto">Studies have shown that use of visuals and stories lead to </p>
+              <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto font-proxima">Studies have shown that use of visuals and stories lead to </p>
             </div>
 
             <div ref={statsRef} className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 transition-all duration-1000 ${statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>

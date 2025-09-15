@@ -13,10 +13,10 @@ const Footer = () => {
     <footer className="bg-gradient-dark border-t border-border flex items-center justify-center py-16 lg:py-24">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 font-montserrat">
             Bring <span className="text-gradient">EmpathAI</span> to Your School
           </h2>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto font-proxima">
             Transform how your students learn empathy and social-emotional skills through interactive storytelling and AI-powered conversations.
           </p>
           

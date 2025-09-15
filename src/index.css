@@ -9,43 +9,51 @@ All colors MUST be HSL.
 @layer base {
   :root {
     --background: 0 0% 8%;
-    --foreground: 0 0% 98%;
+    --foreground: 240 100% 99%;
 
     --card: 0 0% 12%;
-    --card-foreground: 0 0% 98%;
+    --card-foreground: 240 100% 99%;
 
     --popover: 0 0% 12%;
-    --popover-foreground: 0 0% 98%;
+    --popover-foreground: 240 100% 99%;
 
-    --primary: 358 75% 59%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 170 100% 42%;
+    --primary-foreground: 240 100% 99%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 221 91% 30%;
+    --secondary-foreground: 240 100% 99%;
 
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
 
-    --accent: 12 76% 61%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 23 100% 65%;
+    --accent-foreground: 240 100% 99%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 358 75% 59%;
+    --ring: 170 100% 42%;
+    
+    /* Brand tertiary colors */
+    --tertiary-pink: 319 100% 85%;
+    --tertiary-purple: 257 100% 75%;
+    --brand-white: 240 100% 99%;
+    --brand-black: 0 0% 13%;
 
     --radius: 0.75rem;
 
-    /* Netflix-inspired gradients and custom tokens */
-    --gradient-hero: linear-gradient(135deg, hsl(358 75% 59%) 0%, hsl(12 76% 61%) 100%);
+    /* Brand gradients and custom tokens */
+    --gradient-hero: linear-gradient(135deg, hsl(170 100% 42%) 0%, hsl(221 91% 30%) 100%);
     --gradient-dark: linear-gradient(180deg, hsl(0 0% 8%) 0%, hsl(240 3.7% 15.9%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(0 0% 12%) 0%, hsl(240 3.7% 15.9%) 100%);
-    --gradient-stats: linear-gradient(135deg, hsl(12 76% 61%) 0%, hsl(358 75% 59%) 100%);
+    --gradient-stats: linear-gradient(135deg, hsl(170 100% 42%) 0%, hsl(221 91% 30%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(23 100% 65%) 0%, hsl(319 100% 85%) 100%);
+    --gradient-tertiary: linear-gradient(135deg, hsl(319 100% 85%) 0%, hsl(257 100% 75%) 100%);
     
     /* Shadows */
-    --shadow-glow: 0 0 40px hsl(358 75% 59% / 0.3);
+    --shadow-glow: 0 0 40px hsl(170 100% 42% / 0.3);
     --shadow-card: 0 10px 30px -10px hsl(0 0% 0% / 0.5);
     --shadow-movie: 0 20px 50px -15px hsl(0 0% 0% / 0.8);
     
@@ -112,6 +120,14 @@ All colors MUST be HSL.
 
   .bg-gradient-stats {
     background: var(--gradient-stats);
+  }
+
+  .bg-gradient-accent {
+    background: var(--gradient-accent);
+  }
+
+  .bg-gradient-tertiary {
+    background: var(--gradient-tertiary);
   }
 
   .shadow-glow {

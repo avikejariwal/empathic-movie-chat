@@ -57,6 +57,19 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Brand tertiary colors
+        tertiary: {
+          pink: "hsl(var(--tertiary-pink))",
+          purple: "hsl(var(--tertiary-purple))",
+        },
+        brand: {
+          white: "hsl(var(--brand-white))",
+          black: "hsl(var(--brand-black))",
+        },
+      },
+      fontFamily: {
+        montserrat: ['Montserrat', 'sans-serif'],
+        proxima: ['Proxima Nova', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -118,8 +131,8 @@ export default {
           "50%": { transform: "translateY(-10px)" }
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 20px hsl(358 75% 59% / 0.4)" },
-          "50%": { boxShadow: "0 0 40px hsl(358 75% 59% / 0.8)" }
+          "0%, 100%": { boxShadow: "0 0 20px hsl(170 100% 42% / 0.4)" },
+          "50%": { boxShadow: "0 0 40px hsl(170 100% 42% / 0.8)" }
         },
         "typewriter": {
           "0%": { width: "0%" },
