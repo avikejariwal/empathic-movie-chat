@@ -16,7 +16,7 @@ const Footer = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-6 font-montserrat">
             Bring <span className="text-gradient">EmpathAI</span> to Your School
           </h2>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto font-proxima">
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto font-opensans">
             Transform how your students learn empathy and social-emotional skills through interactive storytelling and AI-powered conversations.
           </p>
           

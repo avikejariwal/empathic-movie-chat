@@ -132,7 +132,7 @@ const HeroSection = () => {
               </span>
               {" "}and Learn
             </h1>
-            <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto font-proxima">
+            <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto font-opensans">
               Interactive lessons delivered through characters. Personalized to each student.
             </p>
           </div>

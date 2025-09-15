@@ -36,7 +36,7 @@ const ChatExperienceSection = () => {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 font-montserrat">
               Talk to the Characters. <span className="text-gradient">Hear Their Voice.</span>
             </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 font-proxima">
+            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 font-opensans">
               Students can speak with characters in real voice conversations, expressing feelings and learning from their perspectives. 
               Each conversation is protected by children-specific guardrails designed for ages 11-16 and guided by expert lesson plans.
             </p>

@@ -33,7 +33,7 @@ const ExpertsSection = () => {
             <h2 className="text-4xl md:text-5xl font-bold mb-6 font-montserrat">
               Developed by <span className="text-gradient">Experts</span> for Safe, Structured Learning
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-proxima">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-opensans">
               Our multidisciplinary team ensures every story delivers meaningful learning while maintaining safety and engagement.
             </p>
           </div>
