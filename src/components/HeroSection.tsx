@@ -6,14 +6,38 @@ import { useState, useEffect } from "react"
 
 const HeroSection = () => {
   const [phase, setPhase] = useState<"watch" | "transitioning" | "talk">("watch")
+  const [showChatElements, setShowChatElements] = useState({
+    message: false,
+    voice: false,
+    response: false,
+    input: false
+  })
   
   useEffect(() => {
-    const timer1 = setTimeout(() => setPhase("transitioning"), 3000)
-    const timer2 = setTimeout(() => setPhase("talk"), 3500)
+    const timer1 = setTimeout(() => setPhase("transitioning"), 4000)
+    const timer2 = setTimeout(() => setPhase("talk"), 4800)
+    
+    // Staggered chat element animation
+    const chatTimer1 = setTimeout(() => {
+      setShowChatElements(prev => ({ ...prev, message: true }))
+    }, 4800)
+    const chatTimer2 = setTimeout(() => {
+      setShowChatElements(prev => ({ ...prev, voice: true }))
+    }, 5100)
+    const chatTimer3 = setTimeout(() => {
+      setShowChatElements(prev => ({ ...prev, response: true }))
+    }, 5600)
+    const chatTimer4 = setTimeout(() => {
+      setShowChatElements(prev => ({ ...prev, input: true }))
+    }, 6000)
     
     return () => {
       clearTimeout(timer1)
       clearTimeout(timer2)
+      clearTimeout(chatTimer1)
+      clearTimeout(chatTimer2)
+      clearTimeout(chatTimer3)
+      clearTimeout(chatTimer4)
     }
   }, [])
 
@@ -46,17 +70,21 @@ const HeroSection = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="hero" size="xl" className="group">
-                {phase === "talk" ? (
-                  <>
-                    <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                    Start Conversation
-                  </>
-                ) : (
-                  <>
-                    <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                    Watch Movie
-                  </>
-                )}
+                <div className={`flex items-center transition-all duration-300 ${
+                  phase === "transitioning" ? "scale-95 opacity-70" : "scale-100 opacity-100"
+                }`}>
+                  {phase === "talk" ? (
+                    <>
+                      <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                      Start Conversation
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                      Watch Movie
+                    </>
+                  )}
+                </div>
               </Button>
             </div>
           </div>
@@ -87,7 +115,9 @@ const HeroSection = () => {
                 <div className="animate-fade-in h-full">
                   <div className="bg-card/80 backdrop-blur-sm rounded-lg border border-border p-6 shadow-lg h-full flex flex-col justify-center">
                     {/* Nikhil's message */}
-                    <div className="flex items-start gap-4 mb-4">
+                    <div className={`flex items-start gap-4 mb-4 transition-all duration-500 ${
+                      showChatElements.message ? "animate-fade-in" : "opacity-0 translate-y-4"
+                    }`}>
                       <img 
                         src={nikhilAvatar} 
                         alt="Nikhil avatar"
@@ -100,7 +130,9 @@ const HeroSection = () => {
                           </p>
                         </div>
                         {/* Voice amplitude graph */}
-                        <div className="flex items-center gap-1 mb-2">
+                        <div className={`flex items-center gap-1 mb-2 transition-all duration-300 ${
+                          showChatElements.voice ? "opacity-100" : "opacity-0"
+                        }`}>
                           {Array.from({ length: 12 }).map((_, i) => (
                             <div
                               key={i}
@@ -122,7 +154,9 @@ const HeroSection = () => {
                     </div>
 
                     {/* User's response */}
-                    <div className="flex items-start gap-4 mb-4 justify-end">
+                    <div className={`flex items-start gap-4 mb-4 justify-end transition-all duration-500 ${
+                      showChatElements.response ? "animate-fade-in-right" : "opacity-0 translate-x-4"
+                    }`}>
                       <div className="flex-1 max-w-xs">
                         <div className="bg-accent/10 rounded-lg p-3 mb-2">
                           <p className="text-sm">
@@ -141,7 +175,9 @@ const HeroSection = () => {
                     </div>
 
                     {/* Input area */}
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/20 rounded-lg p-3">
+                    <div className={`flex items-center gap-2 text-sm text-muted-foreground bg-muted/20 rounded-lg p-3 transition-all duration-500 ${
+                      showChatElements.input ? "animate-fade-in-up" : "opacity-0 translate-y-4"
+                    }`}>
                       <MessageCircle className="w-4 h-4" />
                       <span>Type your response or use voice chat...</span>
                       <div className="ml-auto flex gap-1">
