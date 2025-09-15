@@ -221,8 +221,8 @@ const HeroSection = () => {
                           <span>You</span>
                         </div>
                       </div>
-                      <div className="w-12 h-12 bg-secondary/25 border border-secondary/30 rounded-full flex items-center justify-center">
-                        <span className="text-sm font-medium text-secondary">You</span>
+                      <div className="w-12 h-12 bg-secondary/60 border border-secondary/50 rounded-full flex items-center justify-center">
+                        <span className="text-sm font-medium text-white">You</span>
                       </div>
                     </div>
 
