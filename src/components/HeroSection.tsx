@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 
 const HeroSection = () => {
   const [phase, setPhase] = useState<"watch" | "transitioning" | "talk" | "resetting">("watch")
+  const [contentOpacity, setContentOpacity] = useState(1)
   const [typewriterText, setTypewriterText] = useState("Watch")
   const [showCursor, setShowCursor] = useState(false)
   const [initialBlink, setInitialBlink] = useState(true)
@@ -44,6 +45,7 @@ const HeroSection = () => {
         input: false
       })
       setShowCTA(false)
+      setContentOpacity(1)
 
       // Stop initial blinking before typewriter starts
       const blinkTimer = setTimeout(() => {
@@ -127,78 +129,43 @@ const HeroSection = () => {
       }, 6800)
       cleanupTimers.push(ctaTimer)
 
-      // Start smooth reset after showing everything for 3 seconds
+      // Start simple fade-out reset after showing everything for 3 seconds
       const resetTimer = setTimeout(() => {
         setPhase("resetting")
-        setShowCTA(false)
         
-        // Fade out chat elements in reverse order with better timing
-        const hideInput = setTimeout(() => setShowChatElements(prev => ({ ...prev, input: false })), 0)
-        const hideResponse = setTimeout(() => setShowChatElements(prev => ({ ...prev, response: false })), 150)
-        const hideVoice = setTimeout(() => setShowChatElements(prev => ({ ...prev, voice: false })), 300)
-        const hideMessage = setTimeout(() => setShowChatElements(prev => ({ ...prev, message: false })), 450)
+        // Fade out the entire content div
+        setContentOpacity(0)
         
-        cleanupTimers.push(hideInput, hideResponse, hideVoice, hideMessage)
-        
-        // Start transitioning visuals back with proper coordination
-        const visualTransition = setTimeout(() => {
+        // After fade out completes, reset all states and fade back in
+        const resetStates = setTimeout(() => {
+          // Reset all states to initial "Watch" state
+          setPhase("watch")
+          setTypewriterText("Watch")
+          setShowCursor(false)
+          setInitialBlink(true)
+          setTypedLetters(0)
+          setMovieOpacity(1)
           setChatOpacity(0)
+          setShowChatElements({
+            message: false,
+            voice: false,
+            response: false,
+            input: false
+          })
+          setShowCTA(false)
           
-          // Wait for chat to fade out before showing movie
-          const movieFadeIn = setTimeout(() => {
-            setMovieOpacity(1)
-          }, 300)
-          cleanupTimers.push(movieFadeIn)
-          
-          // Start text transition with proper delay
-          const textTransition = setTimeout(() => {
-            setShowCursor(true)
+          // Fade content back in
+          const fadeInDelay = setTimeout(() => {
+            setContentOpacity(1)
             
-            const deleteBackText = () => {
-              const deleteTimer = setInterval(() => {
-                setTypewriterText(prev => {
-                  if (prev.length > 0) {
-                    const newText = prev.slice(0, -1)
-                    // Reset typed letters count when deleting "Talk"
-                    setTypedLetters(Math.max(0, newText.length))
-                    return newText
-                  } else {
-                    clearInterval(deleteTimer)
-                    // Start typing "Watch" with delay
-                    const typeStartDelay = setTimeout(() => {
-                      const typeText = () => {
-                        const targetText = "Watch"
-                        let currentIndex = 0
-                        const typeTimer = setInterval(() => {
-                          if (currentIndex < targetText.length) {
-                            setTypewriterText(targetText.slice(0, currentIndex + 1))
-                            currentIndex++
-                          } else {
-                            clearInterval(typeTimer)
-                            setShowCursor(false)
-                            setPhase("watch")
-                            setTypedLetters(0)
-                            
-                            // Schedule next animation cycle
-                            animationId = setTimeout(() => {
-                              runAnimation()
-                            }, 2000)
-                          }
-                        }, 150)
-                      }
-                      typeText()
-                    }, 300)
-                    cleanupTimers.push(typeStartDelay)
-                    return prev
-                  }
-                })
-              }, 120)
-            }
-            deleteBackText()
-          }, 600)
-          cleanupTimers.push(textTransition)
-        }, 700)
-        cleanupTimers.push(visualTransition)
+            // Schedule next animation cycle
+            animationId = setTimeout(() => {
+              runAnimation()
+            }, 2000)
+          }, 100)
+          cleanupTimers.push(fadeInDelay)
+        }, 500) // Wait for fade out to complete
+        cleanupTimers.push(resetStates)
       }, 9800)
       cleanupTimers.push(resetTimer)
     }
@@ -246,7 +213,10 @@ const HeroSection = () => {
           </div>
 
           {/* Visual Content - Full Width Row */}
-          <div className="flex justify-center px-4 sm:px-0">
+          <div 
+            className="flex justify-center px-4 sm:px-0 transition-opacity duration-500 ease-out"
+            style={{ opacity: contentOpacity }}
+          >
             <div className="relative h-80 w-full max-w-2xl">
               {/* Movie Phase */}
               {(phase === "watch" || (phase === "transitioning" && typewriterText.length > 0)) && (
@@ -350,16 +320,16 @@ const HeroSection = () => {
                 </div>
               )}
             </div>
-          </div>
 
-          {/* CTA Section - Below Visual Content */}
-          <div className={`text-center mt-12 transition-all duration-500 ${
-            showCTA ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}>
-            <Button variant="hero" size="xl" className="group">
-              <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-              Start Conversation
-            </Button>
+            {/* CTA Section - Below Visual Content */}
+            <div className={`text-center mt-12 transition-all duration-500 ${
+              showCTA ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}>
+              <Button variant="hero" size="xl" className="group">
+                <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                Start Conversation
+              </Button>
+            </div>
           </div>
         </div>
       </div>
