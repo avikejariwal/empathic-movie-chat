@@ -181,17 +181,17 @@ const HeroSection = () => {
                             "Hey, I've been thinking about what happened in class today... Want to talk about it?"
                           </p>
                           {/* Voice amplitude graph inside bubble */}
-                          <div className={`flex items-end justify-between gap-0.5 h-4 transition-all duration-300 ${
+                          <div className={`flex items-center justify-between gap-px h-4 transition-all duration-300 ${
                             showChatElements.voice ? "opacity-100" : "opacity-0"
                           }`}>
-                            {Array.from({ length: 20 }).map((_, i) => (
+                            {Array.from({ length: 35 }).map((_, i) => (
                               <div
                                 key={i}
                                 className="w-0.5 bg-primary-foreground/40 rounded-full shadow-sm transition-opacity duration-1500"
                                 style={{
                                   height: `${Math.random() * 12 + 4}px`,
-                                  animationDelay: `${i * 0.05}s`,
-                                  animation: `pulse 1.2s ease-in-out infinite ${i * 0.05}s`
+                                  animationDelay: `${i * 0.03}s`,
+                                  animation: `pulse 1.2s ease-in-out infinite ${i * 0.03}s`
                                 }}
                               />
                             ))}
