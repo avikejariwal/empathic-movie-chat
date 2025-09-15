@@ -182,17 +182,17 @@ const HeroSection = () => {
                           </p>
                         </div>
                         {/* Voice amplitude graph */}
-                        <div className={`flex items-center gap-1 mb-2 transition-all duration-300 ${
+                        <div className={`flex items-end gap-1 mb-2 h-5 transition-all duration-300 ${
                           showChatElements.voice ? "opacity-100" : "opacity-0"
                         }`}>
                           {Array.from({ length: 12 }).map((_, i) => (
                             <div
                               key={i}
-                              className="w-1 bg-primary/70 rounded-full animate-pulse shadow-sm shadow-primary/20"
+                              className="w-1 bg-primary/70 rounded-full shadow-sm shadow-primary/20 transition-opacity duration-1500"
                               style={{
                                 height: `${Math.random() * 16 + 4}px`,
                                 animationDelay: `${i * 0.1}s`,
-                                animationDuration: '1.5s'
+                                animation: `pulse 1.5s ease-in-out infinite ${i * 0.1}s`
                               }}
                             />
                           ))}
