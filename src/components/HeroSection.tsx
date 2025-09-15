@@ -67,10 +67,10 @@ const HeroSection = () => {
             </div>
 
             {/* Right: Dynamic Visual Content */}
-            <div className="relative">
+            <div className="relative h-80">
               {/* Movie Phase */}
               {(phase === "watch" || phase === "transitioning") && (
-                <div className={`aspect-video rounded-lg overflow-hidden shadow-movie ${
+                <div className={`h-full rounded-lg overflow-hidden shadow-movie ${
                   phase === "transitioning" ? "animate-fade-out" : "animate-fade-in"
                 }`}>
                   <img 
@@ -88,8 +88,8 @@ const HeroSection = () => {
 
               {/* Conversation Phase */}
               {phase === "talk" && (
-                <div className="animate-fade-in">
-                  <div className="bg-card/80 backdrop-blur-sm rounded-lg border border-border p-6 shadow-lg">
+                <div className="animate-fade-in h-full">
+                  <div className="bg-card/80 backdrop-blur-sm rounded-lg border border-border p-6 shadow-lg h-full flex flex-col justify-center">
                     <div className="flex items-start gap-4 mb-4">
                       <img 
                         src={nikhilAvatar} 
