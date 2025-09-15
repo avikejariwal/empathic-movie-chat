@@ -177,25 +177,25 @@ const HeroSection = () => {
                       />
                       <div className="flex-1">
                         <div className="bg-primary/90 text-primary-foreground rounded-lg p-3 mb-2">
-                          <p className="text-sm">
+                          <p className="text-sm mb-3">
                             "Hey, I've been thinking about what happened in class today... Want to talk about it?"
                           </p>
-                        </div>
-                        {/* Voice amplitude graph */}
-                        <div className={`flex items-end gap-1 mb-2 h-5 transition-all duration-300 ${
-                          showChatElements.voice ? "opacity-100" : "opacity-0"
-                        }`}>
-                          {Array.from({ length: 12 }).map((_, i) => (
-                            <div
-                              key={i}
-                              className="w-1 bg-primary/70 rounded-full shadow-sm shadow-primary/20 transition-opacity duration-1500"
-                              style={{
-                                height: `${Math.random() * 16 + 4}px`,
-                                animationDelay: `${i * 0.1}s`,
-                                animation: `pulse 1.5s ease-in-out infinite ${i * 0.1}s`
-                              }}
-                            />
-                          ))}
+                          {/* Voice amplitude graph inside bubble */}
+                          <div className={`flex items-end justify-center gap-1 h-4 transition-all duration-300 ${
+                            showChatElements.voice ? "opacity-100" : "opacity-0"
+                          }`}>
+                            {Array.from({ length: 20 }).map((_, i) => (
+                              <div
+                                key={i}
+                                className="flex-1 bg-primary-foreground/40 rounded-full shadow-sm transition-opacity duration-1500"
+                                style={{
+                                  height: `${Math.random() * 12 + 4}px`,
+                                  animationDelay: `${i * 0.05}s`,
+                                  animation: `pulse 1.2s ease-in-out infinite ${i * 0.05}s`
+                                }}
+                              />
+                            ))}
+                          </div>
                         </div>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <span>Nikhil</span>
