@@ -21,86 +21,113 @@ const HeroSection = () => {
   const [showCTA, setShowCTA] = useState(false)
   
   useEffect(() => {
-    // Stop initial blinking before typewriter starts
-    const blinkTimer = setTimeout(() => {
-      setInitialBlink(false)
-    }, 3500)
-    
-    const timer1 = setTimeout(() => {
-      setPhase("transitioning")
-      setShowCursor(true)
+    const runAnimation = () => {
+      // Reset all states to initial values
+      setPhase("watch")
+      setTypewriterText("Watch")
+      setShowCursor(false)
+      setInitialBlink(true)
+      setTypedLetters(0)
+      setMovieOpacity(1)
+      setChatOpacity(0)
+      setShowChatElements({
+        message: false,
+        voice: false,
+        response: false,
+        input: false
+      })
+      setShowCTA(false)
+
+      // Stop initial blinking before typewriter starts
+      const blinkTimer = setTimeout(() => {
+        setInitialBlink(false)
+      }, 3500)
       
-      // Start deleting "Watch"
-      const deleteText = () => {
-        const deleteTimer = setInterval(() => {
-          setTypewriterText(prev => {
-            if (prev.length > 0) {
-              return prev.slice(0, -1)
-            } else {
-              clearInterval(deleteTimer)
-              // Start typing "Talk"
-              setTimeout(() => {
-                const typeText = () => {
-                  const targetText = "Talk"
-                  let currentIndex = 0
-                  const typeTimer = setInterval(() => {
-                    if (currentIndex < targetText.length) {
-                      setTypewriterText(targetText.slice(0, currentIndex + 1))
-                      setTypedLetters(currentIndex + 1)
-                      
-                      // Start movie fade out when typing first letter of "Talk"
-                      if (currentIndex === 0) {
-                        setMovieOpacity(0)
+      const timer1 = setTimeout(() => {
+        setPhase("transitioning")
+        setShowCursor(true)
+        
+        // Start deleting "Watch"
+        const deleteText = () => {
+          const deleteTimer = setInterval(() => {
+            setTypewriterText(prev => {
+              if (prev.length > 0) {
+                return prev.slice(0, -1)
+              } else {
+                clearInterval(deleteTimer)
+                // Start typing "Talk"
+                setTimeout(() => {
+                  const typeText = () => {
+                    const targetText = "Talk"
+                    let currentIndex = 0
+                    const typeTimer = setInterval(() => {
+                      if (currentIndex < targetText.length) {
+                        setTypewriterText(targetText.slice(0, currentIndex + 1))
+                        setTypedLetters(currentIndex + 1)
+                        
+                        // Start movie fade out when typing first letter of "Talk"
+                        if (currentIndex === 0) {
+                          setMovieOpacity(0)
+                        }
+                        // Start chat fade in when typing second letter of "Talk"
+                        if (currentIndex === 1) {
+                          setChatOpacity(1)
+                        }
+                        
+                        currentIndex++
+                      } else {
+                        clearInterval(typeTimer)
+                        setShowCursor(false)
+                        setPhase("talk")
                       }
-                      // Start chat fade in when typing second letter of "Talk"
-                      if (currentIndex === 1) {
-                        setChatOpacity(1)
-                      }
-                      
-                      currentIndex++
-                    } else {
-                      clearInterval(typeTimer)
-                      setShowCursor(false)
-                      setPhase("talk")
-                    }
-                  }, 150)
-                }
-                typeText()
-              }, 200)
-              return prev
-            }
-          })
-        }, 100)
+                    }, 150)
+                  }
+                  typeText()
+                }, 200)
+                return prev
+              }
+            })
+          }, 100)
+        }
+        deleteText()
+      }, 4000)
+      
+      // Staggered chat element animation
+      const chatTimer1 = setTimeout(() => {
+        setShowChatElements(prev => ({ ...prev, message: true }))
+      }, 5200)
+      const chatTimer2 = setTimeout(() => {
+        setShowChatElements(prev => ({ ...prev, voice: true }))
+      }, 5500)
+      const chatTimer3 = setTimeout(() => {
+        setShowChatElements(prev => ({ ...prev, response: true }))
+      }, 6000)
+      const chatTimer4 = setTimeout(() => {
+        setShowChatElements(prev => ({ ...prev, input: true }))
+      }, 6400)
+      const ctaTimer = setTimeout(() => {
+        setShowCTA(true)
+      }, 6800)
+
+      // Loop back to start after showing everything for 3 seconds
+      const loopTimer = setTimeout(() => {
+        runAnimation()
+      }, 10000)
+      
+      return () => {
+        clearTimeout(blinkTimer)
+        clearTimeout(timer1)
+        clearTimeout(chatTimer1)
+        clearTimeout(chatTimer2)
+        clearTimeout(chatTimer3)
+        clearTimeout(chatTimer4)
+        clearTimeout(ctaTimer)
+        clearTimeout(loopTimer)
       }
-      deleteText()
-    }, 4000)
-    
-    // Staggered chat element animation
-    const chatTimer1 = setTimeout(() => {
-      setShowChatElements(prev => ({ ...prev, message: true }))
-    }, 5200)
-    const chatTimer2 = setTimeout(() => {
-      setShowChatElements(prev => ({ ...prev, voice: true }))
-    }, 5500)
-    const chatTimer3 = setTimeout(() => {
-      setShowChatElements(prev => ({ ...prev, response: true }))
-    }, 6000)
-    const chatTimer4 = setTimeout(() => {
-      setShowChatElements(prev => ({ ...prev, input: true }))
-    }, 6400)
-    const ctaTimer = setTimeout(() => {
-      setShowCTA(true)
-    }, 6800)
-    
-    return () => {
-      clearTimeout(blinkTimer)
-      clearTimeout(timer1)
-      clearTimeout(chatTimer1)
-      clearTimeout(chatTimer2)
-      clearTimeout(chatTimer3)
-      clearTimeout(chatTimer4)
-      clearTimeout(ctaTimer)
     }
+
+    const cleanup = runAnimation()
+    return cleanup
   }, [])
 
   return (
