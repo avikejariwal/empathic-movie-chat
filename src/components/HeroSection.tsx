@@ -177,11 +177,8 @@ const HeroSection = () => {
                       />
                       <div className="flex-1">
                         <div className="bg-primary/90 text-primary-foreground rounded-lg p-3 mb-2">
-                          <p className="text-sm mb-3">
-                            "Hey, I've been thinking about what happened in class today... Want to talk about it?"
-                          </p>
                           {/* Voice amplitude graph inside bubble */}
-                          <div className={`flex items-center justify-between gap-px h-4 transition-all duration-300 ${
+                          <div className={`flex items-center justify-between gap-px h-4 mb-3 transition-all duration-300 ${
                             showChatElements.voice ? "opacity-100" : "opacity-0"
                           }`}>
                             {Array.from({ length: 60 }).map((_, i) => (
@@ -196,6 +193,9 @@ const HeroSection = () => {
                               />
                             ))}
                           </div>
+                          <p className="text-sm">
+                            "Hey, I've been thinking about what happened in class today... Want to talk about it?"
+                          </p>
                         </div>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                           <span>Nikhil</span>
