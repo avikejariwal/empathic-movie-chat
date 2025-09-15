@@ -165,7 +165,7 @@ const HeroSection = () => {
                   className="absolute inset-0 h-full transition-opacity duration-800 ease-out"
                   style={{ opacity: chatOpacity }}
                 >
-                  <div className="bg-card/80 backdrop-blur-sm sm:rounded-lg sm:border sm:border-primary/20 p-1 sm:p-6 shadow-xl shadow-primary/10 h-full flex flex-col justify-center bg-gradient-to-br from-card/90 to-card/70">
+                  <div className="bg-card/80 backdrop-blur-sm sm:rounded-lg sm:border sm:border-primary/20 p-1 sm:p-6 sm:shadow-xl sm:shadow-primary/10 h-full flex flex-col justify-center bg-gradient-to-br from-card/90 to-card/70">
                     {/* Nikhil's message */}
                     <div className={`flex items-start gap-2 sm:gap-4 mb-3 sm:mb-4 transition-all duration-500 ${
                       showChatElements.message ? "animate-fade-in" : "opacity-0 translate-y-4"
