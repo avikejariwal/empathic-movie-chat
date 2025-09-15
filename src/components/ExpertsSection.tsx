@@ -71,7 +71,7 @@ const ExpertsSection = () => {
                 </div>
 
                 {/* Background glow effect */}
-                <div className="absolute inset-0 bg-gradient-hero opacity-0 group-hover:opacity-5 rounded-xl transition-smooth" />
+                <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 rounded-xl transition-smooth" />
                 
                 {/* Border glow effect */}
                 <div className="absolute inset-0 rounded-xl border border-transparent bg-gradient-hero opacity-0 group-hover:opacity-30 transition-smooth -z-10 blur-sm" />
