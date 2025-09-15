@@ -10,7 +10,7 @@ const LearningJourneySection = () => {
       description: "AI-generated, localized short film that sets the emotional context",
       details: "Immersive storytelling with relatable characters in familiar settings",
       color: "text-accent",
-      bgColor: "from-orange-500/20 to-red-500/20"
+      bgColor: "from-primary/20 to-secondary/20"
     },
     {
       icon: MessageCircle,
