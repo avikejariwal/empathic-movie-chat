@@ -44,7 +44,10 @@ const HeroSection = () => {
         response: false,
         input: false
       })
-      setShowCTA(false)
+      // Only reset CTA on the very first run
+      if (!showCTA) {
+        setShowCTA(false)
+      }
       setContentOpacity(1)
 
       // Stop initial blinking before typewriter starts
@@ -138,7 +141,7 @@ const HeroSection = () => {
         
         // After fade out completes, reset all states and fade back in
         const resetStates = setTimeout(() => {
-          // Reset all states to initial "Watch" state
+          // Reset all states to initial "Watch" state, but keep CTA visible
           setPhase("watch")
           setTypewriterText("Watch")
           setShowCursor(false)
@@ -152,7 +155,7 @@ const HeroSection = () => {
             response: false,
             input: false
           })
-          setShowCTA(false)
+          // Don't reset showCTA - keep it true once it's been shown
           
           // Fade content back in
           const fadeInDelay = setTimeout(() => {
@@ -323,16 +326,16 @@ const HeroSection = () => {
                 )}
               </div>
             </div>
+          </div>
 
-            {/* CTA Section - Below Visual Content */}
-            <div className={`text-center mt-12 transition-all duration-500 ${
-              showCTA ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}>
-              <Button variant="hero" size="xl" className="group">
-                <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                Start Conversation
-              </Button>
-            </div>
+          {/* CTA Section - Below Visual Content, stays visible after first show */}
+          <div className={`text-center mt-12 transition-all duration-500 ${
+            showCTA ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}>
+            <Button variant="hero" size="xl" className="group">
+              <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+              Start Conversation
+            </Button>
           </div>
         </div>
       </div>
