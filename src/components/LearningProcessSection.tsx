@@ -84,13 +84,12 @@ const LearningProcessSection = () => {
                     </div>
                     {index < journeySteps.length - 1 && (
                       <div className="flex-1 mx-8">
-                        <div className={`h-0.5 bg-gradient-to-r from-accent to-primary relative transition-all duration-1000 ${
-                          journeyVisible ? 'w-full' : 'w-0'
-                        }`}
-                        style={{ transitionDelay: `${index * 400 + 800}ms` }}
-                        >
-                          <ChevronRight className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-1/2 w-4 h-4 text-primary bg-background rounded-full p-0.5" />
-                        </div>
+                         <div className={`h-0.5 bg-gradient-to-r from-accent to-primary relative transition-all duration-1000 ${
+                           journeyVisible ? 'w-full' : 'w-0'
+                         }`}
+                         style={{ transitionDelay: `${index * 400 + 800}ms` }}
+                         >
+                         </div>
                       </div>
                     )}
                   </div>
