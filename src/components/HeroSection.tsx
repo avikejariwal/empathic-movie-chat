@@ -199,8 +199,8 @@ const HeroSection = () => {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground font-montserrat">
               <span className="relative inline-block">
                 <span className={`${initialBlink && phase === "watch" ? "animate-pulse" : ""}`}>
-                  {(phase === "transitioning" && typewriterText.startsWith("T")) || phase === "talk" ? (
-                    // Render each letter of "Talk" with primary color
+                  {phase === "transitioning" || phase === "talk" ? (
+                    // Apply teal color to both "Watch" deletion and "Talk" typing after transition starts
                     typewriterText.split('').map((letter, index) => (
                       <span key={index} className="text-gradient">
                         {letter}
