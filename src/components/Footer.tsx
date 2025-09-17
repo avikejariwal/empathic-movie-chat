@@ -10,7 +10,7 @@ const Footer = () => {
   ]
 
   return (
-    <footer className="bg-gradient-dark border-t border-border flex items-center justify-center py-16 lg:py-24">
+    <footer className="bg-gradient-light border-t border-border flex items-center justify-center py-16 lg:py-24">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 font-montserrat">
@@ -64,7 +64,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 border-t border-border pt-8">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-gradient-hero rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">AI</span>
+                <span className="text-primary-foreground font-bold text-sm">AI</span>
               </div>
               <div>
                 <h4 className="font-bold">EmpathAI</h4>

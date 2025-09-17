@@ -56,7 +56,7 @@ const MovieShowcaseSection = () => {
                     <p className="text-muted-foreground font-medium">Coming Soon</p>
                   </div>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 movie-overlay transition-smooth" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 movie-overlay transition-smooth" />
               </div>
             </div>
 
@@ -68,7 +68,7 @@ const MovieShowcaseSection = () => {
                   alt="Nikhil, the Class Clown movie poster"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent movie-overlay opacity-0 transition-smooth">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent movie-overlay opacity-0 transition-smooth">
                   <div className="absolute bottom-4 left-4 right-4">
                     <h3 className="text-xl font-bold mb-2">Nikhil, the Class Clown</h3>
                     <p className="text-sm text-muted-foreground mb-3">
@@ -98,7 +98,7 @@ const MovieShowcaseSection = () => {
                     <p className="text-muted-foreground font-medium">Coming Soon</p>
                   </div>
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 movie-overlay transition-smooth" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 movie-overlay transition-smooth" />
               </div>
             </div>
           </div>

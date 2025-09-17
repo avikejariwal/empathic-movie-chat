@@ -28,7 +28,7 @@ const ChatExperienceSection = () => {
     avatar: nikhilAvatar,
     name: "Nikhil"
   }];
-  return <section className="bg-gradient-dark flex items-center justify-center py-16 lg:py-24">
+  return <section className="bg-gradient-light flex items-center justify-center py-16 lg:py-24">
       <div className="container mx-auto px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
@@ -80,7 +80,7 @@ const ChatExperienceSection = () => {
                              <span className="text-xs font-medium text-primary">{msg.name}</span>
                            </div>}
                         <p className="text-sm sm:text-base">{msg.message}</p>
-                        <p className={`text-xs mt-1 ${msg.type === 'student' ? 'text-white/70' : 'text-muted-foreground'}`}>
+                        <p className={`text-xs mt-1 ${msg.type === 'student' ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>
                           {msg.time}
                         </p>
                       </div>

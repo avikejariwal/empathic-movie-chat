@@ -83,7 +83,7 @@ const ExpertsSection = () => {
           <div className="text-center mt-16">
             <div className="inline-flex items-center gap-4 bg-gradient-card rounded-full px-8 py-4 border border-border shadow-card">
               <div className="w-12 h-12 bg-gradient-hero rounded-full flex items-center justify-center shadow-glow">
-                <GraduationCap className="w-6 h-6 text-white" />
+                <GraduationCap className="w-6 h-6 text-primary-foreground" />
               </div>
               <div className="text-left">
                 <h4 className="font-semibold">CASEL-5 Framework Aligned</h4>

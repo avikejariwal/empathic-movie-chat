@@ -188,15 +188,15 @@ const HeroSection = () => {
   }, [])
 
   return (
-    <section className="bg-gradient-dark relative overflow-hidden flex items-center justify-center py-16 lg:py-24">
+    <section className="bg-gradient-light relative overflow-hidden flex items-center justify-center py-16 lg:py-24">
       {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 z-10" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/40 z-10" />
       
       <div className="container mx-auto px-4 relative z-20">
         <div className="max-w-6xl mx-auto">
           {/* Title and Description - Full Width Row */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white font-montserrat">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground font-montserrat">
               <span className="relative inline-block">
                 <span className={`${initialBlink && phase === "watch" ? "animate-pulse" : ""}`}>
                   {(phase === "transitioning" && typewriterText.startsWith("T")) || phase === "talk" ? (
@@ -240,7 +240,7 @@ const HeroSection = () => {
                       alt="Nikhil movie scene"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-center justify-center">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent flex items-center justify-center">
                       <div className="w-16 h-16 bg-primary/20 backdrop-blur-sm rounded-full flex items-center justify-center">
                         <Play className="w-8 h-8 text-primary ml-1" />
                       </div>
@@ -311,7 +311,7 @@ const HeroSection = () => {
                           </div>
                         </div>
                         <div className="w-10 h-10 sm:w-12 sm:h-12 bg-secondary/60 border border-secondary/50 rounded-full flex items-center justify-center flex-shrink-0">
-                          <span className="text-xs sm:text-sm font-medium text-white">You</span>
+                          <span className="text-xs sm:text-sm font-medium text-secondary-foreground">You</span>
                         </div>
                       </div>
 

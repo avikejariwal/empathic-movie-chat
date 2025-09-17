@@ -39,7 +39,7 @@ const LearningJourneySection = () => {
   ]
 
   return (
-    <section className="py-20 bg-gradient-dark">
+    <section className="py-20 bg-gradient-light">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
@@ -159,7 +159,7 @@ const LearningJourneySection = () => {
                   Join schools already using EmpathAI to build empathy, emotional intelligence, and social skills through the power of storytelling.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <button className="bg-gradient-hero text-white px-8 py-3 rounded-lg font-semibold shadow-glow hover:shadow-card hover:scale-105 transition-spring">
+                  <button className="bg-gradient-hero text-primary-foreground px-8 py-3 rounded-lg font-semibold shadow-glow hover:shadow-card hover:scale-105 transition-spring">
                     Start Free Trial
                   </button>
                   <button className="bg-card/50 backdrop-blur-sm text-foreground border border-border px-8 py-3 rounded-lg font-medium hover:bg-card/80 transition-smooth">
