@@ -74,7 +74,7 @@ const ChatExperienceSection = () => {
                   {sampleConversation.map((msg, index) => <div key={index} className={`flex ${msg.type === 'student' ? 'justify-end' : 'justify-start'} animate-fade-in`} style={{
                   animationDelay: `${index * 0.5}s`
                 }}>
-                      <div className={`max-w-xs sm:max-w-sm lg:max-w-md ${msg.type === 'student' ? 'bg-gradient-hero text-white' : 'bg-secondary text-secondary-foreground'} rounded-lg p-2 sm:p-3 shadow-sm`}>
+                      <div className={`max-w-xs sm:max-w-sm lg:max-w-md ${msg.type === 'student' ? 'bg-primary text-white' : 'bg-secondary text-secondary-foreground'} rounded-lg p-2 sm:p-3 shadow-sm`}>
                          {msg.type === 'character' && <div className="flex items-center gap-2 mb-2">
                              <img src={msg.avatar} alt={msg.name} className="w-6 h-6 rounded-full" />
                              <span className="text-xs font-medium text-primary">{msg.name}</span>
