@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Play, Shield, Bot, Film, MessageCircle } from "lucide-react"
-import nikhilPoster from "@/assets/nikhil-poster.jpg"
+import nikhilPoster from "@/assets/nikhil-avatar.png"
 import nikhilAvatar from "@/assets/nikhil-avatar.png"
 import { useState, useEffect } from "react"
 

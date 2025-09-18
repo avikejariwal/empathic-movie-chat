@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Play, Film } from "lucide-react"
-import nikhilPoster from "@/assets/nikhil-poster.jpg"
+import nikhilPoster from "@/assets/nikhil-avatar.png"
 import nikhilAvatar from "@/assets/nikhil-avatar.png";
 import rajatAvatar from "@/assets/rajat-avatar.png";
 import tanviAvatar from "@/assets/tanvi-avatar.png";
