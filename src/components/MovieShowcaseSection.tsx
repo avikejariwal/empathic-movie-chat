@@ -68,16 +68,18 @@ const MovieShowcaseSection = () => {
                   alt="Nikhil, the Class Clown movie poster"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent movie-overlay opacity-0 transition-smooth">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent movie-overlay opacity-0 transition-smooth">
                   <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-xl font-bold mb-2">Nikhil, the Class Clown</h3>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      Experience empathy through the eyes of a classroom bully learning the impact of his actions.
-                    </p>
-                    <Button variant="netflix" size="sm">
-                      <Play className="w-4 h-4 mr-2" />
-                      Start Learning
-                    </Button>
+                    <div className="bg-black/60 backdrop-blur-sm rounded-lg p-4">
+                      <h3 className="text-xl font-bold mb-2 text-white">Nikhil, the Class Clown</h3>
+                      <p className="text-sm text-white/80 mb-3">
+                        Experience empathy through the eyes of a classroom bully learning the impact of his actions.
+                      </p>
+                      <Button variant="netflix" size="sm">
+                        <Play className="w-4 h-4 mr-2" />
+                        Start Learning
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
