@@ -68,7 +68,7 @@ const MovieShowcaseSection = () => {
                   alt="Nikhil, the Class Clown movie poster"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent movie-overlay opacity-0 transition-smooth">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent movie-overlay opacity-0 transition-smooth rounded-lg">
                   <div className="absolute bottom-4 left-4 right-4">
                     <div className="bg-black/60 backdrop-blur-sm rounded-lg p-4">
                       <h3 className="text-xl font-bold mb-2 text-white">Nikhil, the Class Clown</h3>
