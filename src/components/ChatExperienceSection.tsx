@@ -61,7 +61,7 @@ const ChatExperienceSection = () => {
                 {/* Chat Header */}
                 <div className="bg-gradient-card border-b border-border p-4">
                   <div className="flex items-center gap-3">
-                    <img src={nikhilAvatar} alt="Nikhil" className="w-10 h-10 rounded-full border border-accent" />
+                    <img src={nikhilAvatar} alt="Nikhil" className="w-10 h-10 rounded-full border border-accent object-cover" />
                     <div>
                       <h4 className="font-semibold">Nikhil Kumar</h4>
                       <p className="text-sm text-primary">The Class Clown</p>
@@ -76,7 +76,7 @@ const ChatExperienceSection = () => {
                 }}>
                       <div className={`max-w-xs sm:max-w-sm lg:max-w-md ${msg.type === 'student' ? 'bg-primary text-white' : 'bg-secondary text-secondary-foreground'} rounded-lg p-2 sm:p-3 shadow-sm`}>
                          {msg.type === 'character' && <div className="flex items-center gap-2 mb-2">
-                             <img src={msg.avatar} alt={msg.name} className="w-6 h-6 rounded-full" />
+                             <img src={msg.avatar} alt={msg.name} className="w-6 h-6 rounded-full object-cover" />
                              <span className="text-xs font-medium text-primary">{msg.name}</span>
                            </div>}
                         <p className="text-sm sm:text-base">{msg.message}</p>
