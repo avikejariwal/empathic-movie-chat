@@ -42,21 +42,9 @@ const ChatExperienceSection = () => {
             </p>
           </div>
 
-          {/* Split Screen Layout */}
-          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Movie Scene Preview */}
-            <div className={`relative transition-all duration-700 delay-300 ${chatVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}>
-              
-              <div className="text-center mt-3 sm:mt-4 px-4 sm:px-0">
-                <Button variant="glass" size="lg" className="w-full sm:w-auto">
-                  <Play className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                  Watch Scene First
-                </Button>
-              </div>
-            </div>
-
-            {/* Chat Interface */}
-            <div className={`transition-all duration-700 delay-500 ${chatVisible ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 translate-x-8 scale-95'}`}>
+          {/* Centered Chat Interface */}
+          <div className="flex justify-center">
+            <div className={`max-w-lg w-full transition-all duration-700 delay-500 ${chatVisible ? 'opacity-100 translate-x-0 scale-100' : 'opacity-0 translate-x-8 scale-95'}`}>
               <div className="bg-card rounded-xl border border-border shadow-card overflow-hidden">
                 {/* Chat Header */}
                 <div className="bg-gradient-card border-b border-border p-4">
