@@ -23,7 +23,7 @@ const MovieShowcaseSection = () => {
     avatar: rajatAvatar,
     description: "Experience the impact of bullying from his perspective"
   }, {
-    name: "Tamanna",
+    name: "Tanvi",
     role: "The Observer",
     avatar: tanviAvatar,
     description: "Understand the bystander's role in creating change"
