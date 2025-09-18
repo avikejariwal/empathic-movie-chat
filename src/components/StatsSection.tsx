@@ -1,7 +1,7 @@
 import { Brain, Users, Eye, Headphones, Hand } from "lucide-react"
-import nikhilAvatar from "@/assets/nikhil-avatar.jpg"
-import rajatAvatar from "@/assets/rajat-avatar.jpg"
-import tamannaAvatar from "@/assets/tamanna-avatar.jpg"
+import nikhilAvatar from "@/assets/nikhil-avatar.png"
+import rajatAvatar from "@/assets/rajat-avatar.png"
+import tanviAvatar from "@/assets/tanvi-avatar.png"
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"
 
 const StatsSection = () => {
@@ -30,7 +30,7 @@ const StatsSection = () => {
     { 
       name: "Tamanna", 
       role: "The Observer", 
-      avatar: tamannaAvatar,
+      avatar: tanviAvatar,
       description: "Understand the bystander's role in creating change"
     },
   ]

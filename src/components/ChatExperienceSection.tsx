@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Shield, Users, Play, Mic } from "lucide-react";
-import nikhilAvatar from "@/assets/nikhil-avatar.jpg";
+import nikhilAvatar from "@/assets/nikhil-avatar.png";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 const ChatExperienceSection = () => {
   const {

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Play, Shield, Bot, Film, MessageCircle } from "lucide-react"
 import nikhilPoster from "@/assets/nikhil-poster.jpg"
-import nikhilAvatar from "@/assets/nikhil-avatar.jpg"
+import nikhilAvatar from "@/assets/nikhil-avatar.png"
 import { useState, useEffect } from "react"
 
 const HeroSection = () => {
