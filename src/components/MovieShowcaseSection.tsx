@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button"
 import { Play, Film } from "lucide-react"
-import { Link } from "react-router-dom"
 import nikhilPoster from "@/assets/nikhil-avatar.png"
 import nikhilAvatar from "@/assets/nikhil-avatar.png";
 import rajatAvatar from "@/assets/rajat-avatar.png";
@@ -76,12 +75,10 @@ const MovieShowcaseSection = () => {
                       <p className="text-sm text-white/80 mb-3">
                         Experience empathy through the eyes of a classroom bully learning the impact of his actions.
                       </p>
-                      <Link to="/demo">
-                        <Button variant="netflix" size="sm">
-                          <Play className="w-4 h-4 mr-2" />
-                          Start Learning
-                        </Button>
-                      </Link>
+                      <Button variant="netflix" size="sm">
+                        <Play className="w-4 h-4 mr-2" />
+                        Start Learning
+                      </Button>
                     </div>
                   </div>
                 </div>
