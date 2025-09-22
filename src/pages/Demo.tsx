@@ -1,4 +1,5 @@
 import Header from "@/components/Header"
+import ChatDemo from "@/components/ChatDemo"
 
 const Demo = () => {
   return (
@@ -8,12 +9,13 @@ const Demo = () => {
           <Header />
         </div>
         <div className="container mx-auto px-4 py-16">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold mb-4 font-montserrat">Demo Page</h1>
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold mb-4 font-montserrat">Chat with Nikhil</h1>
             <p className="text-lg text-muted-foreground font-opensans">
-              Welcome to the demo experience
+              Experience interactive learning through conversation
             </p>
           </div>
+          <ChatDemo />
         </div>
       </div>
     </div>
