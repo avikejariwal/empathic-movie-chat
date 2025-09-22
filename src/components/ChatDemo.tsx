@@ -118,7 +118,7 @@ const ChatDemo = () => {
       <Card className="h-[600px] flex flex-col border-primary/20 shadow-glow">
 
         {/* Messages Area */}
-        <CardContent className="flex-1 overflow-y-auto p-4 space-y-4">
+        <CardContent className="flex-1 overflow-y-auto p-6 space-y-6 bg-gradient-to-b from-background/50 to-background backdrop-blur-sm">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -134,29 +134,29 @@ const ChatDemo = () => {
               
               <div className={`max-w-xs lg:max-w-md ${message.sender === 'user' ? 'order-first' : ''}`}>
                 <div
-                  className={`p-3 rounded-lg ${
+                  className={`p-4 rounded-2xl shadow-sm backdrop-blur-sm transition-all duration-200 hover:shadow-md ${
                     message.sender === 'user'
-                      ? 'bg-primary text-primary-foreground ml-auto'
-                      : 'bg-card border border-primary/20'
+                      ? 'bg-primary text-primary-foreground ml-auto shadow-primary/20'
+                      : 'bg-card/80 border border-primary/10 shadow-card/30'
                   }`}
                 >
-                  <p className="text-sm font-opensans">{message.content}</p>
+                  <p className="text-sm font-opensans leading-relaxed">{message.content}</p>
                   
                   {message.sender === 'nikhil' && (
-                    <div className="flex items-center gap-2 mt-2">
+                    <div className="flex items-center gap-2 mt-3 pt-2 border-t border-primary/10">
                       <Button
                         size="sm"
                         variant="ghost"
-                        className="h-6 w-6 p-0 hover:bg-primary/10"
+                        className="h-7 w-7 p-0 rounded-full hover:bg-primary/10 transition-colors"
                         onClick={() => playTextToSpeech(message.content, message.id)}
                       >
                         {playingAudio === message.id ? (
-                          <Pause className="w-3 h-3" />
+                          <Pause className="w-3 h-3 text-primary" />
                         ) : (
-                          <Volume2 className="w-3 h-3" />
+                          <Volume2 className="w-3 h-3 text-primary" />
                         )}
                       </Button>
-                      <span className="text-xs text-muted-foreground">
+                      <span className="text-xs text-muted-foreground font-medium">
                         {message.timestamp}
                       </span>
                     </div>
@@ -164,7 +164,7 @@ const ChatDemo = () => {
                 </div>
                 
                 {message.sender === 'user' && (
-                  <p className="text-xs text-muted-foreground text-right mt-1">
+                  <p className="text-xs text-muted-foreground text-right mt-2 font-medium">
                     {message.timestamp}
                   </p>
                 )}
