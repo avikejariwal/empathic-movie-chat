@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -50,9 +50,21 @@ const ChatDemo = () => {
 
   const [newMessage, setNewMessage] = useState('')
   const [playingAudio, setPlayingAudio] = useState<string | null>(null)
+  const [lastPlayedMessage, setLastPlayedMessage] = useState<string | null>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
 
-  const playTextToSpeech = async (text: string, messageId: string) => {
+  // Auto-play latest message when messages change
+  useEffect(() => {
+    const latestMessage = messages[messages.length - 1]
+    if (latestMessage && latestMessage.id !== lastPlayedMessage) {
+      setLastPlayedMessage(latestMessage.id)
+      setTimeout(() => {
+        playTextToSpeech(latestMessage.content, latestMessage.id, latestMessage.sender)
+      }, 500) // Small delay to allow UI to update
+    }
+  }, [messages, lastPlayedMessage])
+
+  const playTextToSpeech = async (text: string, messageId: string, sender?: 'user' | 'nikhil') => {
     if (playingAudio === messageId) {
       setPlayingAudio(null)
       if (audioRef.current) {
@@ -64,8 +76,11 @@ const ChatDemo = () => {
     try {
       setPlayingAudio(messageId)
       
+      // Use different voices for different senders
+      const voiceId = sender === 'user' ? 'EXAVITQu4vr4xnSDxMaL' : '9BWtsMINqrJLrRacOk9x' // Sarah for user, Aria for Nikhil
+      
       // Mock audio generation - in real implementation this would use ElevenLabs API
-      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/9BWtsMINqrJLrRacOk9x`, {
+      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
         method: 'POST',
         headers: {
           'Accept': 'audio/mpeg',
@@ -148,7 +163,7 @@ const ChatDemo = () => {
                         size="sm"
                         variant="ghost"
                         className="h-7 w-7 p-0 rounded-full hover:bg-primary/10 transition-colors"
-                        onClick={() => playTextToSpeech(message.content, message.id)}
+                        onClick={() => playTextToSpeech(message.content, message.id, message.sender)}
                       >
                         {playingAudio === message.id ? (
                           <Pause className="w-3 h-3 text-primary" />
