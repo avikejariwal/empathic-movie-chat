@@ -63,30 +63,27 @@ const MovieShowcaseSection = () => {
 
             {/* Featured Movie - Nikhil */}
             <div className="movie-card relative group order-1 md:order-2">
-              <div className="aspect-video rounded-lg overflow-hidden shadow-movie relative">
+              <div className="aspect-video rounded-lg overflow-hidden shadow-movie">
                 <img 
                   src={nikhilPoster} 
                   alt="Nikhil, the Class Clown movie poster"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent movie-overlay opacity-0 transition-smooth rounded-lg pointer-events-none">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent movie-overlay opacity-0 transition-smooth rounded-lg">
                   <div className="absolute bottom-4 left-4 right-4">
                     <div className="bg-black/60 backdrop-blur-sm rounded-lg p-4">
                       <h3 className="text-xl font-bold mb-2 text-white">Nikhil, the Class Clown</h3>
                       <p className="text-sm text-white/80 mb-3">
                         Experience empathy through the eyes of a classroom bully learning the impact of his actions.
                       </p>
+                      <Link to="/demo">
+                        <Button variant="netflix" size="sm">
+                          <Play className="w-4 h-4 mr-2" />
+                          Start Learning
+                        </Button>
+                      </Link>
                     </div>
                   </div>
-                </div>
-                {/* Always visible play button */}
-                <div className="absolute inset-0 flex items-center justify-center z-10">
-                  <Link to="/demo">
-                    <Button variant="hero" size="lg" className="shadow-glow hover:scale-110 transition-spring">
-                      <Play className="w-5 h-5 mr-2" />
-                      Start Learning
-                    </Button>
-                  </Link>
                 </div>
               </div>
               <div className="text-center mt-4">
