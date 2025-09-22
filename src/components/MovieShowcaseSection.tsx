@@ -63,7 +63,7 @@ const MovieShowcaseSection = () => {
 
             {/* Featured Movie - Nikhil */}
             <div className="movie-card relative group order-1 md:order-2">
-              <div className="aspect-video rounded-lg overflow-hidden shadow-movie">
+              <div className="aspect-video rounded-lg overflow-hidden shadow-movie relative">
                 <img 
                   src={nikhilPoster} 
                   alt="Nikhil, the Class Clown movie poster"
@@ -76,14 +76,17 @@ const MovieShowcaseSection = () => {
                       <p className="text-sm text-white/80 mb-3">
                         Experience empathy through the eyes of a classroom bully learning the impact of his actions.
                       </p>
-                      <Link to="/demo">
-                        <Button variant="netflix" size="sm">
-                          <Play className="w-4 h-4 mr-2" />
-                          Start Learning
-                        </Button>
-                      </Link>
                     </div>
                   </div>
+                </div>
+                {/* Always visible play button */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Link to="/demo">
+                    <Button variant="hero" size="lg" className="shadow-glow hover:scale-110 transition-spring">
+                      <Play className="w-5 h-5 mr-2" />
+                      Start Learning
+                    </Button>
+                  </Link>
                 </div>
               </div>
               <div className="text-center mt-4">
