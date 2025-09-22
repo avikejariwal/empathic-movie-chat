@@ -116,21 +116,6 @@ const ChatDemo = () => {
   return (
     <div className="max-w-4xl mx-auto">
       <Card className="h-[600px] flex flex-col border-primary/20 shadow-glow">
-        {/* Chat Header */}
-        <div className="flex items-center gap-3 p-4 border-b border-primary/20 bg-gradient-card">
-          <img 
-            src={nikhilAvatar} 
-            alt="Nikhil avatar"
-            className="w-12 h-12 rounded-full object-cover border-2 border-primary"
-          />
-          <div>
-            <h3 className="font-bold font-montserrat">Nikhil</h3>
-            <p className="text-sm text-primary font-opensans">Learning Companion</p>
-          </div>
-          <div className="ml-auto">
-            <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
-          </div>
-        </div>
 
         {/* Messages Area */}
         <CardContent className="flex-1 overflow-y-auto p-4 space-y-4">
