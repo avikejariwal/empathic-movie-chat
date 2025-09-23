@@ -13,8 +13,8 @@ const Demo = () => {
         </div>
         <div className="container mx-auto px-4 py-4 md:py-16">
           <div className="text-center mb-2 md:mb-8">
-            <h1 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4 font-montserrat">Start the conversation</h1>
-            <p className="text-base md:text-lg text-muted-foreground font-opensans">
+            <h1 className="text-xl md:text-4xl font-bold mb-2 md:mb-4 font-montserrat">Start the conversation</h1>
+            <p className="text-sm md:text-lg text-muted-foreground font-opensans">
               Experience interactive learning through conversation
             </p>
           </div>
