@@ -8,7 +8,7 @@ const Demo = () => {
         <div className="w-full">
           <Header />
         </div>
-        <div className="container mx-auto px-4 py-4 md:py-16">
+        <div className="container mx-auto px-4 py-4">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold mb-4 font-montserrat">Start the conversation</h1>
             <p className="text-lg text-muted-foreground font-opensans">
