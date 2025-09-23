@@ -240,7 +240,7 @@ const ChatDemo = () => {
             </Button>
           </div>
           <p className="text-xs text-muted-foreground mt-2 font-opensans">
-            Messages are automatically read aloud for both you and Nikhil
+            Messages are automatically read aloud for both you and AI agent
           </p>
         </div>
       </Card>
