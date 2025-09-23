@@ -184,7 +184,19 @@ const ChatDemo = () => {
                       }`}
                     >
                       <p className="text-sm font-opensans leading-relaxed">{message.content}</p>
-                      
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => playTextToSpeech(message.content, message.id, message.sender)}
+                        className="mt-2 h-7 px-2 text-xs hover:bg-primary/10"
+                      >
+                        {playingAudio === message.id ? (
+                          <Pause className="w-3 h-3 mr-1" />
+                        ) : (
+                          <Volume2 className="w-3 h-3 mr-1" />
+                        )}
+                        {playingAudio === message.id ? 'Pause' : 'Speak'}
+                      </Button>
                     </div>
                     
                     {message.sender === 'nikhil' && (
