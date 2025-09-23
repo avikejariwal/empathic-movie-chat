@@ -297,7 +297,7 @@ const ChatDemo = () => {
         </CardContent>
 
         {/* Message Input */}
-        <div className="p-4 border-t border-primary/20 bg-gradient-card">
+        <div className="p-4 border-t border-primary/20 bg-background">
           <div className="flex gap-2">
             <Input
               value={newMessage}
