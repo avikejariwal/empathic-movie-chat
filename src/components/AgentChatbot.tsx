@@ -18,14 +18,14 @@ const AgentChatbot = ({ isTalking = false }: AgentChatbotProps) => {
         
         {/* Main avatar container */}
         <div className="relative bg-gradient-to-br from-primary to-secondary p-1 rounded-full shadow-glow">
-          <div className="bg-background rounded-full p-2">
-            <Avatar className="w-24 h-24 md:w-32 md:h-32">
+          <div className="bg-background rounded-full p-1 md:p-2">
+            <Avatar className="w-16 h-16 md:w-32 md:h-32">
               <AvatarImage 
                 src={nikhilAvatar} 
                 alt="Nikhil - AI Learning Assistant"
                 className="object-cover"
               />
-              <AvatarFallback className="bg-primary/10 text-primary text-xl md:text-2xl font-semibold">
+              <AvatarFallback className="bg-primary/10 text-primary text-lg md:text-2xl font-semibold">
                 N
               </AvatarFallback>
             </Avatar>
