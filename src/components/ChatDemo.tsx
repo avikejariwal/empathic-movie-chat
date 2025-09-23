@@ -16,7 +16,18 @@ interface Message {
 }
 
 const ChatDemo = () => {
-  const [messages, setMessages] = useState<Message[]>([])
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: 'initial-greeting',
+      content: "Hello! 😊 I'm excited to chat with you.\n\nWhich character from the movie would you like to interact with today—Rajat, Nikhil, or Tanvi?\n\nJust let me know your choice, and we can dive right into their world together!",
+      sender: 'nikhil',
+      timestamp: new Date().toLocaleTimeString('en-US', { 
+        hour: 'numeric', 
+        minute: '2-digit',
+        hour12: true 
+      })
+    }
+  ])
 
   const [newMessage, setNewMessage] = useState('')
   const [playingAudio, setPlayingAudio] = useState<string | null>(null)
