@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { Input } from "@/components/ui/input"
 import { Avatar } from "@/components/ui/avatar"
-import { Play, Pause, Send, Volume2 } from "lucide-react"
+import { Play, Pause, Send, Volume2, Mic, MicOff } from "lucide-react"
 import nikhilAvatar from "@/assets/nikhil-avatar.png"
 import { sendMessageToMockApi } from "@/services/mockChatApi"
 
@@ -36,7 +36,36 @@ const ChatDemo = () => {
   const [lastPlayedMessage, setLastPlayedMessage] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [voiceResponsesEnabled, setVoiceResponsesEnabled] = useState(true)
+  const [isRecording, setIsRecording] = useState(false)
+  const [recognition, setRecognition] = useState<any>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
+
+  // Initialize speech recognition
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      const speechRecognition = new SpeechRecognition();
+      speechRecognition.continuous = false;
+      speechRecognition.interimResults = false;
+      speechRecognition.lang = 'en-US';
+      
+      speechRecognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setNewMessage(transcript);
+        setIsRecording(false);
+      };
+      
+      speechRecognition.onerror = () => {
+        setIsRecording(false);
+      };
+      
+      speechRecognition.onend = () => {
+        setIsRecording(false);
+      };
+      
+      setRecognition(speechRecognition);
+    }
+  }, []);
 
   // Auto-play latest AI message when messages change (excluding user messages and initial greeting)
   useEffect(() => {
@@ -128,6 +157,20 @@ const ChatDemo = () => {
     }
   }
 
+
+  const startRecording = () => {
+    if (recognition && !isRecording) {
+      setIsRecording(true);
+      recognition.start();
+    }
+  };
+
+  const stopRecording = () => {
+    if (recognition && isRecording) {
+      recognition.stop();
+      setIsRecording(false);
+    }
+  };
 
   const handleSendMessage = async () => {
     if (newMessage?.trim() && !isLoading) {
@@ -284,11 +327,22 @@ const ChatDemo = () => {
                 <Input
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
-                  placeholder="Type your message..."
+                  placeholder="Type your message or use voice..."
                   className="h-12 pr-4 pl-4 border-primary/20 focus:border-primary shadow-sm hover:shadow-md transition-all duration-200 bg-card/50 backdrop-blur-sm text-base rounded-xl"
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                 />
               </div>
+              
+              {/* Voice Recording Button */}
+              <Button 
+                onClick={isRecording ? stopRecording : startRecording}
+                size="icon"
+                variant={isRecording ? "destructive" : "outline"}
+                className="h-12 w-12 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
+                disabled={isLoading || !recognition}
+              >
+                {isRecording ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+              </Button>
               
               {/* Send Button */}
               <Button 
@@ -304,7 +358,8 @@ const ChatDemo = () => {
             {/* Enhanced Status Text */}
             <div className="flex items-center justify-center">
               <p className="text-xs text-muted-foreground font-medium text-center px-4 py-2 rounded-full bg-muted/30 backdrop-blur-sm">
-                💬 {voiceResponsesEnabled ? 'Voice responses enabled' : 'Voice responses disabled'} • Press Enter to send
+                💬 {voiceResponsesEnabled ? 'Voice responses enabled' : 'Voice responses disabled'} • 
+                {isRecording ? '🎤 Recording...' : '🎤 Tap mic to record'} • Press Enter to send
               </p>
             </div>
           </div>
