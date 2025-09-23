@@ -128,47 +128,61 @@ const ChatDemo = () => {
     try {
       setPlayingAudio(messageId)
       
-      // Use different voices for different senders
-      const voiceId = sender === 'user' ? 'EXAVITQu4vr4xnSDxMaL' : '9BWtsMINqrJLrRacOk9x' // Sarah for user, Aria for Nikhil
+      // Use browser speech synthesis (no API key needed)
+      const utterance = new SpeechSynthesisUtterance(text)
       
-      // Mock audio generation - in real implementation this would use ElevenLabs API
-      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'audio/mpeg',
-          'Content-Type': 'application/json',
-          'xi-api-key': process.env.ELEVENLABS_API_KEY || ''
-        },
-        body: JSON.stringify({
-          text: text,
-          model_id: "eleven_multilingual_v2",
-          voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.5
+      // Wait for voices to load
+      let voices = speechSynthesis.getVoices()
+      if (voices.length === 0) {
+        await new Promise(resolve => {
+          speechSynthesis.onvoiceschanged = () => {
+            voices = speechSynthesis.getVoices()
+            resolve(voices)
           }
         })
-      })
-
-      if (response.ok) {
-        const audioBlob = await response.blob()
-        const audioUrl = URL.createObjectURL(audioBlob)
-        
-        if (audioRef.current) {
-          audioRef.current.src = audioUrl
-          audioRef.current.play()
-          audioRef.current.onended = () => setPlayingAudio(null)
-        }
-      } else {
-        // Fallback to browser speech synthesis for demo
-        const utterance = new SpeechSynthesisUtterance(text)
-        utterance.onend = () => setPlayingAudio(null)
-        speechSynthesis.speak(utterance)
       }
-    } catch (error) {
-      console.log('Using fallback speech synthesis')
-      const utterance = new SpeechSynthesisUtterance(text)
+      
+      // Configure voice based on sender
+      if (voices.length > 0) {
+        // Try to find appropriate voices
+        const femaleVoice = voices.find(voice => 
+          voice.name.toLowerCase().includes('female') || 
+          voice.name.toLowerCase().includes('woman') ||
+          voice.name.toLowerCase().includes('samantha') ||
+          voice.name.toLowerCase().includes('victoria') ||
+          voice.name.toLowerCase().includes('susan')
+        )
+        const maleVoice = voices.find(voice => 
+          voice.name.toLowerCase().includes('male') || 
+          voice.name.toLowerCase().includes('man') ||
+          voice.name.toLowerCase().includes('daniel') ||
+          voice.name.toLowerCase().includes('alex') ||
+          voice.name.toLowerCase().includes('fred')
+        )
+        
+        if (sender === 'user' && femaleVoice) {
+          utterance.voice = femaleVoice
+        } else if (sender === 'nikhil' && maleVoice) {
+          utterance.voice = maleVoice
+        } else {
+          // Use default voice or first available
+          utterance.voice = voices[0]
+        }
+      }
+      
+      // Configure speech settings
+      utterance.rate = 0.9
+      utterance.pitch = sender === 'user' ? 1.1 : 0.9
+      utterance.volume = 0.8
+      
       utterance.onend = () => setPlayingAudio(null)
+      utterance.onerror = () => setPlayingAudio(null)
+      
       speechSynthesis.speak(utterance)
+      
+    } catch (error) {
+      console.log('Speech synthesis error:', error)
+      setPlayingAudio(null)
     }
   }
 
