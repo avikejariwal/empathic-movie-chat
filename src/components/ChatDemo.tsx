@@ -45,6 +45,7 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
   const [recognition, setRecognition] = useState<any>(null)
   const [hasPlayedInitial, setHasPlayedInitial] = useState(false)
   const audioRef = useRef<HTMLAudioElement>(null)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
 
   // Initialize speech recognition
   useEffect(() => {
@@ -90,6 +91,11 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
       }, delay) // Longer delay for initial greeting
     }
   }, [messages, lastPlayedMessage, voiceResponsesEnabled])
+
+  // Auto-scroll to latest message
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
 
   // Auto-play initial greeting on component mount
   useEffect(() => {
@@ -333,6 +339,8 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
               )}
             </>
           )}
+          {/* Invisible div to enable auto-scrolling */}
+          <div ref={messagesEndRef} />
         </CardContent>
 
         {/* Press-to-Talk Section */}
