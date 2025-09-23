@@ -169,23 +169,13 @@ All colors MUST be HSL.
     animation-delay: 0.4s;
   }
 
-  /* Talking animations */
-  @keyframes talking {
+  /* Communication animation */
+  @keyframes communicate {
     0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+    50% { transform: scale(1.08); }
   }
 
-  @keyframes talking-avatar {
-    0%, 100% { transform: scale(1); }
-    25% { transform: scale(1.02); }
-    75% { transform: scale(0.98); }
-  }
-
-  .animate-talking {
-    animation: talking 0.6s ease-in-out infinite;
-  }
-
-  .animate-talking-avatar {
-    animation: talking-avatar 0.8s ease-in-out infinite;
+  .animate-communicate {
+    animation: communicate 0.8s ease-in-out infinite;
   }
 }
