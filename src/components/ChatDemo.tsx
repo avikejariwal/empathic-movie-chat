@@ -77,11 +77,12 @@ const ChatDemo = () => {
           setNewMessage(transcript)
           setIsRecording(false)
           // Auto-send the message when recording finishes
-          setTimeout(() => {
-            if (transcript.trim()) {
-              handleSendMessage()
-            }
-          }, 100)
+          if (transcript.trim()) {
+            // Create the message directly since state update might not be immediate
+            setTimeout(() => {
+              sendVoiceMessage(transcript)
+            }, 200)
+          }
         } else {
           // Show interim results in the input
           setNewMessage(transcript)
@@ -189,6 +190,46 @@ const ChatDemo = () => {
     } catch (error) {
       console.log('Speech synthesis error:', error)
       setPlayingAudio(null)
+    }
+  }
+
+  const sendVoiceMessage = async (messageText: string) => {
+    if (messageText?.trim() && !isLoading) {
+      const userMessage: Message = {
+        id: Date.now().toString(),
+        content: messageText,
+        sender: 'user',
+        timestamp: new Date().toLocaleTimeString('en-US', { 
+          hour: 'numeric', 
+          minute: '2-digit',
+          hour12: true 
+        })
+      }
+      
+      // Add user message immediately
+      setMessages(prev => [...prev, userMessage])
+      setNewMessage('')
+      setIsLoading(true)
+      
+      try {
+        // Get response from mock API
+        const response = await sendMessageToMockApi(messageText)
+        
+        const nikhilMessage: Message = {
+          id: response.id,
+          content: response.content,
+          sender: 'nikhil',
+          timestamp: response.timestamp,
+          audioUrl: response.audioUrl
+        }
+        
+        // Add Nikhil's response
+        setMessages(prev => [...prev, nikhilMessage])
+      } catch (error) {
+        console.error('Failed to get response:', error)
+      } finally {
+        setIsLoading(false)
+      }
     }
   }
 
