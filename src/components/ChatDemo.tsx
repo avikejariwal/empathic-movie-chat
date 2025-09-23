@@ -311,7 +311,7 @@ const ChatDemo = () => {
               onClick={toggleVoiceRecording}
               size="icon"
               variant={isRecording ? "destructive" : "outline"}
-              className={isRecording ? "animate-pulse" : ""}
+              className={`${isRecording ? "animate-pulse" : ""} hover:bg-secondary hover:text-secondary-foreground hover:border-secondary transition-smooth`}
               disabled={isLoading}
               title={isRecording ? "Stop recording" : "Start voice recording"}
             >
