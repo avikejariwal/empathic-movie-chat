@@ -343,7 +343,7 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
         </CardContent>
 
         {/* Press-to-Talk Section */}
-        <div className="p-6 border-t border-primary/10 bg-white md:bg-gradient-to-t md:from-card/50 md:to-background backdrop-blur-sm md:relative fixed bottom-0 left-0 right-0 md:bottom-auto md:left-auto md:right-auto">
+        <div className="p-6 border-t border-primary/10 bg-white md:bg-gradient-to-t md:from-card/50 md:to-background backdrop-blur-sm fixed bottom-0 left-0 right-0">
           <div className="flex flex-col items-center justify-center space-y-4">
             {/* Recording Animation Rings */}
             <div className="relative">
