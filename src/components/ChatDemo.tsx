@@ -169,6 +169,12 @@ const ChatDemo = () => {
                   
                 </div>
                 
+                {message.sender === 'nikhil' && (
+                  <p className="text-xs text-muted-foreground text-left mt-2 font-medium">
+                    {message.timestamp}
+                  </p>
+                )}
+                
                 {message.sender === 'user' && (
                   <p className="text-xs text-muted-foreground text-right mt-2 font-medium">
                     {message.timestamp}
