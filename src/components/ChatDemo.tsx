@@ -16,14 +16,7 @@ interface Message {
 }
 
 const ChatDemo = () => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      content: "Hey Nikhil, I've been thinking about what happened in class today... I think I need to talk about it.",
-      sender: 'user',
-      timestamp: '2:30 PM'
-    }
-  ])
+  const [messages, setMessages] = useState<Message[]>([])
 
   const [newMessage, setNewMessage] = useState('')
   const [playingAudio, setPlayingAudio] = useState<string | null>(null)
@@ -144,70 +137,86 @@ const ChatDemo = () => {
 
         {/* Messages Area */}
         <CardContent className="flex-1 overflow-y-auto p-6 space-y-6 bg-gradient-to-b from-background/50 to-background backdrop-blur-sm">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex gap-3 ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
-              {message.sender === 'nikhil' && (
-                <img 
-                  src={nikhilAvatar} 
-                  alt="Nikhil"
-                  className="w-11 h-11 rounded-full object-cover flex-shrink-0"
-                />
-              )}
-              
-              <div className={`max-w-xs lg:max-w-md ${message.sender === 'user' ? 'order-first' : ''}`}>
-                <div
-                  className={`p-4 rounded-2xl shadow-sm backdrop-blur-sm transition-all duration-200 hover:shadow-md ${
-                    message.sender === 'user'
-                      ? 'bg-primary text-primary-foreground ml-auto shadow-primary/20'
-                      : 'bg-card/80 border border-primary/10 shadow-card/30'
-                  }`}
-                >
-                  <p className="text-sm font-opensans leading-relaxed">{message.content}</p>
-                  
+          {messages.length === 0 ? (
+            <div className="flex items-center justify-center h-full">
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
+                  <Send className="w-8 h-8 text-primary/60" />
                 </div>
-                
-                {message.sender === 'nikhil' && (
-                  <p className="text-xs text-muted-foreground text-left mt-2 font-medium">
-                    {message.timestamp}
-                  </p>
-                )}
-                
-                {message.sender === 'user' && (
-                  <p className="text-xs text-muted-foreground text-right mt-2 font-medium">
-                    {message.timestamp}
-                  </p>
-                )}
+                <div className="space-y-2">
+                  <h3 className="text-lg font-montserrat font-semibold text-foreground">No messages yet</h3>
+                  <p className="text-sm text-muted-foreground font-opensans">Start typing to begin the conversation!</p>
+                </div>
               </div>
-
-              {message.sender === 'user' && (
-                <div className="w-11 h-11 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
-                  <span className="text-xs font-medium text-white">You</span>
-                </div>
-              )}
             </div>
-          ))}
-          
-          {/* Loading indicator */}
-          {isLoading && (
-            <div className="flex gap-3 justify-start">
-              <img 
-                src={nikhilAvatar} 
-                alt="Nikhil"
-                className="w-11 h-11 rounded-full object-cover flex-shrink-0"
-              />
-              <div className="max-w-xs lg:max-w-md">
-                <div className="p-4 rounded-2xl shadow-sm backdrop-blur-sm bg-card/80 border border-primary/10 shadow-card/30">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+          ) : (
+            <>
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`flex gap-3 ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  {message.sender === 'nikhil' && (
+                    <img 
+                      src={nikhilAvatar} 
+                      alt="Nikhil"
+                      className="w-11 h-11 rounded-full object-cover flex-shrink-0"
+                    />
+                  )}
+                  
+                  <div className={`max-w-xs lg:max-w-md ${message.sender === 'user' ? 'order-first' : ''}`}>
+                    <div
+                      className={`p-4 rounded-2xl shadow-sm backdrop-blur-sm transition-all duration-200 hover:shadow-md ${
+                        message.sender === 'user'
+                          ? 'bg-primary text-primary-foreground ml-auto shadow-primary/20'
+                          : 'bg-card/80 border border-primary/10 shadow-card/30'
+                      }`}
+                    >
+                      <p className="text-sm font-opensans leading-relaxed">{message.content}</p>
+                      
+                    </div>
+                    
+                    {message.sender === 'nikhil' && (
+                      <p className="text-xs text-muted-foreground text-left mt-2 font-medium">
+                        {message.timestamp}
+                      </p>
+                    )}
+                    
+                    {message.sender === 'user' && (
+                      <p className="text-xs text-muted-foreground text-right mt-2 font-medium">
+                        {message.timestamp}
+                      </p>
+                    )}
+                  </div>
+
+                  {message.sender === 'user' && (
+                    <div className="w-11 h-11 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-xs font-medium text-white">You</span>
+                    </div>
+                  )}
+                </div>
+              ))}
+              
+              {/* Loading indicator */}
+              {isLoading && (
+                <div className="flex gap-3 justify-start">
+                  <img 
+                    src={nikhilAvatar} 
+                    alt="Nikhil"
+                    className="w-11 h-11 rounded-full object-cover flex-shrink-0"
+                  />
+                  <div className="max-w-xs lg:max-w-md">
+                    <div className="p-4 rounded-2xl shadow-sm backdrop-blur-sm bg-card/80 border border-primary/10 shadow-card/30">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                        <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              )}
+            </>
           )}
         </CardContent>
 
