@@ -76,6 +76,12 @@ const ChatDemo = () => {
         if (result.isFinal) {
           setNewMessage(transcript)
           setIsRecording(false)
+          // Auto-send the message when recording finishes
+          setTimeout(() => {
+            if (transcript.trim()) {
+              handleSendMessage()
+            }
+          }, 100)
         } else {
           // Show interim results in the input
           setNewMessage(transcript)
