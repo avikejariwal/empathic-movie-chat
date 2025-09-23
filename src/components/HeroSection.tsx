@@ -197,7 +197,7 @@ const HeroSection = () => {
         <div className="max-w-6xl mx-auto">
           {/* Title and Description - Full Width Row */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground font-montserrat">
+            <h1 className="text-xl md:text-4xl font-bold mb-6 leading-tight text-foreground font-montserrat">
               <span className="relative inline-block">
                 <span className={`${initialBlink && phase === "watch" ? "animate-pulse" : ""}`}>
                   {(phase === "transitioning" && typewriterText.startsWith("T")) || phase === "talk" ? (
