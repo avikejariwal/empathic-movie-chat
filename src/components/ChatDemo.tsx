@@ -5,7 +5,7 @@ import { Switch } from "@/components/ui/switch"
 import { Input } from "@/components/ui/input"
 import { Avatar } from "@/components/ui/avatar"
 import { Play, Pause, Send, Volume2, Mic, MicOff } from "lucide-react"
-import nikhilAvatar from "@/assets/nikhil-avatar.png"
+
 import { sendMessageToMockApi } from "@/services/mockChatApi"
 
 
@@ -265,15 +265,8 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
               {messages.map((message) => (
                 <div
                   key={message.id}
-                  className={`flex gap-3 ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className={`flex gap-3 ${message.sender === 'user' ? 'justify-end' : 'justify-center'}`}
                 >
-                  {message.sender === 'nikhil' && (
-                    <img 
-                      src={nikhilAvatar} 
-                      alt="Nikhil"
-                      className="w-11 h-11 rounded-full object-cover flex-shrink-0"
-                    />
-                  )}
                   
                   <div className={`max-w-xs lg:max-w-md ${message.sender === 'user' ? 'order-first' : ''}`}>
                     <div
@@ -310,12 +303,7 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
               
               {/* Loading indicator */}
               {isLoading && (
-                <div className="flex gap-3 justify-start">
-                  <img 
-                    src={nikhilAvatar} 
-                    alt="Nikhil"
-                    className="w-11 h-11 rounded-full object-cover flex-shrink-0"
-                  />
+                <div className="flex gap-3 justify-center">
                   <div className="max-w-xs lg:max-w-md">
                     <div className="p-4 rounded-2xl shadow-sm backdrop-blur-sm bg-card/80 border border-primary/10 shadow-card/30">
                       <div className="flex items-center gap-2">
