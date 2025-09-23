@@ -47,12 +47,16 @@ const ChatDemo = () => {
   const audioRef = useRef<HTMLAudioElement>(null)
   const recognitionRef = useRef<any>(null)
 
-  // Auto-play latest message when messages change
+  // Auto-play latest AI message when messages change (excluding user messages and initial greeting)
   useEffect(() => {
     if (!voiceResponsesEnabled) return // Don't auto-play if voice responses are disabled
     
     const latestMessage = messages[messages.length - 1]
-    if (latestMessage && latestMessage.id !== lastPlayedMessage) {
+    // Only auto-play for AI responses, exclude user messages and initial greeting
+    if (latestMessage && 
+        latestMessage.sender === 'nikhil' && 
+        latestMessage.id !== 'initial-greeting' &&
+        latestMessage.id !== lastPlayedMessage) {
       setLastPlayedMessage(latestMessage.id)
       setTimeout(() => {
         playTextToSpeech(latestMessage.content, latestMessage.id, latestMessage.sender)
