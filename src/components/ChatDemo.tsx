@@ -194,7 +194,7 @@ const ChatDemo = () => {
   }
 
   const sendVoiceMessage = async (messageText: string) => {
-    if (messageText?.trim() && !isLoading) {
+    if (messageText && messageText.trim() && !isLoading) {
       const userMessage: Message = {
         id: Date.now().toString(),
         content: messageText,
