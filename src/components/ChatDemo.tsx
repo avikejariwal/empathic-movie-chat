@@ -310,7 +310,7 @@ const ChatDemo = () => {
         </CardContent>
 
         {/* Enhanced Message Input Section */}
-        <div className="p-6 border-t border-primary/10 bg-gradient-to-t from-card/50 to-background backdrop-blur-sm md:relative fixed bottom-0 left-0 right-0 md:bottom-auto md:left-auto md:right-auto">
+        <div className="p-6 border-t border-primary/10 bg-white md:bg-gradient-to-t md:from-card/50 md:to-background backdrop-blur-sm md:relative fixed bottom-0 left-0 right-0 md:bottom-auto md:left-auto md:right-auto">
           {/* Voice Response Toggle - Enhanced */}
           <div className="flex items-center justify-between mb-4 p-3 rounded-lg bg-gradient-to-r from-card/80 to-card/60 border border-primary/10 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/20">
             <div className="flex items-center gap-3">
