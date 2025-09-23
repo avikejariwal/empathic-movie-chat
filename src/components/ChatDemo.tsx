@@ -312,20 +312,32 @@ const ChatDemo = () => {
         {/* Press-to-Talk Section */}
         <div className="p-6 border-t border-primary/10 bg-white md:bg-gradient-to-t md:from-card/50 md:to-background backdrop-blur-sm md:relative fixed bottom-0 left-0 right-0 md:bottom-auto md:left-auto md:right-auto">
           <div className="flex flex-col items-center justify-center space-y-4">
-            {/* Circular Press-to-Talk Button */}
-            <Button 
-              onClick={isRecording ? stopRecording : startRecording}
-              size="icon"
-              variant={isRecording ? "destructive" : "default"}
-              className={`w-16 h-16 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 ${
-                isRecording 
-                  ? 'bg-destructive hover:bg-destructive/90' 
-                  : 'bg-primary hover:bg-primary/90'
-              }`}
-              disabled={isLoading || !recognition}
-            >
-              {isRecording ? <MicOff className="w-8 h-8" /> : <Mic className="w-8 h-8" />}
-            </Button>
+            {/* Recording Animation Rings */}
+            <div className="relative">
+              {/* Animated rings when recording */}
+              {isRecording && (
+                <>
+                  <div className="absolute inset-0 w-16 h-16 bg-destructive/30 rounded-full animate-ping"></div>
+                  <div className="absolute inset-0 w-16 h-16 bg-destructive/20 rounded-full animate-pulse"></div>
+                  <div className="absolute -inset-2 w-20 h-20 bg-destructive/10 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
+                </>
+              )}
+              
+              {/* Circular Press-to-Talk Button */}
+              <Button 
+                onClick={isRecording ? stopRecording : startRecording}
+                size="icon"
+                variant={isRecording ? "destructive" : "default"}
+                className={`relative w-16 h-16 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 ${
+                  isRecording 
+                    ? 'bg-destructive hover:bg-destructive/90' 
+                    : 'bg-primary hover:bg-primary/90'
+                }`}
+                disabled={isLoading || !recognition}
+              >
+                {isRecording ? <MicOff className="w-8 h-8" /> : <Mic className="w-8 h-8" />}
+              </Button>
+            </div>
             
             {/* Status Text */}
             <p className="text-sm text-muted-foreground font-medium text-center">
