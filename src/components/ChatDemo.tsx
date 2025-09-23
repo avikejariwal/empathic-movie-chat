@@ -309,67 +309,28 @@ const ChatDemo = () => {
           )}
         </CardContent>
 
-        {/* Enhanced Message Input Section */}
+        {/* Press-to-Talk Section */}
         <div className="p-6 border-t border-primary/10 bg-white md:bg-gradient-to-t md:from-card/50 md:to-background backdrop-blur-sm md:relative fixed bottom-0 left-0 right-0 md:bottom-auto md:left-auto md:right-auto">
-          {/* Voice Response Toggle - Enhanced */}
-          <div className="flex items-center justify-between mb-4 p-3 rounded-lg bg-gradient-to-r from-card/80 to-card/60 border border-primary/10 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/20">
-            <div className="flex items-center gap-3">
-              <div className="p-1.5 rounded-full bg-primary/10">
-                <Volume2 className="w-4 h-4 text-primary" />
-              </div>
-              <div>
-                <span className="text-sm font-medium text-foreground">Voice Responses</span>
-                <p className="text-xs text-muted-foreground">Auto text-to-speech</p>
-              </div>
-            </div>
-            <Switch 
-              checked={voiceResponsesEnabled}
-              onCheckedChange={setVoiceResponsesEnabled}
-            />
-          </div>
-
-          {/* Enhanced Input Area */}
-          <div className="space-y-3">
-            <div className="flex gap-3">
-              <div className="flex-1 relative">
-                <Input
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  placeholder="Type your message or use voice..."
-                  className="h-12 pr-4 pl-4 border-primary/20 focus:border-primary shadow-sm hover:shadow-md transition-all duration-200 bg-card/50 backdrop-blur-sm text-base rounded-xl"
-                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                />
-              </div>
-              
-              {/* Voice Recording Button */}
-              <Button 
-                onClick={isRecording ? stopRecording : startRecording}
-                size="icon"
-                variant={isRecording ? "destructive" : "outline"}
-                className="h-12 w-12 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 hover:bg-secondary hover:text-secondary-foreground"
-                disabled={isLoading || !recognition}
-              >
-                {isRecording ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
-              </Button>
-              
-              {/* Send Button */}
-              <Button 
-                onClick={handleSendMessage}
-                size="icon"
-                className="h-12 w-12 rounded-xl bg-secondary hover:bg-secondary/90 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 disabled:hover:scale-100"
-                disabled={isLoading || !newMessage?.trim()}
-              >
-                <Send className="w-5 h-5" />
-              </Button>
-            </div>
+          <div className="flex flex-col items-center justify-center space-y-4">
+            {/* Circular Press-to-Talk Button */}
+            <Button 
+              onClick={isRecording ? stopRecording : startRecording}
+              size="icon"
+              variant={isRecording ? "destructive" : "default"}
+              className={`w-16 h-16 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 ${
+                isRecording 
+                  ? 'bg-destructive hover:bg-destructive/90 animate-pulse' 
+                  : 'bg-primary hover:bg-primary/90'
+              }`}
+              disabled={isLoading || !recognition}
+            >
+              {isRecording ? <MicOff className="w-8 h-8" /> : <Mic className="w-8 h-8" />}
+            </Button>
             
-            {/* Enhanced Status Text */}
-            <div className="flex items-center justify-center">
-              <p className="text-xs text-muted-foreground font-medium text-center px-4 py-2 rounded-full bg-muted/30 backdrop-blur-sm">
-                💬 {voiceResponsesEnabled ? 'Voice responses enabled' : 'Voice responses disabled'} • 
-                {isRecording ? '🎤 Recording...' : '🎤 Tap mic to record'} • Press Enter to send
-              </p>
-            </div>
+            {/* Status Text */}
+            <p className="text-sm text-muted-foreground font-medium text-center">
+              {isRecording ? 'Recording... Release to send' : 'Press and hold to talk'}
+            </p>
           </div>
         </div>
       </Card>
