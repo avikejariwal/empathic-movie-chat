@@ -76,6 +76,12 @@ const ChatDemo = () => {
         if (result.isFinal) {
           setNewMessage(transcript)
           setIsRecording(false)
+          // Auto-send the voice message
+          if (transcript && transcript.trim()) {
+            setTimeout(() => {
+              sendVoiceMessage(transcript.trim())
+            }, 100)
+          }
         } else {
           // Show interim results in the input
           setNewMessage(transcript)
@@ -186,11 +192,11 @@ const ChatDemo = () => {
     }
   }
 
-  const handleSendMessage = async () => {
-    if (newMessage?.trim() && !isLoading) {
+  const sendVoiceMessage = async (messageText: string) => {
+    if (messageText && !isLoading) {
       const userMessage: Message = {
         id: Date.now().toString(),
-        content: newMessage,
+        content: messageText,
         sender: 'user',
         timestamp: new Date().toLocaleTimeString('en-US', { 
           hour: 'numeric', 
@@ -206,7 +212,7 @@ const ChatDemo = () => {
       
       try {
         // Get response from mock API
-        const response = await sendMessageToMockApi(newMessage)
+        const response = await sendMessageToMockApi(messageText)
         
         const nikhilMessage: Message = {
           id: response.id,
@@ -223,6 +229,12 @@ const ChatDemo = () => {
       } finally {
         setIsLoading(false)
       }
+    }
+  }
+
+  const handleSendMessage = async () => {
+    if (newMessage?.trim() && !isLoading) {
+      await sendVoiceMessage(newMessage.trim())
     }
   }
 
