@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Switch } from "@/components/ui/switch"
 import { Input } from "@/components/ui/input"
 import { Avatar } from "@/components/ui/avatar"
 import { Play, Pause, Send, Volume2, Mic, MicOff } from "lucide-react"
@@ -42,11 +43,14 @@ const ChatDemo = () => {
   const [lastPlayedMessage, setLastPlayedMessage] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [isRecording, setIsRecording] = useState(false)
+  const [voiceResponsesEnabled, setVoiceResponsesEnabled] = useState(true)
   const audioRef = useRef<HTMLAudioElement>(null)
   const recognitionRef = useRef<any>(null)
 
   // Auto-play latest message when messages change
   useEffect(() => {
+    if (!voiceResponsesEnabled) return // Don't auto-play if voice responses are disabled
+    
     const latestMessage = messages[messages.length - 1]
     if (latestMessage && latestMessage.id !== lastPlayedMessage) {
       setLastPlayedMessage(latestMessage.id)
@@ -54,7 +58,7 @@ const ChatDemo = () => {
         playTextToSpeech(latestMessage.content, latestMessage.id, latestMessage.sender)
       }, 500) // Small delay to allow UI to update
     }
-  }, [messages, lastPlayedMessage])
+  }, [messages, lastPlayedMessage, voiceResponsesEnabled])
 
   // Initialize speech recognition
   useEffect(() => {
@@ -112,6 +116,7 @@ const ChatDemo = () => {
   }
 
   const playTextToSpeech = async (text: string, messageId: string, sender?: 'user' | 'nikhil') => {
+    if (!voiceResponsesEnabled) return // Don't play if voice responses are disabled
     if (playingAudio === messageId) {
       setPlayingAudio(null)
       if (audioRef.current) {
@@ -298,6 +303,20 @@ const ChatDemo = () => {
 
         {/* Message Input */}
         <div className="p-4 border-t border-primary/20 bg-background">
+          {/* Voice Response Toggle */}
+          <div className="flex items-center justify-between mb-4 p-3 rounded-lg bg-card border border-primary/10">
+            <div className="flex items-center gap-3">
+              <Volume2 className="w-4 h-4 text-primary" />
+              <div>
+                <span className="text-sm font-medium text-foreground">Voice Responses</span>
+                <p className="text-xs text-muted-foreground">Enable automatic text-to-speech</p>
+              </div>
+            </div>
+            <Switch 
+              checked={voiceResponsesEnabled}
+              onCheckedChange={setVoiceResponsesEnabled}
+            />
+          </div>
           <div className="flex gap-2">
             <Input
               value={newMessage}
@@ -329,7 +348,7 @@ const ChatDemo = () => {
           <p className="text-xs text-muted-foreground mt-2 font-opensans">
             {isRecording 
               ? "🎤 Listening... Speak clearly and we'll convert it to text"
-              : "Type or use voice input. Messages are automatically read aloud for both you and AI agent"
+              : `Type or use voice input. ${voiceResponsesEnabled ? 'Voice responses enabled' : 'Voice responses disabled'}`
             }
           </p>
         </div>
