@@ -4,18 +4,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { Input } from "@/components/ui/input"
 import { Avatar } from "@/components/ui/avatar"
-import { Play, Pause, Send, Volume2, Mic, MicOff } from "lucide-react"
+import { Play, Pause, Send, Volume2 } from "lucide-react"
 import nikhilAvatar from "@/assets/nikhil-avatar.png"
 import { sendMessageToMockApi } from "@/services/mockChatApi"
 
-
-// Speech Recognition API types
-declare global {
-  interface Window {
-    SpeechRecognition: any;
-    webkitSpeechRecognition: any;
-  }
-}
 
 interface Message {
   id: string
@@ -43,10 +35,8 @@ const ChatDemo = () => {
   const [playingAudio, setPlayingAudio] = useState<string | null>(null)
   const [lastPlayedMessage, setLastPlayedMessage] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const [isRecording, setIsRecording] = useState(false)
   const [voiceResponsesEnabled, setVoiceResponsesEnabled] = useState(true)
   const audioRef = useRef<HTMLAudioElement>(null)
-  const recognitionRef = useRef<any>(null)
 
   // Auto-play latest AI message when messages change (excluding user messages and initial greeting)
   useEffect(() => {
@@ -66,67 +56,6 @@ const ChatDemo = () => {
   }, [messages, lastPlayedMessage, voiceResponsesEnabled])
 
 
-
-  // Initialize speech recognition
-  useEffect(() => {
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-      recognitionRef.current = new SpeechRecognition()
-      recognitionRef.current.continuous = false
-      recognitionRef.current.interimResults = true
-      recognitionRef.current.lang = 'en-US'
-
-      recognitionRef.current.onresult = (event) => {
-        const result = event.results[event.results.length - 1]
-        const transcript = result.transcript
-        
-        if (result.isFinal) {
-          setNewMessage(transcript)
-          setIsRecording(false)
-          // Auto-send the message when recording finishes
-          if (transcript.trim()) {
-            setTimeout(() => {
-              sendVoiceMessage(transcript)
-            }, 200)
-          }
-        } else {
-          // Show interim results in the input
-          setNewMessage(transcript)
-        }
-      }
-
-      recognitionRef.current.onend = () => {
-        setIsRecording(false)
-      }
-
-      recognitionRef.current.onerror = (event) => {
-        console.error('Speech recognition error:', event.error)
-        setIsRecording(false)
-      }
-    }
-
-    return () => {
-      if (recognitionRef.current) {
-        recognitionRef.current.stop()
-      }
-    }
-  }, [])
-
-  const toggleVoiceRecording = () => {
-    if (!recognitionRef.current) {
-      alert('Speech recognition is not supported in your browser')
-      return
-    }
-
-    if (isRecording) {
-      recognitionRef.current.stop()
-      setIsRecording(false)
-    } else {
-      setNewMessage('')
-      recognitionRef.current.start()
-      setIsRecording(true)
-    }
-  }
 
   const playTextToSpeech = async (text: string, messageId: string, sender?: 'user' | 'nikhil') => {
     if (!voiceResponsesEnabled) return // Don't play if voice responses are disabled
@@ -199,46 +128,6 @@ const ChatDemo = () => {
     }
   }
 
-
-  const sendVoiceMessage = async (messageText: string) => {
-    if (messageText && messageText.trim() && !isLoading) {
-      const userMessage: Message = {
-        id: Date.now().toString(),
-        content: messageText,
-        sender: 'user',
-        timestamp: new Date().toLocaleTimeString('en-US', { 
-          hour: 'numeric', 
-          minute: '2-digit',
-          hour12: true 
-        })
-      }
-      
-      // Add user message immediately
-      setMessages(prev => [...prev, userMessage])
-      setNewMessage('')
-      setIsLoading(true)
-      
-      try {
-        // Get response from mock API
-        const response = await sendMessageToMockApi(messageText)
-        
-        const nikhilMessage: Message = {
-          id: response.id,
-          content: response.content,
-          sender: 'nikhil',
-          timestamp: response.timestamp,
-          audioUrl: response.audioUrl
-        }
-        
-        // Add Nikhil's response
-        setMessages(prev => [...prev, nikhilMessage])
-      } catch (error) {
-        console.error('Failed to get response:', error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-  }
 
   const handleSendMessage = async () => {
     if (newMessage?.trim() && !isLoading) {
@@ -395,57 +284,27 @@ const ChatDemo = () => {
                 <Input
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
-                  placeholder={isRecording ? "🎤 Listening..." : "Type your message or use voice input..."}
+                  placeholder="Type your message..."
                   className="h-12 pr-4 pl-4 border-primary/20 focus:border-primary shadow-sm hover:shadow-md transition-all duration-200 bg-card/50 backdrop-blur-sm text-base rounded-xl"
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                  disabled={isRecording}
                 />
-                {isRecording && (
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                    <div className="flex items-center gap-1">
-                      <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-                      <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                      <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
-                    </div>
-                  </div>
-                )}
               </div>
               
-              {/* Enhanced Button Group */}
-              <div className="flex gap-2">
-                <Button 
-                  onClick={toggleVoiceRecording}
-                  size="icon"
-                  variant={isRecording ? "destructive" : "outline"}
-                  className={`h-12 w-12 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 ${
-                    isRecording 
-                      ? "animate-pulse bg-destructive hover:bg-destructive/90" 
-                      : "hover:bg-secondary hover:text-secondary-foreground hover:border-secondary bg-card/50 backdrop-blur-sm"
-                  }`}
-                  disabled={isLoading}
-                  title={isRecording ? "Stop recording" : "Start voice recording"}
-                >
-                  {isRecording ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
-                </Button>
-                
-                <Button 
-                  onClick={handleSendMessage}
-                  size="icon"
-                  className="h-12 w-12 rounded-xl bg-primary hover:bg-primary/90 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 disabled:hover:scale-100"
-                  disabled={isLoading || !newMessage?.trim()}
-                >
-                  <Send className="w-5 h-5" />
-                </Button>
-              </div>
+              {/* Send Button */}
+              <Button 
+                onClick={handleSendMessage}
+                size="icon"
+                className="h-12 w-12 rounded-xl bg-primary hover:bg-primary/90 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 disabled:hover:scale-100"
+                disabled={isLoading || !newMessage?.trim()}
+              >
+                <Send className="w-5 h-5" />
+              </Button>
             </div>
             
             {/* Enhanced Status Text */}
             <div className="flex items-center justify-center">
               <p className="text-xs text-muted-foreground font-medium text-center px-4 py-2 rounded-full bg-muted/30 backdrop-blur-sm">
-                {isRecording 
-                  ? "🎤 Listening... Speak clearly and we'll convert it to text"
-                  : `💬 ${voiceResponsesEnabled ? 'Voice responses enabled' : 'Voice responses disabled'} • Press Enter to send`
-                }
+                💬 {voiceResponsesEnabled ? 'Voice responses enabled' : 'Voice responses disabled'} • Press Enter to send
               </p>
             </div>
           </div>
