@@ -265,7 +265,7 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
               {messages.map((message) => (
                 <div
                   key={message.id}
-                  className={`flex gap-3 ${message.sender === 'user' ? 'justify-end' : 'justify-center'}`}
+                  className={`flex gap-3 ${message.sender === 'user' ? 'justify-end' : 'justify-center md:justify-start'}`}
                 >
                   
                   <div className={`max-w-xs lg:max-w-md ${message.sender === 'user' ? 'order-first' : ''}`}>
@@ -303,7 +303,7 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
               
               {/* Loading indicator */}
               {isLoading && (
-                <div className="flex gap-3 justify-center">
+                <div className="flex gap-3 justify-center md:justify-start">
                   <div className="max-w-xs lg:max-w-md">
                     <div className="p-4 rounded-2xl shadow-sm backdrop-blur-sm bg-card/80 border border-primary/10 shadow-card/30">
                       <div className="flex items-center gap-2">
