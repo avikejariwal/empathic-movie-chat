@@ -147,12 +147,12 @@ const ChatDemo = () => {
                 />
               )}
               
-              <div className={`max-w-xs lg:max-w-md ${message.sender === 'user' ? 'order-first ml-auto' : 'mr-auto'}`}>
+              <div className={`max-w-xs lg:max-w-md ${message.sender === 'user' ? 'order-first' : ''}`}>
                 <div
                   className={`p-4 rounded-2xl shadow-sm backdrop-blur-sm transition-all duration-200 hover:shadow-md ${
                     message.sender === 'user'
-                      ? 'bg-primary text-primary-foreground shadow-primary/20 rounded-br-md'
-                      : 'bg-card/80 border border-primary/10 shadow-card/30 rounded-bl-md'
+                      ? 'bg-primary text-primary-foreground ml-auto shadow-primary/20'
+                      : 'bg-card/80 border border-primary/10 shadow-card/30'
                   }`}
                 >
                   <p className="text-sm font-opensans leading-relaxed">{message.content}</p>
