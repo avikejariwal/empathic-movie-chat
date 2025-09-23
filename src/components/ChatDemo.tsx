@@ -265,57 +265,29 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
               {messages.map((message) => (
                 <div
                   key={message.id}
-                  className={`flex gap-3 ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className="flex justify-center"
                 >
-                  {message.sender === 'nikhil' && (
-                    <img 
-                      src={nikhilAvatar} 
-                      alt="Nikhil"
-                      className="w-11 h-11 rounded-full object-cover flex-shrink-0"
-                    />
-                  )}
-                  
-                  <div className={`max-w-xs lg:max-w-md ${message.sender === 'user' ? 'order-first' : ''}`}>
+                  <div className="max-w-xs lg:max-w-md">
                     <div
                       className={`p-4 rounded-2xl shadow-sm backdrop-blur-sm transition-all duration-200 hover:shadow-md ${
                         message.sender === 'user'
-                          ? 'bg-primary text-primary-foreground ml-auto shadow-primary/20'
+                          ? 'bg-primary text-primary-foreground shadow-primary/20'
                           : 'bg-card/80 border border-primary/10 shadow-card/30'
                       }`}
                     >
                       <p className="text-sm font-opensans leading-relaxed">{message.content}</p>
-                      
                     </div>
                     
-                    {message.sender === 'nikhil' && (
-                      <p className="text-xs text-muted-foreground text-left mt-2 font-medium">
-                        {message.timestamp}
-                      </p>
-                    )}
-                    
-                    {message.sender === 'user' && (
-                      <p className="text-xs text-muted-foreground text-right mt-2 font-medium">
-                        {message.timestamp}
-                      </p>
-                    )}
+                    <p className="text-xs text-muted-foreground text-center mt-2 font-medium">
+                      {message.timestamp}
+                    </p>
                   </div>
-
-                  {message.sender === 'user' && (
-                    <div className="w-11 h-11 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs font-medium text-white">You</span>
-                    </div>
-                  )}
                 </div>
               ))}
               
               {/* Loading indicator */}
               {isLoading && (
-                <div className="flex gap-3 justify-start">
-                  <img 
-                    src={nikhilAvatar} 
-                    alt="Nikhil"
-                    className="w-11 h-11 rounded-full object-cover flex-shrink-0"
-                  />
+                <div className="flex justify-center">
                   <div className="max-w-xs lg:max-w-md">
                     <div className="p-4 rounded-2xl shadow-sm backdrop-blur-sm bg-card/80 border border-primary/10 shadow-card/30">
                       <div className="flex items-center gap-2">
