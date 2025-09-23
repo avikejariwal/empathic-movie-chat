@@ -37,6 +37,7 @@ const ChatDemo = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [voiceResponsesEnabled, setVoiceResponsesEnabled] = useState(true)
   const [isRecording, setIsRecording] = useState(false)
+  const [transcript, setTranscript] = useState('')
   const [recognition, setRecognition] = useState<any>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
 
@@ -50,15 +51,10 @@ const ChatDemo = () => {
       speechRecognition.lang = 'en-US';
       
       speechRecognition.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript;
-        setNewMessage(transcript);
+        const transcriptText = event.results[0][0].transcript;
+        setNewMessage(transcriptText);
+        setTranscript(transcriptText);
         setIsRecording(false);
-        // Auto-send message after voice recording completes
-        setTimeout(() => {
-          if (transcript.trim()) {
-            handleSendMessage();
-          }
-        }, 100);
       };
       
       speechRecognition.onerror = () => {
@@ -90,7 +86,13 @@ const ChatDemo = () => {
     }
   }, [messages, lastPlayedMessage, voiceResponsesEnabled])
 
-
+  // Auto-send message when recording stops and transcript is available
+  useEffect(() => {
+    if (!isRecording && transcript && transcript.trim()) {
+      handleSendMessage();
+      setTranscript(''); // Clear transcript after sending
+    }
+  }, [isRecording, transcript]);
 
   const playTextToSpeech = async (text: string, messageId: string, sender?: 'user' | 'nikhil') => {
     if (!voiceResponsesEnabled) return // Don't play if voice responses are disabled
