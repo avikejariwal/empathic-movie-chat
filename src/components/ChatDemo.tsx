@@ -316,10 +316,10 @@ const ChatDemo = () => {
             <Button 
               onClick={isRecording ? stopRecording : startRecording}
               size="icon"
-              variant={isRecording ? "destructive" : "default"}
-              className={`w-16 h-16 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 ${
+              variant="default"
+              className={`w-16 h-16 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 ${
                 isRecording 
-                  ? 'bg-destructive hover:bg-destructive/90 animate-pulse' 
+                  ? 'bg-accent/80 hover:bg-accent/70 animate-[pulse_1.5s_ease-in-out_infinite] shadow-accent/30' 
                   : 'bg-primary hover:bg-primary/90'
               }`}
               disabled={isLoading || !recognition}
