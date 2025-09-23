@@ -9,7 +9,7 @@ const Header = () => {
 
   return (
     <header className="bg-background">
-      <div className="container mx-auto px-4 py-3 md:py-6">
+      <div className="container mx-auto px-4 py-1 md:py-6">
         <div className="flex justify-center relative">
           {showBackButton && (
             <button
@@ -23,7 +23,7 @@ const Header = () => {
           <img 
             src={gslLogo} 
             alt="GSL Logo" 
-            className="h-16 md:h-24 w-auto"
+            className="h-24 w-auto"
           />
         </div>
       </div>
