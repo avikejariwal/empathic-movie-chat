@@ -133,10 +133,10 @@ const ChatDemo = () => {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <Card className="h-[600px] flex flex-col border-primary/20 shadow-glow">
+      <Card className="h-[600px] flex flex-col border-0 shadow-none">
 
         {/* Messages Area */}
-        <CardContent className="flex-1 overflow-y-auto p-6 space-y-6 bg-gradient-to-b from-background/50 to-background backdrop-blur-sm">
+        <CardContent className="flex-1 overflow-y-auto p-6 space-y-6">
           {messages.length === 0 ? (
             <div className="flex items-center justify-center h-full">
               <div className="text-center space-y-4">
