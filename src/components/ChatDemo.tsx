@@ -19,8 +19,8 @@ const ChatDemo = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: "Hey there! I'm Nikhil. I've been thinking about what happened in class today... Want to talk about it?",
-      sender: 'nikhil',
+      content: "Hey Nikhil, I've been thinking about what happened in class today... I think I need to talk about it.",
+      sender: 'user',
       timestamp: '2:30 PM'
     }
   ])
@@ -167,25 +167,11 @@ const ChatDemo = () => {
                 >
                   <p className="text-sm font-opensans leading-relaxed">{message.content}</p>
                   
-                  {message.sender === 'nikhil' && (
-                    <div className="flex items-center gap-2 mt-3 pt-2 border-t border-primary/10">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="h-7 w-7 p-0 rounded-full hover:bg-primary/10 transition-colors"
-                        onClick={() => playTextToSpeech(message.content, message.id, message.sender)}
-                      >
-                        {playingAudio === message.id ? (
-                          <Pause className="w-3 h-3 text-primary" />
-                        ) : (
-                          <Volume2 className="w-3 h-3 text-primary" />
-                        )}
-                      </Button>
-                      <span className="text-xs text-muted-foreground font-medium">
-                        {message.timestamp}
-                      </span>
-                    </div>
-                  )}
+                  <div className="flex items-center justify-end mt-3 pt-2 border-t border-primary/10">
+                    <span className="text-xs text-muted-foreground font-medium">
+                      {message.timestamp}
+                    </span>
+                  </div>
                 </div>
                 
                 {message.sender === 'user' && (
@@ -244,7 +230,7 @@ const ChatDemo = () => {
             </Button>
           </div>
           <p className="text-xs text-muted-foreground mt-2 font-opensans">
-            Click the volume icon to hear Nikhil's messages spoken aloud
+            Messages are automatically read aloud for both you and Nikhil
           </p>
         </div>
       </Card>
