@@ -143,7 +143,7 @@ const ChatDemo = () => {
                 <img 
                   src={nikhilAvatar} 
                   alt="Nikhil"
-                  className="w-8 h-8 rounded-full object-cover flex-shrink-0"
+                  className="w-11 h-11 rounded-full object-cover flex-shrink-0"
                 />
               )}
               
