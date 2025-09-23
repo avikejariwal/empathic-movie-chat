@@ -1,8 +1,10 @@
+import { useState } from "react"
 import Header from "@/components/Header"
 import ChatDemo from "@/components/ChatDemo"
 import AgentChatbot from "@/components/AgentChatbot"
 
 const Demo = () => {
+  const [isTalking, setIsTalking] = useState(false)
   return (
     <div className="min-h-screen bg-background">
       <div className="flex flex-col items-center">
@@ -16,8 +18,8 @@ const Demo = () => {
               Experience interactive learning through conversation
             </p>
           </div>
-          <AgentChatbot />
-          <ChatDemo />
+          <AgentChatbot isTalking={isTalking} />
+          <ChatDemo onTalkingStateChange={setIsTalking} />
         </div>
       </div>
     </div>

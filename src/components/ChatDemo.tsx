@@ -17,7 +17,11 @@ interface Message {
   audioUrl?: string
 }
 
-const ChatDemo = () => {
+interface ChatDemoProps {
+  onTalkingStateChange?: (isTalking: boolean) => void
+}
+
+const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'initial-greeting',
@@ -39,6 +43,7 @@ const ChatDemo = () => {
   const [isRecording, setIsRecording] = useState(false)
   const [transcript, setTranscript] = useState('')
   const [recognition, setRecognition] = useState<any>(null)
+  const [hasPlayedInitial, setHasPlayedInitial] = useState(false)
   const audioRef = useRef<HTMLAudioElement>(null)
 
   // Initialize speech recognition
@@ -69,22 +74,36 @@ const ChatDemo = () => {
     }
   }, []);
 
-  // Auto-play latest AI message when messages change (excluding user messages and initial greeting)
+  // Auto-play latest AI message when messages change (including initial greeting)
   useEffect(() => {
     if (!voiceResponsesEnabled) return // Don't auto-play if voice responses are disabled
     
     const latestMessage = messages[messages.length - 1]
-    // Only auto-play for AI responses, exclude user messages and initial greeting
+    // Auto-play for AI responses including initial greeting
     if (latestMessage && 
         latestMessage.sender === 'nikhil' && 
-        latestMessage.id !== 'initial-greeting' &&
         latestMessage.id !== lastPlayedMessage) {
       setLastPlayedMessage(latestMessage.id)
+      const delay = latestMessage.id === 'initial-greeting' ? 1500 : 500
       setTimeout(() => {
         playTextToSpeech(latestMessage.content, latestMessage.id, latestMessage.sender)
-      }, 500) // Small delay to allow UI to update
+      }, delay) // Longer delay for initial greeting
     }
   }, [messages, lastPlayedMessage, voiceResponsesEnabled])
+
+  // Auto-play initial greeting on component mount
+  useEffect(() => {
+    if (!hasPlayedInitial && voiceResponsesEnabled && messages.length > 0) {
+      const initialMessage = messages.find(msg => msg.id === 'initial-greeting')
+      if (initialMessage) {
+        setHasPlayedInitial(true)
+        setLastPlayedMessage(initialMessage.id)
+        setTimeout(() => {
+          playTextToSpeech(initialMessage.content, initialMessage.id, initialMessage.sender)
+        }, 2000) // 2 second delay after page load
+      }
+    }
+  }, [hasPlayedInitial, voiceResponsesEnabled, messages])
 
   // Auto-send message when recording stops and transcript is available
   useEffect(() => {
@@ -154,8 +173,15 @@ const ChatDemo = () => {
       utterance.pitch = sender === 'user' ? 1.1 : 0.9
       utterance.volume = 0.8
       
-      utterance.onend = () => setPlayingAudio(null)
-      utterance.onerror = () => setPlayingAudio(null)
+      utterance.onstart = () => onTalkingStateChange?.(true)
+      utterance.onend = () => {
+        setPlayingAudio(null)
+        onTalkingStateChange?.(false)
+      }
+      utterance.onerror = () => {
+        setPlayingAudio(null)
+        onTalkingStateChange?.(false)
+      }
       
       speechSynthesis.speak(utterance)
       
