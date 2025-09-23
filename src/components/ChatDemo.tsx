@@ -43,8 +43,6 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
   const [isRecording, setIsRecording] = useState(false)
   const [transcript, setTranscript] = useState('')
   const [recognition, setRecognition] = useState<any>(null)
-  const [hasUserInteracted, setHasUserInteracted] = useState(false)
-  const [audioPlaybackFailed, setAudioPlaybackFailed] = useState<string | null>(null)
   
   const audioRef = useRef<HTMLAudioElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -77,16 +75,22 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
     }
   }, []);
 
-  // Auto-play initial greeting only after user interaction
+  // Auto-play latest AI message when messages change (including initial greeting)
   useEffect(() => {
-    if (!voiceResponsesEnabled || !hasUserInteracted) return
+    if (!voiceResponsesEnabled) return // Don't auto-play if voice responses are disabled
     
-    const initialGreeting = messages.find(m => m.id === 'initial-greeting')
-    if (initialGreeting && initialGreeting.id !== lastPlayedMessage) {
-      setLastPlayedMessage(initialGreeting.id)
-      playTextToSpeech(initialGreeting.content, initialGreeting.id, initialGreeting.sender)
+    const latestMessage = messages[messages.length - 1]
+    // Auto-play for AI responses including initial greeting
+    if (latestMessage && 
+        latestMessage.sender === 'nikhil' && 
+        latestMessage.id !== lastPlayedMessage) {
+      setLastPlayedMessage(latestMessage.id)
+      const delay = latestMessage.id === 'initial-greeting' ? 1500 : 500
+      setTimeout(() => {
+        playTextToSpeech(latestMessage.content, latestMessage.id, latestMessage.sender)
+      }, delay) // Longer delay for initial greeting
     }
-  }, [hasUserInteracted, voiceResponsesEnabled])
+  }, [messages, lastPlayedMessage, voiceResponsesEnabled])
 
   // Auto-scroll to latest message (excluding initial greeting)
   useEffect(() => {
@@ -106,18 +110,19 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
   }, [isRecording, transcript]);
 
   const playTextToSpeech = async (text: string, messageId: string, sender?: 'user' | 'nikhil') => {
-    if (!voiceResponsesEnabled) return
+    if (!voiceResponsesEnabled) return // Don't play if voice responses are disabled
     if (playingAudio === messageId) {
       setPlayingAudio(null)
-      speechSynthesis.cancel()
-      onTalkingStateChange?.(false)
+      if (audioRef.current) {
+        audioRef.current.pause()
+      }
       return
     }
 
     try {
       setPlayingAudio(messageId)
-      setAudioPlaybackFailed(null)
       
+      // Use browser speech synthesis (no API key needed)
       const utterance = new SpeechSynthesisUtterance(text)
       
       // Wait for voices to load
@@ -133,6 +138,7 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
       
       // Configure voice based on sender
       if (voices.length > 0) {
+        // Try to find appropriate voices
         const femaleVoice = voices.find(voice => 
           voice.name.toLowerCase().includes('female') || 
           voice.name.toLowerCase().includes('woman') ||
@@ -153,27 +159,24 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
         } else if (sender === 'nikhil' && maleVoice) {
           utterance.voice = maleVoice
         } else {
+          // Use default voice or first available
           utterance.voice = voices[0]
         }
       }
       
+      // Configure speech settings
       utterance.rate = 0.9
       utterance.pitch = sender === 'user' ? 1.1 : 0.9
       utterance.volume = 0.8
       
-      utterance.onstart = () => {
-        onTalkingStateChange?.(true)
-        setAudioPlaybackFailed(null)
-      }
+      utterance.onstart = () => onTalkingStateChange?.(true)
       utterance.onend = () => {
         setPlayingAudio(null)
         onTalkingStateChange?.(false)
       }
-      utterance.onerror = (event) => {
-        console.log('Speech synthesis error:', event)
+      utterance.onerror = () => {
         setPlayingAudio(null)
         onTalkingStateChange?.(false)
-        setAudioPlaybackFailed(messageId)
       }
       
       speechSynthesis.speak(utterance)
@@ -181,8 +184,6 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
     } catch (error) {
       console.log('Speech synthesis error:', error)
       setPlayingAudio(null)
-      onTalkingStateChange?.(false)
-      setAudioPlaybackFailed(messageId)
     }
   }
 
@@ -203,11 +204,6 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
 
   const handleSendMessage = async () => {
     if (newMessage?.trim() && !isLoading) {
-      // Mark user as having interacted
-      if (!hasUserInteracted) {
-        setHasUserInteracted(true)
-      }
-
       const userMessage: Message = {
         id: Date.now().toString(),
         content: newMessage,
@@ -219,11 +215,13 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
         })
       }
       
+      // Add user message immediately
       setMessages(prev => [...prev, userMessage])
       setNewMessage('')
       setIsLoading(true)
       
       try {
+        // Get response from mock API
         const response = await sendMessageToMockApi(newMessage)
         
         const nikhilMessage: Message = {
@@ -234,13 +232,8 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
           audioUrl: response.audioUrl
         }
         
+        // Add Nikhil's response
         setMessages(prev => [...prev, nikhilMessage])
-        
-        // Immediately trigger audio playback for new response (within user gesture context)
-        if (voiceResponsesEnabled && hasUserInteracted) {
-          setLastPlayedMessage(nikhilMessage.id)
-          playTextToSpeech(nikhilMessage.content, nikhilMessage.id, nikhilMessage.sender)
-        }
       } catch (error) {
         console.error('Failed to get response:', error)
       } finally {
@@ -292,18 +285,6 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
                     >
                       <p className="text-sm font-opensans leading-relaxed">{message.content}</p>
                       
-                      {/* Manual play button for failed autoplay */}
-                      {message.sender === 'nikhil' && audioPlaybackFailed === message.id && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => playTextToSpeech(message.content, message.id, message.sender)}
-                          className="mt-2 h-8 px-2 text-xs"
-                        >
-                          <Volume2 className="w-3 h-3 mr-1" />
-                          Play Audio
-                        </Button>
-                      )}
                     </div>
                     
                     {message.sender === 'nikhil' && (
