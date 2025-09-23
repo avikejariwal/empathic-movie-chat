@@ -7,7 +7,7 @@ interface AgentChatbotProps {
 
 const AgentChatbot = ({ isTalking = false }: AgentChatbotProps) => {
   return (
-    <div className="md:sticky md:top-4 z-10 flex justify-center mb-4 md:mb-8">
+    <div className="md:sticky md:top-4 z-10 flex justify-center mb-4 md:mb-8 pt-4 md:pt-0">
       <div className={`relative transition-all duration-300 ${
         isTalking ? 'animate-communicate' : ''
       }`}>

@@ -92,9 +92,12 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
     }
   }, [messages, lastPlayedMessage, voiceResponsesEnabled])
 
-  // Auto-scroll to latest message
+  // Auto-scroll to latest message (excluding initial greeting)
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    // Only scroll if there are messages beyond the initial greeting
+    if (messages.length > 1) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
   }, [messages])
 
   // Auto-play initial greeting on component mount
