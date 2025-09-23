@@ -53,6 +53,12 @@ const ChatDemo = () => {
         const transcript = event.results[0][0].transcript;
         setNewMessage(transcript);
         setIsRecording(false);
+        // Auto-send message after voice recording completes
+        setTimeout(() => {
+          if (transcript.trim()) {
+            handleSendMessage();
+          }
+        }, 100);
       };
       
       speechRecognition.onerror = () => {
