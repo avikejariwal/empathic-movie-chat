@@ -23,15 +23,6 @@ const AgentChatbot = () => {
             </Avatar>
           </div>
         </div>
-        
-        {/* Status indicator */}
-        <div className="absolute bottom-2 right-2 w-4 h-4 md:w-5 md:h-5 bg-green-500 rounded-full border-2 border-background animate-pulse"></div>
-        
-        {/* Agent info */}
-        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-center">
-          <p className="text-sm font-medium text-foreground font-montserrat">Nikhil</p>
-          <p className="text-xs text-muted-foreground">AI Assistant</p>
-        </div>
       </div>
     </div>
   );
