@@ -189,7 +189,7 @@ const HeroSection = () => {
   }, [])
 
   return (
-    <section className="bg-gradient-light relative overflow-hidden flex items-center justify-center py-0">
+    <section className="bg-gradient-light relative overflow-hidden flex items-center justify-center py-16 lg:py-24">
       {/* Background gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white/40 z-10" />
       
