@@ -186,7 +186,7 @@ const ChatDemo = () => {
               </div>
 
               {message.sender === 'user' && (
-                <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-11 h-11 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-xs font-medium">You</span>
                 </div>
               )}
