@@ -7,6 +7,7 @@ import { Avatar } from "@/components/ui/avatar"
 import { Play, Pause, Send, Volume2, Mic, MicOff } from "lucide-react"
 import nikhilAvatar from "@/assets/nikhil-avatar.png"
 import { sendMessageToMockApi } from "@/services/mockChatApi"
+import { supabase } from "@/integrations/supabase/client"
 
 interface Message {
   id: string
@@ -108,22 +109,16 @@ const ChatDemo = () => {
     try {
       const formData = new FormData()
       formData.append('audio', audioBlob, 'recording.wav')
-      formData.append('model', 'eleven_multilingual_v2')
       
-      const response = await fetch('https://api.elevenlabs.io/v1/speech-to-text', {
-        method: 'POST',
-        headers: {
-          'xi-api-key': process.env.ELEVENLABS_API_KEY || ''
-        },
-        body: formData
+      const { data, error } = await supabase.functions.invoke('speech-to-text', {
+        body: formData,
       })
       
-      if (!response.ok) {
-        throw new Error('Speech-to-text conversion failed')
+      if (error) {
+        throw new Error(error.message || 'Speech-to-text conversion failed')
       }
       
-      const result = await response.json()
-      const transcript = result.text
+      const transcript = data.text
       
       if (transcript && transcript.trim()) {
         setNewMessage(transcript)
