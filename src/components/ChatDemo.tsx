@@ -187,9 +187,7 @@ const ChatDemo = () => {
   }
 
   const handleSendMessage = async () => {
-    console.log('handleSendMessage called', { newMessage, isLoading })
     if (newMessage?.trim() && !isLoading) {
-      console.log('Sending message:', newMessage)
       const userMessage: Message = {
         id: Date.now().toString(),
         content: newMessage,
