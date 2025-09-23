@@ -3,9 +3,17 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Avatar } from "@/components/ui/avatar"
-import { Play, Pause, Send, Volume2 } from "lucide-react"
+import { Play, Pause, Send, Volume2, Mic, MicOff } from "lucide-react"
 import nikhilAvatar from "@/assets/nikhil-avatar.png"
 import { sendMessageToMockApi } from "@/services/mockChatApi"
+
+// Speech Recognition API types
+declare global {
+  interface Window {
+    SpeechRecognition: any;
+    webkitSpeechRecognition: any;
+  }
+}
 
 interface Message {
   id: string
@@ -33,7 +41,9 @@ const ChatDemo = () => {
   const [playingAudio, setPlayingAudio] = useState<string | null>(null)
   const [lastPlayedMessage, setLastPlayedMessage] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [isRecording, setIsRecording] = useState(false)
   const audioRef = useRef<HTMLAudioElement>(null)
+  const recognitionRef = useRef<any>(null)
 
   // Auto-play latest message when messages change
   useEffect(() => {
@@ -45,6 +55,61 @@ const ChatDemo = () => {
       }, 500) // Small delay to allow UI to update
     }
   }, [messages, lastPlayedMessage])
+
+  // Initialize speech recognition
+  useEffect(() => {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+      recognitionRef.current = new SpeechRecognition()
+      recognitionRef.current.continuous = false
+      recognitionRef.current.interimResults = true
+      recognitionRef.current.lang = 'en-US'
+
+      recognitionRef.current.onresult = (event) => {
+        const result = event.results[event.results.length - 1]
+        const transcript = result.transcript
+        
+        if (result.isFinal) {
+          setNewMessage(transcript)
+          setIsRecording(false)
+        } else {
+          // Show interim results in the input
+          setNewMessage(transcript)
+        }
+      }
+
+      recognitionRef.current.onend = () => {
+        setIsRecording(false)
+      }
+
+      recognitionRef.current.onerror = (event) => {
+        console.error('Speech recognition error:', event.error)
+        setIsRecording(false)
+      }
+    }
+
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop()
+      }
+    }
+  }, [])
+
+  const toggleVoiceRecording = () => {
+    if (!recognitionRef.current) {
+      alert('Speech recognition is not supported in your browser')
+      return
+    }
+
+    if (isRecording) {
+      recognitionRef.current.stop()
+      setIsRecording(false)
+    } else {
+      setNewMessage('')
+      recognitionRef.current.start()
+      setIsRecording(true)
+    }
+  }
 
   const playTextToSpeech = async (text: string, messageId: string, sender?: 'user' | 'nikhil') => {
     if (playingAudio === messageId) {
@@ -237,21 +302,35 @@ const ChatDemo = () => {
             <Input
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Type your response..."
+              placeholder={isRecording ? "Listening..." : "Type your response or click mic to speak..."}
               className="flex-1 border-primary/20 focus:border-primary"
               onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+              disabled={isRecording}
             />
+            <Button 
+              onClick={toggleVoiceRecording}
+              size="icon"
+              variant={isRecording ? "destructive" : "outline"}
+              className={isRecording ? "animate-pulse" : ""}
+              disabled={isLoading}
+              title={isRecording ? "Stop recording" : "Start voice recording"}
+            >
+              {isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+            </Button>
             <Button 
               onClick={handleSendMessage}
               size="icon"
               className="bg-primary hover:bg-primary/90"
-              disabled={isLoading}
+              disabled={isLoading || !newMessage.trim()}
             >
               <Send className="w-4 h-4" />
             </Button>
           </div>
           <p className="text-xs text-muted-foreground mt-2 font-opensans">
-            Messages are automatically read aloud for both you and AI agent
+            {isRecording 
+              ? "🎤 Listening... Speak clearly and we'll convert it to text"
+              : "Type or use voice input. Messages are automatically read aloud for both you and AI agent"
+            }
           </p>
         </div>
       </Card>
