@@ -8,14 +8,6 @@ import { Play, Pause, Send, Volume2, Mic, MicOff } from "lucide-react"
 import nikhilAvatar from "@/assets/nikhil-avatar.png"
 import { sendMessageToMockApi } from "@/services/mockChatApi"
 
-// Speech Recognition API types
-declare global {
-  interface Window {
-    SpeechRecognition: any;
-    webkitSpeechRecognition: any;
-  }
-}
-
 interface Message {
   id: string
   content: string
@@ -45,7 +37,9 @@ const ChatDemo = () => {
   const [isRecording, setIsRecording] = useState(false)
   const [voiceResponsesEnabled, setVoiceResponsesEnabled] = useState(true)
   const audioRef = useRef<HTMLAudioElement>(null)
-  const recognitionRef = useRef<any>(null)
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+  const audioChunksRef = useRef<Blob[]>([])
+  const streamRef = useRef<MediaStream | null>(null)
 
   // Auto-play latest message when messages change
   useEffect(() => {
@@ -60,64 +54,88 @@ const ChatDemo = () => {
     }
   }, [messages, lastPlayedMessage, voiceResponsesEnabled])
 
-  // Initialize speech recognition
+  // Cleanup audio stream on unmount
   useEffect(() => {
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-      recognitionRef.current = new SpeechRecognition()
-      recognitionRef.current.continuous = false
-      recognitionRef.current.interimResults = true
-      recognitionRef.current.lang = 'en-US'
-
-      recognitionRef.current.onresult = (event) => {
-        const result = event.results[event.results.length - 1]
-        const transcript = result.transcript
-        
-        if (result.isFinal) {
-          setNewMessage(transcript)
-          setIsRecording(false)
-          // Auto-send the voice message
-          if (transcript && transcript.trim()) {
-            setTimeout(() => {
-              sendVoiceMessage(transcript.trim())
-            }, 100)
-          }
-        } else {
-          // Show interim results in the input
-          setNewMessage(transcript)
-        }
-      }
-
-      recognitionRef.current.onend = () => {
-        setIsRecording(false)
-      }
-
-      recognitionRef.current.onerror = (event) => {
-        console.error('Speech recognition error:', event.error)
-        setIsRecording(false)
-      }
-    }
-
     return () => {
-      if (recognitionRef.current) {
-        recognitionRef.current.stop()
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop())
       }
     }
   }, [])
 
-  const toggleVoiceRecording = () => {
-    if (!recognitionRef.current) {
-      alert('Speech recognition is not supported in your browser')
-      return
-    }
-
+  const toggleVoiceRecording = async () => {
     if (isRecording) {
-      recognitionRef.current.stop()
+      // Stop recording
+      if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+        mediaRecorderRef.current.stop()
+      }
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop())
+      }
       setIsRecording(false)
     } else {
+      // Start recording
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+        streamRef.current = stream
+        audioChunksRef.current = []
+        
+        const mediaRecorder = new MediaRecorder(stream)
+        mediaRecorderRef.current = mediaRecorder
+        
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            audioChunksRef.current.push(event.data)
+          }
+        }
+        
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' })
+          await convertAudioToText(audioBlob)
+        }
+        
+        mediaRecorder.start()
+        setIsRecording(true)
+        setNewMessage('🎤 Recording...')
+      } catch (error) {
+        console.error('Error accessing microphone:', error)
+        alert('Unable to access microphone. Please check permissions.')
+      }
+    }
+  }
+
+  const convertAudioToText = async (audioBlob: Blob) => {
+    try {
+      const formData = new FormData()
+      formData.append('audio', audioBlob, 'recording.wav')
+      formData.append('model', 'eleven_multilingual_v2')
+      
+      const response = await fetch('https://api.elevenlabs.io/v1/speech-to-text', {
+        method: 'POST',
+        headers: {
+          'xi-api-key': process.env.ELEVENLABS_API_KEY || ''
+        },
+        body: formData
+      })
+      
+      if (!response.ok) {
+        throw new Error('Speech-to-text conversion failed')
+      }
+      
+      const result = await response.json()
+      const transcript = result.text
+      
+      if (transcript && transcript.trim()) {
+        setNewMessage(transcript)
+        // Auto-send the voice message
+        setTimeout(() => {
+          sendVoiceMessage(transcript.trim())
+        }, 100)
+      }
+    } catch (error) {
+      console.error('Error converting audio to text:', error)
       setNewMessage('')
-      recognitionRef.current.start()
-      setIsRecording(true)
+      alert('Failed to convert speech to text. Please try again.')
     }
   }
 
