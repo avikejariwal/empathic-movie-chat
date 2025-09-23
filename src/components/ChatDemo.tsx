@@ -225,7 +225,7 @@ const ChatDemo = () => {
       <Card className="h-[600px] md:h-[600px] h-[calc(100vh-120px)] flex flex-col border-0 shadow-none">
 
         {/* Messages Area */}
-        <CardContent className="flex-1 overflow-y-auto p-6 space-y-6 bg-background">
+        <CardContent className="flex-1 overflow-y-auto py-6 px-2 md:p-6 space-y-6 bg-background">
           {messages.length === 0 ? (
             <div className="flex items-center justify-center h-full">
               <div className="text-center space-y-4">
