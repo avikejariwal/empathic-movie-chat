@@ -348,7 +348,7 @@ const ChatDemo = () => {
               <Button 
                 onClick={handleSendMessage}
                 size="icon"
-                className="h-12 w-12 rounded-xl bg-primary hover:bg-primary/90 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 disabled:hover:scale-100"
+                className="h-12 w-12 rounded-xl bg-secondary hover:bg-secondary/90 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 disabled:hover:scale-100"
                 disabled={isLoading || !newMessage?.trim()}
               >
                 <Send className="w-5 h-5" />
