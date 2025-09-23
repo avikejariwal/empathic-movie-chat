@@ -338,7 +338,7 @@ const ChatDemo = () => {
                 onClick={isRecording ? stopRecording : startRecording}
                 size="icon"
                 variant={isRecording ? "destructive" : "outline"}
-                className="h-12 w-12 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105"
+                className="h-12 w-12 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 hover:bg-secondary hover:text-secondary-foreground"
                 disabled={isLoading || !recognition}
               >
                 {isRecording ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
