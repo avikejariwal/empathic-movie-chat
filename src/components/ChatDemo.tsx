@@ -304,20 +304,19 @@ const ChatDemo = () => {
         {/* Enhanced Message Input Section */}
         <div className="p-6 border-t border-primary/10 bg-gradient-to-t from-card/50 to-background backdrop-blur-sm">
           {/* Voice Response Toggle - Enhanced */}
-          <div className="flex items-center justify-between mb-6 p-4 rounded-xl bg-gradient-to-r from-card/80 to-card/60 border border-primary/10 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/20">
-            <div className="flex items-center gap-4">
-              <div className="p-2 rounded-full bg-primary/10">
-                <Volume2 className="w-5 h-5 text-primary" />
+          <div className="flex items-center justify-between mb-4 p-3 rounded-lg bg-gradient-to-r from-card/80 to-card/60 border border-primary/10 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/20">
+            <div className="flex items-center gap-3">
+              <div className="p-1.5 rounded-full bg-primary/10">
+                <Volume2 className="w-4 h-4 text-primary" />
               </div>
               <div>
-                <span className="text-sm font-semibold text-foreground">Voice Responses</span>
-                <p className="text-xs text-muted-foreground">Enable automatic text-to-speech for messages</p>
+                <span className="text-sm font-medium text-foreground">Voice Responses</span>
+                <p className="text-xs text-muted-foreground">Auto text-to-speech</p>
               </div>
             </div>
             <Switch 
               checked={voiceResponsesEnabled}
               onCheckedChange={setVoiceResponsesEnabled}
-              className="scale-110"
             />
           </div>
 
