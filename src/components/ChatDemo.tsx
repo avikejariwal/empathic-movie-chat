@@ -38,7 +38,7 @@ const ChatDemo = () => {
     }
   ])
 
-  const [newMessage, setNewMessage] = useState('')
+  const [newMessage, setNewMessage] = useState<string>('')
   const [playingAudio, setPlayingAudio] = useState<string | null>(null)
   const [lastPlayedMessage, setLastPlayedMessage] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -187,7 +187,7 @@ const ChatDemo = () => {
   }
 
   const handleSendMessage = async () => {
-    if (newMessage.trim() && !isLoading) {
+    if (newMessage?.trim() && !isLoading) {
       const userMessage: Message = {
         id: Date.now().toString(),
         content: newMessage,
@@ -378,7 +378,7 @@ const ChatDemo = () => {
                   onClick={handleSendMessage}
                   size="icon"
                   className="h-12 w-12 rounded-xl bg-primary hover:bg-primary/90 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 disabled:hover:scale-100"
-                  disabled={isLoading || !newMessage.trim()}
+                  disabled={isLoading || !newMessage?.trim()}
                 >
                   <Send className="w-5 h-5" />
                 </Button>
