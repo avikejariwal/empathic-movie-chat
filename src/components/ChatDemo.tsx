@@ -53,13 +53,6 @@ const ChatDemo = () => {
         const transcript = event.results[0][0].transcript;
         setNewMessage(transcript);
         setIsRecording(false);
-        
-        // Auto-send the voice message
-        setTimeout(() => {
-          if (transcript.trim()) {
-            handleVoiceMessage(transcript);
-          }
-        }, 100);
       };
       
       speechRecognition.onerror = () => {
@@ -178,46 +171,6 @@ const ChatDemo = () => {
       setIsRecording(false);
     }
   };
-
-  const handleVoiceMessage = async (transcript: string) => {
-    if (transcript?.trim() && !isLoading) {
-      const userMessage: Message = {
-        id: Date.now().toString(),
-        content: transcript,
-        sender: 'user',
-        timestamp: new Date().toLocaleTimeString('en-US', { 
-          hour: 'numeric', 
-          minute: '2-digit',
-          hour12: true 
-        })
-      }
-      
-      // Add user message immediately
-      setMessages(prev => [...prev, userMessage])
-      setNewMessage('')
-      setIsLoading(true)
-      
-      try {
-        // Get response from mock API
-        const response = await sendMessageToMockApi(transcript)
-        
-        const nikhilMessage: Message = {
-          id: response.id,
-          content: response.content,
-          sender: 'nikhil',
-          timestamp: response.timestamp,
-          audioUrl: response.audioUrl
-        }
-        
-        // Add Nikhil's response
-        setMessages(prev => [...prev, nikhilMessage])
-      } catch (error) {
-        console.error('Failed to get response:', error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-  }
 
   const handleSendMessage = async () => {
     if (newMessage?.trim() && !isLoading) {
