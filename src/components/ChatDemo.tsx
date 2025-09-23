@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Avatar } from "@/components/ui/avatar"
 import { Play, Pause, Send, Volume2 } from "lucide-react"
 import nikhilAvatar from "@/assets/nikhil-avatar.png"
+import { sendMessageToMockApi } from "@/services/mockChatApi"
 
 interface Message {
   id: string
@@ -15,42 +16,19 @@ interface Message {
 }
 
 const ChatDemo = () => {
-  const [messages] = useState<Message[]>([
+  const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
       content: "Hey there! I'm Nikhil. I've been thinking about what happened in class today... Want to talk about it?",
       sender: 'nikhil',
       timestamp: '2:30 PM'
-    },
-    {
-      id: '2', 
-      content: "I want to understand better. Can you tell me how it felt when that happened?",
-      sender: 'user',
-      timestamp: '2:32 PM'
-    },
-    {
-      id: '3',
-      content: "You know, at first I thought it was just fun... but seeing Rajat's face made me realize I might have hurt him. I never thought about how my jokes could make someone feel small.",
-      sender: 'nikhil', 
-      timestamp: '2:35 PM'
-    },
-    {
-      id: '4',
-      content: "That's really mature of you to recognize that. What do you think you could do differently next time?",
-      sender: 'user',
-      timestamp: '2:37 PM'
-    },
-    {
-      id: '5',
-      content: "I think I should apologize to Rajat first. And maybe... think before I speak? I want to be someone who makes people feel good, not bad.",
-      sender: 'nikhil',
-      timestamp: '2:40 PM'
     }
   ])
 
   const [newMessage, setNewMessage] = useState('')
   const [playingAudio, setPlayingAudio] = useState<string | null>(null)
   const [lastPlayedMessage, setLastPlayedMessage] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
   const audioRef = useRef<HTMLAudioElement>(null)
 
   // Auto-play latest message when messages change
@@ -120,11 +98,43 @@ const ChatDemo = () => {
     }
   }
 
-  const handleSendMessage = () => {
-    if (newMessage.trim()) {
-      // In real implementation, this would add the message and get AI response
-      console.log('Sending message:', newMessage)
+  const handleSendMessage = async () => {
+    if (newMessage.trim() && !isLoading) {
+      const userMessage: Message = {
+        id: Date.now().toString(),
+        content: newMessage,
+        sender: 'user',
+        timestamp: new Date().toLocaleTimeString('en-US', { 
+          hour: 'numeric', 
+          minute: '2-digit',
+          hour12: true 
+        })
+      }
+      
+      // Add user message immediately
+      setMessages(prev => [...prev, userMessage])
       setNewMessage('')
+      setIsLoading(true)
+      
+      try {
+        // Get response from mock API
+        const response = await sendMessageToMockApi(newMessage)
+        
+        const nikhilMessage: Message = {
+          id: response.id,
+          content: response.content,
+          sender: 'nikhil',
+          timestamp: response.timestamp,
+          audioUrl: response.audioUrl
+        }
+        
+        // Add Nikhil's response
+        setMessages(prev => [...prev, nikhilMessage])
+      } catch (error) {
+        console.error('Failed to get response:', error)
+      } finally {
+        setIsLoading(false)
+      }
     }
   }
 
@@ -192,6 +202,26 @@ const ChatDemo = () => {
               )}
             </div>
           ))}
+          
+          {/* Loading indicator */}
+          {isLoading && (
+            <div className="flex gap-3 justify-start">
+              <img 
+                src={nikhilAvatar} 
+                alt="Nikhil"
+                className="w-11 h-11 rounded-full object-cover flex-shrink-0"
+              />
+              <div className="max-w-xs lg:max-w-md">
+                <div className="p-4 rounded-2xl shadow-sm backdrop-blur-sm bg-card/80 border border-primary/10 shadow-card/30">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </CardContent>
 
         {/* Message Input */}
@@ -208,6 +238,7 @@ const ChatDemo = () => {
               onClick={handleSendMessage}
               size="icon"
               className="bg-primary hover:bg-primary/90"
+              disabled={isLoading}
             >
               <Send className="w-4 h-4" />
             </Button>
