@@ -311,6 +311,23 @@ const ChatDemo = () => {
 
         {/* Press-to-Talk Section */}
         <div className="p-6 border-t border-primary/10 bg-white md:bg-gradient-to-t md:from-card/50 md:to-background backdrop-blur-sm md:relative fixed bottom-0 left-0 right-0 md:bottom-auto md:left-auto md:right-auto">
+          {/* Voice Response Toggle - Enhanced */}
+          <div className="flex items-center justify-between mb-4 p-3 rounded-lg bg-gradient-to-r from-card/80 to-card/60 border border-primary/10 shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary/20">
+            <div className="flex items-center gap-3">
+              <div className="p-1.5 rounded-full bg-primary/10">
+                <Volume2 className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <span className="text-sm font-medium text-foreground">Voice Responses</span>
+                <p className="text-xs text-muted-foreground">Auto text-to-speech</p>
+              </div>
+            </div>
+            <Switch 
+              checked={voiceResponsesEnabled}
+              onCheckedChange={setVoiceResponsesEnabled}
+            />
+          </div>
+
           <div className="flex flex-col items-center justify-center space-y-4">
             {/* Circular Press-to-Talk Button */}
             <Button 
