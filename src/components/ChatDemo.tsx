@@ -43,6 +43,8 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
   const [isRecording, setIsRecording] = useState(false)
   const [transcript, setTranscript] = useState('')
   const [recognition, setRecognition] = useState<any>(null)
+  const [audioUnlocked, setAudioUnlocked] = useState(false)
+  const [hasUserInteracted, setHasUserInteracted] = useState(false)
   
   const audioRef = useRef<HTMLAudioElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -77,7 +79,7 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
 
   // Auto-play latest AI message when messages change (including initial greeting)
   useEffect(() => {
-    if (!voiceResponsesEnabled) return // Don't auto-play if voice responses are disabled
+    if (!voiceResponsesEnabled || !audioUnlocked) return // Don't auto-play if voice responses are disabled or audio not unlocked
     
     const latestMessage = messages[messages.length - 1]
     // Auto-play for AI responses including initial greeting
@@ -90,7 +92,7 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
         playTextToSpeech(latestMessage.content, latestMessage.id, latestMessage.sender)
       }, delay) // Longer delay for initial greeting
     }
-  }, [messages, lastPlayedMessage, voiceResponsesEnabled])
+  }, [messages, lastPlayedMessage, voiceResponsesEnabled, audioUnlocked])
 
   // Auto-scroll to latest message (excluding initial greeting)
   useEffect(() => {
@@ -109,8 +111,22 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
     }
   }, [isRecording, transcript]);
 
+  const unlockAudio = () => {
+    if (!audioUnlocked) {
+      // Initialize audio context with user gesture
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+      audioContext.resume().then(() => {
+        setAudioUnlocked(true)
+        setHasUserInteracted(true)
+        console.log('Audio unlocked through user interaction')
+      }).catch(err => {
+        console.log('Audio unlock failed:', err)
+      })
+    }
+  }
+
   const playTextToSpeech = async (text: string, messageId: string, sender?: 'user' | 'nikhil') => {
-    if (!voiceResponsesEnabled) return // Don't play if voice responses are disabled
+    if (!voiceResponsesEnabled || !audioUnlocked) return // Don't play if voice responses are disabled or audio not unlocked
     if (playingAudio === messageId) {
       setPlayingAudio(null)
       if (audioRef.current) {
@@ -189,6 +205,11 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
 
 
   const startRecording = () => {
+    // Unlock audio on first user interaction with voice button
+    if (!hasUserInteracted) {
+      unlockAudio()
+    }
+    
     if (recognition && !isRecording) {
       setIsRecording(true);
       recognition.start();
@@ -353,8 +374,16 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
             
             {/* Status Text */}
             <p className="text-sm text-muted-foreground font-medium text-center">
-              {isRecording ? 'Recording... Release to send' : 'Press and hold to talk'}
+              {isRecording ? 'Recording... Release to send' : 
+               !hasUserInteracted ? 'Tap to start voice chat' : 'Press and hold to talk'}
             </p>
+            
+            {/* Audio Status Indicator */}
+            {hasUserInteracted && (
+              <p className="text-xs text-primary/70 font-medium text-center">
+                {audioUnlocked ? '🎵 Audio ready' : '🔇 Audio initializing...'}
+              </p>
+            )}
           </div>
         </div>
       </Card>
