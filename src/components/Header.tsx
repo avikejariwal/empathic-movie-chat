@@ -23,7 +23,7 @@ const Header = () => {
           <img 
             src={gslLogo} 
             alt="GSL Logo" 
-            className="h-24 w-auto"
+            className="h-16 md:h-24 w-auto"
           />
         </div>
       </div>
