@@ -167,11 +167,6 @@ const ChatDemo = () => {
                 >
                   <p className="text-sm font-opensans leading-relaxed">{message.content}</p>
                   
-                  <div className="flex items-center justify-end mt-3 pt-2 border-t border-primary/10">
-                    <span className="text-xs text-muted-foreground font-medium">
-                      {message.timestamp}
-                    </span>
-                  </div>
                 </div>
                 
                 {message.sender === 'user' && (
