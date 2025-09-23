@@ -319,7 +319,7 @@ const ChatDemo = () => {
               variant={isRecording ? "destructive" : "default"}
               className={`w-16 h-16 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 ${
                 isRecording 
-                  ? 'bg-destructive hover:bg-destructive/90 animate-pulse' 
+                  ? 'bg-destructive hover:bg-destructive/90' 
                   : 'bg-primary hover:bg-primary/90'
               }`}
               disabled={isLoading || !recognition}
