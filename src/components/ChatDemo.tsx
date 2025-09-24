@@ -45,9 +45,18 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
   const [recognition, setRecognition] = useState<any>(null)
   const [audioUnlocked, setAudioUnlocked] = useState(false)
   const [hasUserInteracted, setHasUserInteracted] = useState(false)
+  const [isIOS, setIsIOS] = useState(false)
+  const [hasUnplayedResponse, setHasUnplayedResponse] = useState(false)
   
   const audioRef = useRef<HTMLAudioElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // Detect iOS devices
+  useEffect(() => {
+    const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                       (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+    setIsIOS(isIOSDevice)
+  }, [])
 
   // Initialize speech recognition
   useEffect(() => {
@@ -77,9 +86,9 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
     }
   }, []);
 
-  // Auto-play latest AI message when messages change (including initial greeting)
+  // Auto-play latest AI message when messages change (Android/Desktop only)
   useEffect(() => {
-    if (!voiceResponsesEnabled || !audioUnlocked) return // Don't auto-play if voice responses are disabled or audio not unlocked
+    if (!voiceResponsesEnabled || !audioUnlocked || isIOS) return // Don't auto-play on iOS
     
     const latestMessage = messages[messages.length - 1]
     // Auto-play for AI responses including initial greeting
@@ -92,7 +101,19 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
         playTextToSpeech(latestMessage.content, latestMessage.id, latestMessage.sender)
       }, delay) // Longer delay for initial greeting
     }
-  }, [messages, lastPlayedMessage, voiceResponsesEnabled, audioUnlocked])
+  }, [messages, lastPlayedMessage, voiceResponsesEnabled, audioUnlocked, isIOS])
+
+  // Track unplayed responses for iOS
+  useEffect(() => {
+    if (!isIOS) return
+    
+    const latestMessage = messages[messages.length - 1]
+    if (latestMessage && 
+        latestMessage.sender === 'nikhil' && 
+        latestMessage.id !== lastPlayedMessage) {
+      setHasUnplayedResponse(true)
+    }
+  }, [messages, lastPlayedMessage, isIOS])
 
   // Auto-scroll to latest message (excluding initial greeting)
   useEffect(() => {
@@ -122,6 +143,53 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
       }).catch(err => {
         console.log('Audio unlock failed:', err)
       })
+    }
+  }
+
+  const playLatestMessageDirectly = () => {
+    if (!voiceResponsesEnabled || !audioUnlocked) return
+    
+    const latestMessage = messages[messages.length - 1]
+    if (latestMessage && 
+        latestMessage.sender === 'nikhil' && 
+        latestMessage.id !== lastPlayedMessage) {
+      setLastPlayedMessage(latestMessage.id)
+      setHasUnplayedResponse(false)
+      
+      // Direct speech synthesis call without setTimeout for iOS compatibility
+      const utterance = new SpeechSynthesisUtterance(latestMessage.content)
+      
+      // Configure voice
+      const voices = speechSynthesis.getVoices()
+      if (voices.length > 0) {
+        const maleVoice = voices.find(voice => 
+          voice.name.toLowerCase().includes('male') || 
+          voice.name.toLowerCase().includes('man') ||
+          voice.name.toLowerCase().includes('daniel') ||
+          voice.name.toLowerCase().includes('alex') ||
+          voice.name.toLowerCase().includes('fred')
+        )
+        utterance.voice = maleVoice || voices[0]
+      }
+      
+      utterance.rate = 0.9
+      utterance.pitch = 0.9
+      utterance.volume = 0.8
+      
+      utterance.onstart = () => {
+        setPlayingAudio(latestMessage.id)
+        onTalkingStateChange?.(true)
+      }
+      utterance.onend = () => {
+        setPlayingAudio(null)
+        onTalkingStateChange?.(false)
+      }
+      utterance.onerror = () => {
+        setPlayingAudio(null)
+        onTalkingStateChange?.(false)
+      }
+      
+      speechSynthesis.speak(utterance)
     }
   }
 
@@ -205,6 +273,13 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
 
 
   const startRecording = () => {
+    // On iOS, first click plays latest response if available
+    if (isIOS && hasUnplayedResponse && !hasUserInteracted) {
+      unlockAudio()
+      playLatestMessageDirectly()
+      return
+    }
+    
     // Unlock audio on first user interaction with voice button
     if (!hasUserInteracted) {
       unlockAudio()
@@ -375,6 +450,7 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
             {/* Status Text */}
             <p className="text-sm text-muted-foreground font-medium text-center">
               {isRecording ? 'Recording... Release to send' : 
+               isIOS && hasUnplayedResponse && !hasUserInteracted ? 'Tap to hear response' :
                !hasUserInteracted ? 'Tap to start voice chat' : 'Press and hold to talk'}
             </p>
             
