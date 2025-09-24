@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
@@ -136,7 +136,7 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
     }
   }, [isRecording, transcript]);
 
-  const unlockAudio = () => {
+  const unlockAudio = useCallback(() => {
     if (!audioUnlocked) {
       // Initialize audio context with user gesture
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
@@ -148,7 +148,22 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
         console.log('Audio unlock failed:', err)
       })
     }
-  }
+  }, [audioUnlocked])
+
+  const handleFirstInteraction = useCallback(() => {
+    if (!hasUserInteracted) {
+      unlockAudio()
+    }
+  }, [hasUserInteracted, unlockAudio])
+
+  // Add page-level scroll listener for first interaction
+  useEffect(() => {
+    if (!hasUserInteracted) {
+      const handleScroll = () => handleFirstInteraction()
+      window.addEventListener('scroll', handleScroll, { passive: true })
+      return () => window.removeEventListener('scroll', handleScroll)
+    }
+  }, [hasUserInteracted, handleFirstInteraction])
 
   const playWelcomeMP3 = (messageId: string) => {
     if (!voiceResponsesEnabled) return
@@ -411,7 +426,13 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <Card className="h-[600px] md:h-[600px] h-[calc(100vh-120px)] flex flex-col border-0 shadow-none">
+      <Card 
+        className="h-[600px] md:h-[600px] h-[calc(100vh-120px)] flex flex-col border-0 shadow-none"
+        onClick={handleFirstInteraction}
+        onMouseEnter={handleFirstInteraction}
+        onTouchStart={handleFirstInteraction}
+        onScroll={handleFirstInteraction}
+      >
 
         {/* Messages Area */}
         <CardContent className="flex-1 overflow-y-auto py-6 px-2 pb-36 md:p-6 md:pb-6 space-y-6 bg-background">
@@ -522,7 +543,7 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
             <p className="text-sm text-muted-foreground font-medium text-center">
               {isRecording ? 'Recording... Release to send' : 
                isIOS && hasUnplayedResponse ? 'Tap to hear response' :
-               !hasUserInteracted ? 'Tap to start voice chat' : 'Press and hold to talk'}
+               !hasUserInteracted ? 'Scroll, hover, or tap anywhere to start' : 'Press and hold to talk'}
             </p>
             
             {/* Audio Status Indicator */}
