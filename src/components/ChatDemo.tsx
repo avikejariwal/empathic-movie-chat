@@ -98,7 +98,11 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
       setLastPlayedMessage(latestMessage.id)
       const delay = latestMessage.id === 'initial-greeting' ? 1500 : 500
       setTimeout(() => {
-        playTextToSpeech(latestMessage.content, latestMessage.id, latestMessage.sender)
+        if (latestMessage.id === 'initial-greeting') {
+          playWelcomeMP3(latestMessage.id)
+        } else {
+          playTextToSpeech(latestMessage.content, latestMessage.id, latestMessage.sender)
+        }
       }, delay) // Longer delay for initial greeting
     }
   }, [messages, lastPlayedMessage, voiceResponsesEnabled, audioUnlocked, isIOS])
@@ -146,6 +150,35 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
     }
   }
 
+  const playWelcomeMP3 = (messageId: string) => {
+    if (!voiceResponsesEnabled) return
+    
+    const audio = new Audio('/assets/welcome_message.mp3')
+    audio.volume = 0.8
+    
+    audio.onloadstart = () => {
+      setPlayingAudio(messageId)
+      onTalkingStateChange?.(true)
+    }
+    
+    audio.onended = () => {
+      setPlayingAudio(null)
+      onTalkingStateChange?.(false)
+    }
+    
+    audio.onerror = () => {
+      setPlayingAudio(null)
+      onTalkingStateChange?.(false)
+      console.error('Error playing welcome MP3')
+    }
+    
+    audio.play().catch(error => {
+      console.error('Failed to play welcome MP3:', error)
+      setPlayingAudio(null)
+      onTalkingStateChange?.(false)
+    })
+  }
+
   const playLatestMessageDirectly = async () => {
     if (!voiceResponsesEnabled) return
     
@@ -159,6 +192,12 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
       console.log('iOS: Playing message:', latestMessage.content.substring(0, 50))
       setLastPlayedMessage(latestMessage.id)
       setHasUnplayedResponse(false)
+      
+      // Use MP3 for initial greeting, speech synthesis for others
+      if (latestMessage.id === 'initial-greeting') {
+        playWelcomeMP3(latestMessage.id)
+        return
+      }
       
       // Wait for voices to load on iOS
       let voices = speechSynthesis.getVoices()
