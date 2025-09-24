@@ -86,22 +86,22 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
     }
   }, []);
 
-  // Auto-play latest AI message when messages change (Android/Desktop only)
+  // Auto-play AI messages with ElevenLabs audio
   useEffect(() => {
-    if (!voiceResponsesEnabled || !audioUnlocked || isIOS) return // Don't auto-play on iOS
-    
-    const latestMessage = messages[messages.length - 1]
-    // Auto-play for AI responses including initial greeting
-    if (latestMessage && 
-        latestMessage.sender === 'nikhil' && 
-        latestMessage.id !== lastPlayedMessage) {
-      setLastPlayedMessage(latestMessage.id)
-      const delay = latestMessage.id === 'initial-greeting' ? 1500 : 500
-      setTimeout(() => {
-        playTextToSpeech(latestMessage.content, latestMessage.id, latestMessage.sender)
-      }, delay) // Longer delay for initial greeting
+    if (voiceResponsesEnabled && hasUserInteracted && !isIOS) {
+      const latestMessage = messages[messages.length - 1]
+      if (latestMessage && 
+          latestMessage.sender === 'nikhil' && 
+          latestMessage.id !== lastPlayedMessage &&
+          latestMessage.audioUrl) {
+        setLastPlayedMessage(latestMessage.id)
+        // Use setTimeout to ensure the message is rendered first
+        setTimeout(() => {
+          playAudioFile(latestMessage.audioUrl!, latestMessage.id)
+        }, 100)
+      }
     }
-  }, [messages, lastPlayedMessage, voiceResponsesEnabled, audioUnlocked, isIOS])
+  }, [messages, voiceResponsesEnabled, hasUserInteracted, lastPlayedMessage, isIOS])
 
   // Track unplayed responses for iOS
   useEffect(() => {
@@ -146,167 +146,77 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
     }
   }
 
-  const playLatestMessageDirectly = async () => {
+  const playLatestMessageDirectly = () => {
     if (!voiceResponsesEnabled) return
-    
-    console.log('iOS: playLatestMessageDirectly called')
     
     const latestMessage = messages[messages.length - 1]
     if (latestMessage && 
         latestMessage.sender === 'nikhil' && 
-        latestMessage.id !== lastPlayedMessage) {
+        latestMessage.id !== lastPlayedMessage &&
+        latestMessage.audioUrl) {
       
-      console.log('iOS: Playing message:', latestMessage.content.substring(0, 50))
       setLastPlayedMessage(latestMessage.id)
       setHasUnplayedResponse(false)
       
-      // Wait for voices to load on iOS
-      let voices = speechSynthesis.getVoices()
-      if (voices.length === 0) {
-        console.log('iOS: Waiting for voices to load...')
-        await new Promise(resolve => {
-          speechSynthesis.onvoiceschanged = () => {
-            voices = speechSynthesis.getVoices()
-            console.log('iOS: Voices loaded:', voices.length)
-            resolve(voices)
-          }
-        })
-      }
+      // Create audio element and play
+      const audio = new Audio(latestMessage.audioUrl)
       
-      // Create utterance immediately in click handler
-      const utterance = new SpeechSynthesisUtterance(latestMessage.content)
-      
-      // Configure voice with fallback
-      if (voices.length > 0) {
-        const maleVoice = voices.find(voice => 
-          voice.name.toLowerCase().includes('male') || 
-          voice.name.toLowerCase().includes('man') ||
-          voice.name.toLowerCase().includes('daniel') ||
-          voice.name.toLowerCase().includes('alex') ||
-          voice.name.toLowerCase().includes('fred')
-        )
-        utterance.voice = maleVoice || voices[0]
-        console.log('iOS: Using voice:', utterance.voice?.name || 'default')
-      } else {
-        console.log('iOS: No voices available, using default')
-      }
-      
-      utterance.rate = 0.9
-      utterance.pitch = 0.9
-      utterance.volume = 0.8
-      
-      utterance.onstart = () => {
-        console.log('iOS: Speech started')
+      audio.onloadstart = () => {
         setPlayingAudio(latestMessage.id)
         onTalkingStateChange?.(true)
       }
-      utterance.onend = () => {
-        console.log('iOS: Speech ended')
-        setPlayingAudio(null)
-        onTalkingStateChange?.(false)
-      }
-      utterance.onerror = (event) => {
-        console.error('iOS: Speech error:', event)
+      
+      audio.onended = () => {
         setPlayingAudio(null)
         onTalkingStateChange?.(false)
       }
       
-      // Call speak immediately without any delays
-      try {
-        speechSynthesis.speak(utterance)
-        console.log('iOS: speechSynthesis.speak() called')
-      } catch (error) {
-        console.error('iOS: Error calling speechSynthesis.speak():', error)
+      audio.onerror = () => {
+        console.error('Audio playback error')
+        setPlayingAudio(null)
+        onTalkingStateChange?.(false)
       }
-    } else {
-      console.log('iOS: No message to play or already played')
+      
+      audio.play().catch(error => {
+        console.error('Audio play failed:', error)
+        setPlayingAudio(null)
+        onTalkingStateChange?.(false)
+      })
     }
   }
 
-  const playTextToSpeech = async (text: string, messageId: string, sender?: 'user' | 'nikhil') => {
-    if (!voiceResponsesEnabled || !audioUnlocked) return // Don't play if voice responses are disabled or audio not unlocked
-    if (playingAudio === messageId) {
-      setPlayingAudio(null)
-      if (audioRef.current) {
-        audioRef.current.pause()
-      }
-      return
-    }
+  const playAudioFile = (audioUrl: string, messageId: string) => {
+    if (!voiceResponsesEnabled || !audioUrl) return
 
-    try {
+    const audio = new Audio(audioUrl)
+    
+    audio.onloadstart = () => {
       setPlayingAudio(messageId)
-      
-      // Use browser speech synthesis (no API key needed)
-      const utterance = new SpeechSynthesisUtterance(text)
-      
-      // Wait for voices to load
-      let voices = speechSynthesis.getVoices()
-      if (voices.length === 0) {
-        await new Promise(resolve => {
-          speechSynthesis.onvoiceschanged = () => {
-            voices = speechSynthesis.getVoices()
-            resolve(voices)
-          }
-        })
-      }
-      
-      // Configure voice based on sender
-      if (voices.length > 0) {
-        // Try to find appropriate voices
-        const femaleVoice = voices.find(voice => 
-          voice.name.toLowerCase().includes('female') || 
-          voice.name.toLowerCase().includes('woman') ||
-          voice.name.toLowerCase().includes('samantha') ||
-          voice.name.toLowerCase().includes('victoria') ||
-          voice.name.toLowerCase().includes('susan')
-        )
-        const maleVoice = voices.find(voice => 
-          voice.name.toLowerCase().includes('male') || 
-          voice.name.toLowerCase().includes('man') ||
-          voice.name.toLowerCase().includes('daniel') ||
-          voice.name.toLowerCase().includes('alex') ||
-          voice.name.toLowerCase().includes('fred')
-        )
-        
-        if (sender === 'user' && femaleVoice) {
-          utterance.voice = femaleVoice
-        } else if (sender === 'nikhil' && maleVoice) {
-          utterance.voice = maleVoice
-        } else {
-          // Use default voice or first available
-          utterance.voice = voices[0]
-        }
-      }
-      
-      // Configure speech settings
-      utterance.rate = 0.9
-      utterance.pitch = sender === 'user' ? 1.1 : 0.9
-      utterance.volume = 0.8
-      
-      utterance.onstart = () => onTalkingStateChange?.(true)
-      utterance.onend = () => {
-        setPlayingAudio(null)
-        onTalkingStateChange?.(false)
-      }
-      utterance.onerror = () => {
-        setPlayingAudio(null)
-        onTalkingStateChange?.(false)
-      }
-      
-      speechSynthesis.speak(utterance)
-      
-    } catch (error) {
-      console.log('Speech synthesis error:', error)
-      setPlayingAudio(null)
+      onTalkingStateChange?.(true)
     }
+    
+    audio.onended = () => {
+      setPlayingAudio(null)
+      onTalkingStateChange?.(false)
+    }
+    
+    audio.onerror = () => {
+      console.error('Audio playback error for message:', messageId)
+      setPlayingAudio(null)
+      onTalkingStateChange?.(false)
+    }
+    
+    audio.play().catch(error => {
+      console.error('Audio play failed:', error)
+      setPlayingAudio(null)
+      onTalkingStateChange?.(false)
+    })
   }
 
 
   const startRecording = () => {
     // On iOS, first click plays latest response if available
     if (isIOS && hasUnplayedResponse) {
-      console.log('iOS: First click - playing latest message')
-      // Set user interaction immediately and play
       setHasUserInteracted(true)
       playLatestMessageDirectly()
       return

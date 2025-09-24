@@ -25,13 +25,13 @@ export const sendMessageToMockApi = async (userMessage: string): Promise<ChatRes
   // Get random response
   const randomResponse = mockResponses[Math.floor(Math.random() * mockResponses.length)]
   
-  // Create mock audio URL (this would be from ElevenLabs in real implementation)
-  const mockAudioUrl = await generateMockAudio(randomResponse)
+  // Generate real audio using ElevenLabs
+  const audioUrl = await generateElevenLabsAudio(randomResponse)
   
   return {
     id: Date.now().toString(),
     content: randomResponse,
-    audioUrl: mockAudioUrl,
+    audioUrl: audioUrl,
     timestamp: new Date().toLocaleTimeString('en-US', { 
       hour: 'numeric', 
       minute: '2-digit',
@@ -40,27 +40,46 @@ export const sendMessageToMockApi = async (userMessage: string): Promise<ChatRes
   }
 }
 
-const generateMockAudio = async (text: string): Promise<string> => {
-  // In a real implementation, this would call ElevenLabs API
-  // For now, we'll create a mock audio blob using Web Audio API
+const generateElevenLabsAudio = async (text: string): Promise<string> => {
   try {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
-    const duration = Math.max(2, text.length * 0.1) // Rough estimate based on text length
+    // Import supabase client
+    const { createClient } = await import('@supabase/supabase-js')
+    const supabase = createClient(
+      import.meta.env.VITE_SUPABASE_URL,
+      import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
+    )
+
+    console.log('Calling ElevenLabs speech generation...')
     
-    const sampleRate = audioContext.sampleRate
-    const buffer = audioContext.createBuffer(1, duration * sampleRate, sampleRate)
-    const data = buffer.getChannelData(0)
-    
-    // Generate simple tone as placeholder
-    for (let i = 0; i < data.length; i++) {
-      data[i] = Math.sin(2 * Math.PI * 440 * i / sampleRate) * 0.1
+    const { data, error } = await supabase.functions.invoke('generate-speech', {
+      body: { text }
+    })
+
+    if (error) {
+      console.error('Error calling speech generation:', error)
+      throw error
+    }
+
+    if (!data.audioContent) {
+      throw new Error('No audio content received')
+    }
+
+    // Convert base64 to blob and create URL
+    const binaryString = atob(data.audioContent)
+    const bytes = new Uint8Array(binaryString.length)
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i)
     }
     
-    // Convert to blob
-    const audioBlob = new Blob([data], { type: 'audio/wav' })
-    return URL.createObjectURL(audioBlob)
+    const audioBlob = new Blob([bytes], { type: 'audio/mpeg' })
+    const audioUrl = URL.createObjectURL(audioBlob)
+    
+    console.log('ElevenLabs audio generated successfully')
+    return audioUrl
+
   } catch (error) {
-    console.log('Mock audio generation failed, using speech synthesis')
+    console.error('ElevenLabs audio generation failed:', error)
+    // Return empty string to gracefully handle failures
     return ''
   }
 }
