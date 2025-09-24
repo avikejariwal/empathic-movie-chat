@@ -146,21 +146,37 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
     }
   }
 
-  const playLatestMessageDirectly = () => {
-    if (!voiceResponsesEnabled || !audioUnlocked) return
+  const playLatestMessageDirectly = async () => {
+    if (!voiceResponsesEnabled) return
+    
+    console.log('iOS: playLatestMessageDirectly called')
     
     const latestMessage = messages[messages.length - 1]
     if (latestMessage && 
         latestMessage.sender === 'nikhil' && 
         latestMessage.id !== lastPlayedMessage) {
+      
+      console.log('iOS: Playing message:', latestMessage.content.substring(0, 50))
       setLastPlayedMessage(latestMessage.id)
       setHasUnplayedResponse(false)
       
-      // Direct speech synthesis call without setTimeout for iOS compatibility
+      // Wait for voices to load on iOS
+      let voices = speechSynthesis.getVoices()
+      if (voices.length === 0) {
+        console.log('iOS: Waiting for voices to load...')
+        await new Promise(resolve => {
+          speechSynthesis.onvoiceschanged = () => {
+            voices = speechSynthesis.getVoices()
+            console.log('iOS: Voices loaded:', voices.length)
+            resolve(voices)
+          }
+        })
+      }
+      
+      // Create utterance immediately in click handler
       const utterance = new SpeechSynthesisUtterance(latestMessage.content)
       
-      // Configure voice
-      const voices = speechSynthesis.getVoices()
+      // Configure voice with fallback
       if (voices.length > 0) {
         const maleVoice = voices.find(voice => 
           voice.name.toLowerCase().includes('male') || 
@@ -170,6 +186,9 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
           voice.name.toLowerCase().includes('fred')
         )
         utterance.voice = maleVoice || voices[0]
+        console.log('iOS: Using voice:', utterance.voice?.name || 'default')
+      } else {
+        console.log('iOS: No voices available, using default')
       }
       
       utterance.rate = 0.9
@@ -177,19 +196,30 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
       utterance.volume = 0.8
       
       utterance.onstart = () => {
+        console.log('iOS: Speech started')
         setPlayingAudio(latestMessage.id)
         onTalkingStateChange?.(true)
       }
       utterance.onend = () => {
+        console.log('iOS: Speech ended')
         setPlayingAudio(null)
         onTalkingStateChange?.(false)
       }
-      utterance.onerror = () => {
+      utterance.onerror = (event) => {
+        console.error('iOS: Speech error:', event)
         setPlayingAudio(null)
         onTalkingStateChange?.(false)
       }
       
-      speechSynthesis.speak(utterance)
+      // Call speak immediately without any delays
+      try {
+        speechSynthesis.speak(utterance)
+        console.log('iOS: speechSynthesis.speak() called')
+      } catch (error) {
+        console.error('iOS: Error calling speechSynthesis.speak():', error)
+      }
+    } else {
+      console.log('iOS: No message to play or already played')
     }
   }
 
@@ -274,8 +304,10 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
 
   const startRecording = () => {
     // On iOS, first click plays latest response if available
-    if (isIOS && hasUnplayedResponse && !hasUserInteracted) {
-      unlockAudio()
+    if (isIOS && hasUnplayedResponse) {
+      console.log('iOS: First click - playing latest message')
+      // Set user interaction immediately and play
+      setHasUserInteracted(true)
       playLatestMessageDirectly()
       return
     }
@@ -450,7 +482,7 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
             {/* Status Text */}
             <p className="text-sm text-muted-foreground font-medium text-center">
               {isRecording ? 'Recording... Release to send' : 
-               isIOS && hasUnplayedResponse && !hasUserInteracted ? 'Tap to hear response' :
+               isIOS && hasUnplayedResponse ? 'Tap to hear response' :
                !hasUserInteracted ? 'Tap to start voice chat' : 'Press and hold to talk'}
             </p>
             
