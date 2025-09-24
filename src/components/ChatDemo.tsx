@@ -487,7 +487,7 @@ const ChatDemo = ({ onTalkingStateChange }: ChatDemoProps) => {
             </p>
             
             {/* Audio Status Indicator */}
-            {hasUserInteracted && (
+            {hasUserInteracted && !isIOS && (
               <p className="text-xs text-primary/70 font-medium text-center">
                 {audioUnlocked ? '🎵 Audio ready' : '🔇 Audio initializing...'}
               </p>
